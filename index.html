@@ -13,7 +13,7 @@
     <style>
         /* --- GLOBAL STYLES --- */
         body {
-            background-color: #050505; /* Slightly off-black for depth */
+            background-color: #050505;
             color: #c9d1d9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             margin: 0;
@@ -22,7 +22,7 @@
             overflow-x: hidden;
         }
 
-        /* 4. CYBER ENHANCEMENT: CRT Scanline Effect Overlay */
+        /* CRT Scanline Effect Overlay */
         body::after {
             content: "";
             position: fixed;
@@ -38,26 +38,14 @@
             z-index: 9999;
         }
 
-        /* 2. CYBER ENHANCEMENT: Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d1117; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #39FF14; 
-            border-radius: 2px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #32cc12; 
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #0d1117; }
+        ::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #32cc12; }
 
-        /* 5. CYBER ENHANCEMENT: Custom Text Selection */
-        ::selection {
-            background: #39FF14;
-            color: #000000;
-        }
+        /* Custom Text Selection */
+        ::selection { background: #39FF14; color: #000000; }
         
         .container {
             max-width: 850px;
@@ -70,11 +58,12 @@
         a { color: #39FF14; text-decoration: none; transition: all 0.3s ease; }
         a:hover { text-decoration: underline; text-shadow: 0 0 5px #39FF14; }
 
-        /* --- MONOTON HEADER STYLES --- */
+        /* --- MONOTON HEADER STYLES WITH GLITCH --- */
         .main-header {
             text-align: center;
             margin-top: 60px;
             margin-bottom: 50px;
+            position: relative;
         }
         
         .header-name {
@@ -85,18 +74,69 @@
             color: #ffffff;
             text-transform: uppercase;
             margin: 0;
-            /* Neon Shadow */
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
-            animation: pulseGlow 3s infinite alternate;
+            position: relative;
+            display: inline-block;
         }
 
-        @keyframes pulseGlow {
-            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2); }
-            to { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(57, 255, 20, 0.4); }
+        /* Glitch Effect on Hover */
+        .header-name:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #39FF14;
+        }
+
+        .header-name:hover::before,
+        .header-name:hover::after {
+            content: "HARSHA G V";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .header-name:hover::before {
+            color: #0CAFFF;
+            z-index: -1;
+            animation: glitch-anim-1 0.4s infinite linear alternate-reverse;
+        }
+
+        .header-name:hover::after {
+            color: #F4511E;
+            z-index: -2;
+            animation: glitch-anim-2 0.4s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(0% 0 90% 0); }
         }
 
         .header-title {
-            font-family: 'Spinnaker', sans-serif;
+            font-family: 'Silkscreen', cursive;
             font-size: 22px;
             color: #0CAFFF;
             margin-top: 10px;
@@ -117,17 +157,16 @@
 
         /* --- TERMINAL / WHOAMI SECTION --- */
         .whoami-section {
-            background: #0d1117; /* GitHub Dark Dimmed */
+            background: #0d1117;
             border: 1px solid #30363d;
             border-radius: 8px;
-            padding: 0; /* Padding handled by inner elements */
+            padding: 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             margin-bottom: 40px;
             overflow: hidden;
             position: relative;
         }
 
-        /* 3. CYBER ENHANCEMENT: Terminal Window Bar */
         .terminal-header {
             background: #161b22;
             padding: 10px 15px;
@@ -136,11 +175,7 @@
             align-items: center;
         }
 
-        .terminal-dots {
-            display: flex;
-            gap: 6px;
-        }
-
+        .terminal-dots { display: flex; gap: 6px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; }
         .red { background-color: #ff5f56; }
         .yellow { background-color: #ffbd2e; }
@@ -153,9 +188,7 @@
             font-size: 16px;
         }
 
-        .whoami-content {
-            padding: 20px;
-        }
+        .whoami-content { padding: 20px; }
 
         .whoami-title {
             font-family: 'Chelsea Market', cursive;
@@ -183,12 +216,8 @@
             vertical-align: bottom;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Styles for the content moved inside the terminal */
         .whoami-extra {
             margin-top: 25px;
             border-top: 1px dashed #30363d;
@@ -198,23 +227,11 @@
             color: #c9d1d9;
         }
 
-        .whoami-extra p {
-            color: #fff;
-            margin-bottom: 10px;
-        }
+        .whoami-extra p { color: #fff; margin-bottom: 10px; }
+        .whoami-extra ul { list-style: none; padding-left: 0; margin: 0; }
+        .whoami-extra li { color: #39FF14; margin-bottom: 5px; }
 
-        .whoami-extra ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        .whoami-extra li {
-            color: #39FF14;
-            margin-bottom: 5px;
-        }
-
-        /* --- 1. SOCIAL ICONS (FIXED COLOR) --- */
+        /* --- SOCIAL ICONS --- */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -227,15 +244,45 @@
         .social-icon img {
             width: 42px;
             height: 42px;
-            /* This filter matrix forces any color to become #39FF14 */
+            /* Filter to force #39FF14 color */
             filter: invert(76%) sepia(55%) saturate(668%) hue-rotate(84deg) brightness(103%) contrast(101%);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .social-icon:hover img {
-            /* Add Glow on hover */
             filter: invert(76%) sepia(55%) saturate(668%) hue-rotate(84deg) brightness(103%) contrast(101%) drop-shadow(0 0 8px #39FF14);
             transform: translateY(-5px) scale(1.1);
+        }
+
+        /* --- STATUS BADGE (New Suggestion) --- */
+        .status-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(13, 17, 23, 0.9);
+            border: 1px solid #39FF14;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'VT323', monospace;
+            color: #39FF14;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10000;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #39FF14;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
         }
 
         /* UTILITIES */
@@ -250,6 +297,12 @@
 </head>
 <body>
 
+    <!-- Status Badge -->
+    <div class="status-badge">
+        <div class="status-dot"></div>
+        SYSTEM SECURE
+    </div>
+
     <div class="container">
         
         <!-- 1. MONOTON HEADER -->
@@ -261,7 +314,6 @@
 
         <!-- 2. TERMINAL WHOAMI SECTION -->
         <div class="whoami-section">
-            <!-- Terminal Window Bar -->
             <div class="terminal-header">
                 <div class="terminal-dots">
                     <div class="dot red"></div>
@@ -277,7 +329,7 @@
                 <!-- Dynamic Typing Part -->
                 <div id="typewriter"></div><span class="cursor"></span>
 
-                <!-- Static Skills Part (Moved Inside) -->
+                <!-- Static Skills Part -->
                 <div class="whoami-extra">
                     <p>I thrive on leveraging cutting-edge technologies and methodologies across:</p>
                     <ul>
@@ -352,8 +404,6 @@
             <a href="https://medium.com/@harshagv" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/medium.svg" alt="Medium"></a>
         </div>
         <br/>
-
-        <br/><br/>
 
     </div> <!-- End Container -->
 
