@@ -3,108 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Harsha G V - Cloud Security Engineer specializing in AWS, Kubernetes, and DevSecOps.">
+    <meta name="keywords" content="Cybersecurity, Cloud Security, AWS, Kubernetes, DevSecOps, Harsha G V">
+    <meta name="author" content="Harsha G V">
+    <meta name="theme-color" content="#050505">
+
+    <!-- Open Graph / LinkedIn / Discord Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://harshagv.github.io/">
+    <meta property="og:title" content="Harsha G V | Cloud Security Engineer">
+    <meta property="og:description" content="Securing the Cloud-verse. Specialist in AWS, K8s, and Post-Quantum Cryptography.">
+    <meta property="og:image" content="https://github.com/harshagv.png">
+    <meta property="og:locale" content="en_US">
+
+    <!-- NOTE: Demonstrative CSP tuned for GitHub Pages + inline scripts -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self' https://img.shields.io https://cdn.jsdelivr.net https://github.com https://user-images.githubusercontent.com; 
+                   img-src 'self' data: https://*; 
+                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+                   font-src 'self' https://fonts.gstatic.com; 
+                   script-src 'self' 'unsafe-inline'; 
+                   connect-src 'self'; 
+                   frame-ancestors 'self';">
+
     <title>Harsha G V | Cloud Security Engineer</title>
     
     <!-- IMPORT FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Monoton&family=VT323&family=Spinnaker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chelsea+Market&family=Monoton&family=VT323&family=Spinnaker&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Structured Data for better SEO / Knowledge Panels -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Harsha G V",
+      "jobTitle": "Cloud Security Engineer",
+      "sameAs": [
+        "https://x.com/harsha_gv",
+        "https://www.linkedin.com/in/harshagv/",
+        "https://builder.aws.com/community/@harshagv",
+        "https://medium.com/@harshagv",
+        "https://leetcode.com/harsha_gv/"
+      ],
+      "image": "https://github.com/harshagv.png",
+      "url": "https://harshagv.github.io/",
+      "description": "Cloud & Cybersecurity engineer specialising in AWS, Kubernetes, DevSecOps, and advanced privacy tech."
+    }
+    </script>
 
     <style>
         /* --- GLOBAL STYLES --- */
+        :root {
+            /* Color Psychology Palette */
+            --neon-green: #39FF14;  /* Action, Success, Code */
+            --cyber-blue: #00F0FF;  /* Trust, Cloud, Identity */
+            --deep-purple: #BC13FE; /* Automation, AI, Future */
+            --alert-orange: #FF4C29;/* Threats, Attention */
+            --accent-green: #008000;
+            --accent-blue: #0CAFFF;
+            --accent-ablue: #63c0f5;
+            --accent-orange: #F4511E;
+            --accent-white: #FFFFFF;
+            
+            --dark-bg: #050505;
+            --terminal-bg: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #050505;
+            background-color: var(--dark-bg);
             color: #c9d1d9;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
+            cursor: crosshair; /* Cyber feel cursor */
+        }
+
+        /* Accessibility: respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            body::before, body::after { background: none !important; }
+        }
+
+        /* 1. CYBER ENHANCEMENT: Flashlight/Spotlight Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(
+                600px circle at var(--x, 50%) var(--y, 50%), 
+                rgba(57, 255, 20, 0.06), 
+                transparent 40%
+            );
+            z-index: 9998;
+            pointer-events: none;
         }
 
         /* CRT Scanline Effect Overlay */
         body::after {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            inset: 0;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 1px,
                 transparent 1px,
                 transparent 2px
             );
             pointer-events: none;
             z-index: 9999;
+            mix-blend-mode: soft-light;
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #0d1117; }
-        ::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: #32cc12; }
+        ::-webkit-scrollbar-track { background: var(--terminal-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--cyber-blue); border-radius: 2px; } /* Blue thumb for trust */
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
 
         /* Custom Text Selection */
-        ::selection { background: #39FF14; color: #000000; }
+        ::selection { background: var(--neon-green); color: #000000; }
         
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 16px 20px 60px;
             position: relative;
             z-index: 1;
         }
 
-        a { color: #39FF14; text-decoration: none; transition: all 0.3s ease; }
-        a:hover { text-decoration: underline; text-shadow: 0 0 5px #39FF14; }
+        a { color: var(--neon-green); text-decoration: none; transition: all 0.2s ease; }
+        a:hover { text-decoration: underline; text-shadow: 0 0 5px var(--neon-green); }
 
-        /* --- MONOTON HEADER STYLES WITH GLITCH --- */
-        .main-header {
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 16px;
+            background: #000;
+            color: var(--neon-green);
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 10001;
+        }
+        .skip-link:focus { top: 16px; }
+
+        /* --- HEADER STYLES WITH GLITCH --- */
+        header {
+            margin-top: 50px;
+            margin-bottom: 40px;
             text-align: center;
-            margin-top: 60px;
-            margin-bottom: 50px;
+        }
+
+        .main-header {
             position: relative;
+            display: inline-block;
         }
         
         .header-name {
             font-family: 'Monoton', cursive;
             font-weight: 400;
-            font-size: 65px;
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
             line-height: 1.2em;
             color: #ffffff;
             text-transform: uppercase;
             margin: 0;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.2);
+            /* Gradient Text: White to Cyber Blue */
+            /* background: linear-gradient(to bottom, #ffffff 30%, var(--cyber-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.3)); */
             position: relative;
             display: inline-block;
         }
 
-        /* Glitch Effect on Hover */
         .header-name:hover {
             animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: #39FF14;
+            color: var(--neon-green);
         }
 
-        .header-name:hover::before,
-        .header-name:hover::after {
+        .header-name:hover::before, .header-name:hover::after {
             content: "HARSHA G V";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.8;
-        }
+            position: absolute; inset: 0; opacity: 0.8;
+            -webkit-text-fill-color: var(--neon-green);
+         }
 
         .header-name:hover::before {
-            color: #0CAFFF;
-            z-index: -1;
+            color: #0CAFFF; z-index: -1;
             animation: glitch-anim-1 0.4s infinite linear alternate-reverse;
         }
 
         .header-name:hover::after {
-            color: #F4511E;
-            z-index: -2;
+            color: #F4511E; z-index: -2;
             animation: glitch-anim-2 0.4s infinite linear alternate-reverse;
         }
 
@@ -137,8 +246,8 @@
 
         .header-title {
             font-family: 'Silkscreen', cursive;
-            font-size: 22px;
-            color: #0CAFFF;
+            font-size: 20px;
+            color: var(--accent-blue);
             margin-top: 10px;
             font-weight: 400;
             letter-spacing: 2px;
@@ -151,13 +260,44 @@
             font-size: 18px;
             color: #FFFFFF;
             margin-top: 5px;
-            opacity: 0.7;
+            opacity: 0.8;
             letter-spacing: 1px;
+        }
+
+        /* --- WOBBLE ANIMATION CSS --- */
+        .wobble span.letter {
+            display: inline-block;
+            pointer-events: none;
+            transform-origin: center;
+        }
+        @keyframes xspin {
+            50% { transform: scaleX(0); }
+        }
+        .wobble span.xspin {
+            animation: xspin 0.5s 1;
+        }
+
+        .nav-links {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-family: 'VT323', monospace;
+        }
+        .nav-links a {
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(57, 255, 20, 0.4);
+            font-size: 15px;
+        }
+        .nav-links a:hover {
+            background: rgba(57, 255, 20, 0.12);
         }
 
         /* --- TERMINAL / WHOAMI SECTION --- */
         .whoami-section {
-            background: #0d1117;
+            background: var(--terminal-bg);
             border: 1px solid #30363d;
             border-radius: 8px;
             padding: 0;
@@ -173,6 +313,13 @@
             border-bottom: 1px solid #30363d;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .terminal-dots { display: flex; gap: 6px; }
@@ -184,15 +331,24 @@
         .terminal-title-text {
             font-family: 'VT323', monospace;
             color: #8b949e;
-            margin-left: 15px;
             font-size: 16px;
+        }
+
+        .terminal-pill {
+            font-family: 'VT323', monospace;
+            font-size: 13px;
+            color: var(--neon-green);
+            border-radius: 999px;
+            border: 1px solid rgba(57,255,20,0.6);
+            padding: 3px 10px;
+            background: rgba(0,0,0,0.3);
         }
 
         .whoami-content { padding: 20px; }
 
         .whoami-title {
             font-family: 'Chelsea Market', cursive;
-            color: #F4511E;
+            color: var(--accent-orange);
             font-size: 29px;
             font-weight: bold;
             margin-bottom: 15px;
@@ -202,7 +358,7 @@
         #typewriter {
             font-family: 'VT323', monospace;
             font-size: 20px;
-            color: #39FF14;
+            color: var(--neon-green);
             white-space: pre-wrap;
             line-height: 1.4;
         }
@@ -211,7 +367,7 @@
             display: inline-block;
             width: 10px;
             height: 20px;
-            background-color: #39FF14;
+            background-color: var(--neon-green);
             animation: blink 1s infinite;
             vertical-align: bottom;
         }
@@ -229,7 +385,176 @@
 
         .whoami-extra p { color: #fff; margin-bottom: 10px; }
         .whoami-extra ul { list-style: none; padding-left: 0; margin: 0; }
-        .whoami-extra li { color: #39FF14; margin-bottom: 5px; }
+        .whoami-extra li { color: var(--neon-green); margin-bottom: 5px; }
+
+        /* --- STATUS BADGE --- */
+        .status-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(13, 17, 23, 0.9);
+            border: 1px solid var(--neon-green);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'VT323', monospace;
+            color: var(--neon-green);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10000;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+            backdrop-filter: blur(5px);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+
+        /* --- SECTIONS --- */
+        h2, h3 { 
+            color: #ffffff; 
+            margin-top: 40px; 
+            margin-bottom: 20px; 
+            font-family: 'Spinnaker', sans-serif; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            border-left: 4px solid var(--neon-green); 
+            padding-left: 15px;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        ul, ol { margin-top: 5px; }
+        li { margin-bottom: 8px; }
+
+        .certificates, .certificates a {
+            color: var(--accent-white);
+        }
+        .certificates a:hover {
+            color: var(--neon-green); /* optional: keep your hover vibe */
+            text-shadow: 0 0 6px var(--neon-green);
+        }        
+
+        .badges a { margin: 2px; display: inline-block; text-align: center;}
+
+        /* --- BADGE GROUPING STYLES --- */
+        .badge-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .badge-group {
+            background: rgba(13, 17, 23, 0.6); /* Subtle dark background */
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .badge-group:hover {
+            border-color: var(--neon-green); /* Glows green on hover */
+        }
+
+        .badge-label {
+            font-family: 'VT323', monospace;
+            color: var(--accent-blue); /* Blue text for the category title */
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: block;
+            border-bottom: 1px dashed #30363d;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Ensure badges wrap nicely inside the box */
+        .badge-group a {
+            margin: 3px;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .badge-group a:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }        
+
+        /* Security Battle Stations (skills grid) */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+        .card {
+            background: rgba(13,17,23,0.9);
+            border-radius: 10px;
+            border: 1px solid rgba(48,54,61,0.9);
+            padding: 16px 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+        .card h4 {
+            margin: 0 0 10px;
+            font-family: 'Spinnaker', sans-serif;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+        }
+        .card p {
+            margin: 0 0 6px;
+            font-size: 14px;
+        }
+        .card span.tag {
+            display: inline-block;
+            margin-top: 4px;
+            margin-right: 4px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid;
+            font-size: 11px;
+            font-family: 'VT323', monospace;
+        }
+
+        /* Color Coding the Cards */
+        /* Identity = Blue (Trust) */
+        .card.identity { border-top: 3px solid var(--cyber-blue); }
+        .card.identity h4 { color: var(--cyber-blue); }
+        .card.identity .tag { color: var(--cyber-blue); border-color: rgba(0, 240, 255, 0.3); }
+
+        /* Runtime = Green (Active/Safe) */
+        .card.runtime { border-top: 3px solid var(--neon-green); }
+        .card.runtime h4 { color: var(--neon-green); }
+        .card.runtime .tag { color: var(--neon-green); border-color: rgba(57, 255, 20, 0.3); }
+
+        /* Detection = Orange (Alert/Watch) */
+        .card.detection { border-top: 3px solid var(--alert-orange); }
+        .card.detection h4 { color: var(--alert-orange); }
+        .card.detection .tag { color: var(--alert-orange); border-color: rgba(255, 76, 41, 0.3); }
+
+        /* Automation = Purple (Complex/Magic) */
+        .card.automation { border-top: 3px solid var(--deep-purple); }
+        .card.automation h4 { color: var(--deep-purple); }
+        .card.automation .tag { color: var(--deep-purple); border-color: rgba(188, 19, 254, 0.3); }
+
+        /* Threat model list */
+        .threat-list {
+            font-size: 14px;
+        }
+        .threat-list li strong {
+            color: var(--accent-blue);
+        }
 
         /* --- SOCIAL ICONS --- */
         .social-icons {
@@ -244,176 +569,357 @@
         .social-icon img {
             width: 42px;
             height: 42px;
-            /* Filter to force #39FF14 color */
             filter: invert(76%) sepia(55%) saturate(668%) hue-rotate(84deg) brightness(103%) contrast(101%);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .social-icon:hover img {
-            filter: invert(76%) sepia(55%) saturate(668%) hue-rotate(84deg) brightness(103%) contrast(101%) drop-shadow(0 0 8px #39FF14);
+            filter: invert(76%) sepia(55%) saturate(668%) hue-rotate(84deg) brightness(103%) contrast(101%) drop-shadow(0 0 8px var(--neon-green));
             transform: translateY(-5px) scale(1.1);
         }
 
-        /* --- STATUS BADGE (New Suggestion) --- */
-        .status-badge {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(13, 17, 23, 0.9);
-            border: 1px solid #39FF14;
-            padding: 8px 15px;
-            border-radius: 20px;
+        /* FOOTER GLITCH BAR */
+        .footer-bar {
+            text-align: center;
+            background-color: #000;
+            padding-top: 6px;
+        }
+        .footer-meta {
             font-family: 'VT323', monospace;
-            color: #39FF14;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 10000;
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #39FF14;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
-            70% { box-shadow: 0 0 0 6px rgba(57, 255, 20, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+            font-size: 13px;
+            color: #8b949e;
+            padding: 8px 0 20px;
         }
 
-        /* UTILITIES */
-        .full-width { width: 100%; display: block; }
-        img { max-width: 100%; height: auto; }
-        .badges a { margin: 2px; display: inline-block; }
-        h2, h3 { color: #ffffff; margin-top: 40px; margin-bottom: 20px; font-family: 'Spinnaker', sans-serif; text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid #39FF14; padding-left: 15px;}
-        ul, ol { margin-top: 5px; }
-        li { margin-bottom: 8px; }
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .status-badge {
+                left: 50%;
+                right: auto;
+                transform: translateX(-50%);
+                bottom: 16px;
+            }
+        }
 
+        @media (hover: none) {
+            body::before {
+                display: none; /* Hides flashlight on mobile/touch devices */
+            }
+        }        
     </style>
 </head>
 <body>
 
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Status Badge -->
-    <div class="status-badge">
-        <div class="status-dot"></div>
-        SYSTEM SECURE
+    <div class="status-badge" aria-label="System status: Secure">
+        <div class="status-dot" aria-hidden="true"></div>
+        <span id="status-text">SYSTEM SECURE</span>
     </div>
 
     <div class="container">
+        <header>
+            <div class="main-header">
+                <h1 class="header-name">HARSHA G V</h1>
+            </div>
+            <div class="header-title wobble" data-animation="xspin" aria-label="Primary role">Cybersecurity Engineer</div>
+            <!-- Added wobble class and data-animation attribute -->
+            <div class="header-subtitle wobble" data-animation="xspin">Cloud · Cyber · Enigma</div>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#whoami">whoami</a>
+                <a href="#skills">battle stations</a>
+                <a href="#learning">learning lab</a>
+                <a href="#social">comms uplink</a>
+            </nav>
+        </header>
+
+        <main id="main-content">
+            <!-- 2. TERMINAL WHOAMI SECTION -->
+            <section id="whoami" aria-labelledby="whoami-heading">
+                <div class="whoami-section">
+                    <div class="terminal-header">
+                        <div class="terminal-left">
+                            <div class="terminal-dots" aria-hidden="true">
+                                <div class="dot red"></div>
+                                <div class="dot yellow"></div>
+                                <div class="dot green"></div>
+                            </div>
+                            <div class="terminal-title-text">harsha@cloud-fortress:~/whoami</div>
+                        </div>
+                        <div class="terminal-pill">read-only · no root shells here 👀</div>
+                    </div>
+
+                    <div class="whoami-content">
+                        <span class="whoami-title" id="whoami-heading">$ whoami</span>
+                        
+                        <!-- Dynamic Typing Part -->
+                        <div id="typewriter" aria-live="polite"></div><span class="cursor" aria-hidden="true"></span>
+
+                        <!-- Static Skills Part -->
+                        <div class="whoami-extra">
+                            <p>I thrive on leveraging cutting-edge technologies and methodologies across:</p>
+                            <ul>
+                                <li>➼ Cybersecurity Engineering</li>
+                                <li>➼ Cloud Security</li>
+                                <li>➼ Application Security</li>
+                                <li>➼ DevSecOps</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr style="border-color: #333; opacity: 0.5;">
+
+    <section id="skills" aria-labelledby="skills-heading">
+        <h3 id="skills-heading">Hands-on experience in:</h3>
         
-        <!-- 1. MONOTON HEADER -->
-        <div class="main-header">
-            <h1 class="header-name">HARSHA G V</h1>
-            <div class="header-title">Cybersecurity Engineer</div>
-            <div class="header-subtitle">Cloud. Cyber. Enigma.</div>
-        </div>
-
-        <!-- 2. TERMINAL WHOAMI SECTION -->
-        <div class="whoami-section">
-            <div class="terminal-header">
-                <div class="terminal-dots">
-                    <div class="dot red"></div>
-                    <div class="dot yellow"></div>
-                    <div class="dot green"></div>
-                </div>
-                <div class="terminal-title-text">harsha@cloud-fortress:~/whoami</div>
+        <div class="badge-container">
+            
+            <!-- Group 1: Cloud & Infrastructure -->
+            <div class="badge-group">
+                <span class="badge-label">> Cloud_Infrastructure.exe</span>
+                <a href="https://aws.amazon.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Amazon_AWS-EC7211?style=for-the-badge&logo=amazon-aws&logoColor=white" alt="AWS" />
+                </a>
+                <a href="https://azure.microsoft.com/en-us/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Microsoft_Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white" alt="Azure" />
+                </a>
+                <a href="https://www.terraform.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform" />
+                </a>
+                <a href="https://www.ansible.com/overview/it-automation" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" alt="Ansible" />
+                </a>
+                <a href="https://www.cloudflare.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare" />
+                </a>
+                <a href="https://www.virtualbox.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/VirtualBox-193D8E?style=for-the-badge&logo=virtualbox&logoColor=white" alt="VirtualBox" />
+                </a>
             </div>
 
-            <div class="whoami-content">
-                <div class="whoami-title">$ whoami</div>
-                
-                <!-- Dynamic Typing Part -->
-                <div id="typewriter"></div><span class="cursor"></span>
-
-                <!-- Static Skills Part -->
-                <div class="whoami-extra">
-                    <p>I thrive on leveraging cutting-edge technologies and methodologies across:</p>
-                    <ul>
-                        <li>➼ Cybersecurity Engineering</li>
-                        <li>➼ Cloud Security</li>
-                        <li>➼ Application Security</li>
-                        <li>➼ DevSecOps</li>
-                    </ul>
-                </div>
+            <!-- Group 2: Containers & Orchestration -->
+            <div class="badge-group">
+                <span class="badge-label">> Container_Runtime.sh</span>
+                <a href="https://kubernetes.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="K8s" />
+                </a>
+                <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+                </a>
+                <a href="https://podman.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white" alt="Podman" />
+                </a>
             </div>
+
+            <!-- Group 3: Security & Compliance -->
+            <div class="badge-group">
+                <span class="badge-label">> Security_Tooling.bin</span>
+                <a href="https://sysdig.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Sysdig_Falco-BDF78B?style=for-the-badge&logo=sysdig&logoColor=white" alt="Falco" />
+                </a>
+                <a href="https://snyk.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Snyk-383F76?style=for-the-badge&logo=snyk&logoColor=white" alt="Snyk" />
+                </a>
+                <a href="https://www.sentinelone.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/SentinelOne-6100FF?style=for-the-badge&logo=sentinelone&logoColor=white" alt="SentinelOne" />
+                </a>
+                <a href="https://www.openvas.org/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/OpenVAS-1C7C54?style=for-the-badge&logo=openvas&logoColor=white" alt="OpenVAS" />
+                </a>
+                <a href="https://www.stackrox.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/StackRox-222222?style=for-the-badge&logo=stackrox&logoColor=white" alt="StackRox" />
+                </a>
+            </div>
+
+            <!-- Group 4: Observability & SIEM -->
+            <div class="badge-group">
+                <span class="badge-label">> Observability_Logs.log</span>
+                <a href="https://prometheus.io/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus" />
+                </a>
+                <a href="https://grafana.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana" />
+                </a>
+                <a href="https://www.datadoghq.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white" alt="Datadog" />
+                </a>
+                <a href="https://www.elastic.co/what-is/elk-stack" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/ELK_Stack-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" alt="ELK" />
+                </a>
+                <a href="https://www.splunk.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="https://img.shields.io/badge/Splunk-EE1D62?style=for-the-badge&logo=splunk&logoColor=white" alt="Splunk" />
+                </a>
+            </div>
+
         </div>
 
-        <br><hr style="border-color: #333; opacity: 0.5;"><br>
-
-        <h3>Hands-on experience in:</h3>
-        <p align="center" class="badges">
-            <a href="https://aws.amazon.com/" target="_blank"><img src="https://img.shields.io/badge/Amazon_AWS-EC7211?style=for-the-badge&logo=amazon-aws&logoColor=white" /></a>
-            <a href="https://azure.microsoft.com/en-us/" target="_blank"><img src="https://img.shields.io/badge/Microsoft_Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white" /></a>
-            <a href="https://kubernetes.io/" target="_blank"><img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" /></a>
-            <a href="https://www.docker.com/" target="_blank"><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" /></a>
-            <a href="https://podman.io/" target="_blank"><img src="https://img.shields.io/badge/Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white" /></a>
-            <a href="https://sysdig.com/" target="_blank"><img src="https://img.shields.io/badge/Sysdig_Falco-BDF78B?style=for-the-badge&logo=sysdig&logoColor=white" /></a>
-            <a href="https://www.terraform.io/" target="_blank"><img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" /></a>
-            <a href="https://www.ansible.com/overview/it-automation" target="_blank"><img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" /></a>
-            <a href="https://www.cloudflare.com/" target="_blank"><img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" /></a>
-            <a href="https://snyk.io/" target="_blank"><img src="https://img.shields.io/badge/Snyk-383F76?style=for-the-badge&logo=snyk&logoColor=white" /></a>
-            <a href="https://prometheus.io/" target="_blank"><img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" /></a>
-            <a href="https://grafana.com/" target="_blank"><img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" /></a>
-            <a href="https://www.sentinelone.com/" target="_blank"><img src="https://img.shields.io/badge/SentinelOne-6100FF?style=for-the-badge&logo=sentinelone&logoColor=white" /></a>
-            <a href="https://www.openvas.org/" target="_blank"><img src="https://img.shields.io/badge/OpenVAS-1C7C54?style=for-the-badge&logo=openvas&logoColor=white" /></a>
-            <a href="https://www.stackrox.io/" target="_blank"><img src="https://img.shields.io/badge/StackRox-222222?style=for-the-badge&logo=stackrox&logoColor=white" /></a>
-            <a href="https://www.virtualbox.org/" target="_blank"><img src="https://img.shields.io/badge/VirtualBox-193D8E?style=for-the-badge&logo=virtualbox&logoColor=white" /></a>
-            <a href="https://www.datadoghq.com/" target="_blank"><img src="https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white" /></a>
-            <a href="https://www.elastic.co/what-is/elk-stack" target="_blank"><img src="https://img.shields.io/badge/ELK_Stack-005571?style=for-the-badge&logo=elasticsearch&logoColor=white" /></a>
-            <a href="https://www.splunk.com/" target="_blank"><img src="https://img.shields.io/badge/Splunk-EE1D62?style=for-the-badge&logo=splunk&logoColor=white" /></a>
-        </p>
-
-        <p>My interest in cybersecurity, cloud services ecosystem, and kubernetes led me to obtain the following listed certificates:</p>
-        <ol>
-            <li><a href="https://www.credly.com/badges/c74071e9-8c82-41f9-97fc-4f0809057d9b">ISC² Certified in Cybersecurity (CC)</a></li>
-            <li><a href="https://www.credly.com/badges/caa35793-d064-49be-8509-94685b90b26e">AWS Certified Security – Specialty</a></li>
-            <li><a href="https://www.credly.com/badges/70f4c532-01b6-41fc-85cd-05be931b6d67">AWS Certified Solution Architect - Professional</a></li>
-            <li><a href="https://www.credly.com/badges/238268f2-9296-4d38-9a97-cf2c8c87cec6">AWS Certified DevOps Engineer - Professional</a></li>
-            <li><a href="https://www.credly.com/badges/f4ff4177-1d50-4ba3-9387-c2c193ea1033">CKS: Certified Kubernetes Security Specialist</a></li>
-            <li><a href="https://www.credly.com/badges/fff121e3-2158-4d11-bee4-7563344c9599">CKA: Certified Kubernetes Administrator</a></li>
-            <li><a href="https://www.credly.com/badges/d257f0c3-d1c0-4bf3-be03-f49e32715e58">KCNA: Kubernetes and Cloud Native Associate</a></li>
-            <li>Scrum Alliance certified <a href="https://badgecert.com/bc/html/profile.jsp?k=fdoihhc">Scrum Master</a> and <a href="https://badgecert.com/bc/html/profile.jsp?k=xyhdzjz">Product Owner</a>.</li>
-        </ol>
-
-        <br/>
-
-        <h3>Currently Learning & Exploring: My Security Jedi Training Continues: 🌱</h3>
-        <p>The path to bringing balance to the Cloud-verse requires constant evolution. My current focus areas include:</p>
-        <ul>
-            <li><em>eBPF-Powered Defenses</em>: Exploring advanced runtime security.</li>
-            <li><em>Agentic AI for Autonomous Security</em>: Delving into Agentic AI for autonomous threat detection.</li>
-            <li><em>Post-Quantum Cryptography (PQC) & Advanced Privacy</em>: Understanding PQC and Homomorphic Encryption (FHE).</li>
-            <li><em>Blockchain for Verifiable Cloud Security</em>: Researching Blockchain for digital forensics.</li>
-        </ul>
-        <br/>
-
-        <!-- FIXED SOCIAL ICONS -->
-        <h3>Find me around the web <img src="https://github.com/harshagv/harshagv/blob/master/src/imgs/earth.gif?raw=true" width="19" style="vertical-align: middle;">:</h3>
-        <div class="social-icons">
-            <a href="https://builder.aws.com/community/@harshagv" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/svg/aws.svg" alt="AWS Community"></a>
-            <a href="https://www.credly.com/users/harshagv/badges" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/credly.svg" alt="Credly"></a>
-            <a href="https://x.com/harsha_gv" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/x.svg" alt="Twitter"></a>
-            <a href="https://www.linkedin.com/in/harshagv/" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/linkedin.svg" alt="LinkedIn"></a>
-            <a href="https://leetcode.com/harsha_gv/" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/leetcode.svg" alt="LeetCode"></a>
-            <a href="https://stackoverflow.com/users/10053482/harsha-g-v" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/stackoverflow.svg" alt="Stack Overflow"></a>
-            <a href="https://www.twitch.tv/harshagv" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/twitch.svg" alt="Twitch"></a>
-            <a href="https://medium.com/@harshagv" target="_blank" class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/medium.svg" alt="Medium"></a>
+        <!-- Certificates Section (Kept as is) -->
+        <div class="certificates" style="margin-top: 40px;">
+            <p>My interest in cybersecurity, cloud services ecosystem, and Kubernetes led me to obtain the following listed certificates:</p>
+            <ol>
+                <li><a href="https://www.credly.com/badges/c74071e9-8c82-41f9-97fc-4f0809057d9b" target="_blank" rel="noopener noreferrer">ISC² Certified in Cybersecurity (CC)</a></li>
+                <li><a href="https://www.credly.com/badges/caa35793-d064-49be-8509-94685b90b26e" target="_blank" rel="noopener noreferrer">AWS Certified Security – Specialty</a></li>
+                <li><a href="https://www.credly.com/badges/70f4c532-01b6-41fc-85cd-05be931b6d67" target="_blank" rel="noopener noreferrer">AWS Certified Solutions Architect – Professional</a></li>
+                <li><a href="https://www.credly.com/badges/238268f2-9296-4d38-9a97-cf2c8c87cec6" target="_blank" rel="noopener noreferrer">AWS Certified DevOps Engineer – Professional</a></li>
+                <li><a href="https://www.credly.com/badges/f4ff4177-1d50-4ba3-9387-c2c193ea1033" target="_blank" rel="noopener noreferrer">CKS: Certified Kubernetes Security Specialist</a></li>
+                <li><a href="https://www.credly.com/badges/fff121e3-2158-4d11-bee4-7563344c9599" target="_blank" rel="noopener noreferrer">CKA: Certified Kubernetes Administrator</a></li>
+                <li><a href="https://www.credly.com/badges/d257f0c3-d1c0-4bf3-be03-f49e32715e58" target="_blank" rel="noopener noreferrer">KCNA: Kubernetes and Cloud Native Associate</a></li>
+                <li>Scrum Alliance certified <a href="https://badgecert.com/bc/html/profile.jsp?k=fdoihhc" target="_blank" rel="noopener noreferrer">Scrum Master</a> and <a href="https://badgecert.com/bc/html/profile.jsp?k=xyhdzjz" target="_blank" rel="noopener noreferrer">Product Owner</a>.</li>
+            </ol>
         </div>
-        <br/>
+    </section>
 
+            <!-- Security Battle Stations: Color Coded -->
+            <!--
+            <section aria-labelledby="battle-heading">
+                <h3 id="battle-heading">Security Battle Stations</h3>
+                <p>Where I spend most of my time hardening systems and breaking things <em>before</em> attackers do:</p>
+                <div class="grid" aria-label="Security focus areas">
+                    <article class="card identity">
+                        <h4>Cloud Perimeter & Identity</h4>
+                        <p>Designing and enforcing least-privilege IAM, zero-trust patterns and guardrails for regulated workloads.</p>
+                        <span class="tag">AWS Organizations</span>
+                        <span class="tag">IAM</span>
+                        <span class="tag">SSO</span>
+                    </article>
+                    <article class="card runtime">
+                        <h4>Runtime & Container Security</h4>
+                        <p>Building runtime detection and prevention for K8s and containers—prioritising signals over noise.</p>
+                        <span class="tag">eBPF</span>
+                        <span class="tag">Falco</span>
+                        <span class="tag">EKS</span>
+                    </article>
+                    <article class="card detection">
+                        <h4>Threat Detection & Telemetry</h4>
+                        <p>Curating high-fidelity detections and pipelines that turn logs into stories an IR team can act on.</p>
+                        <span class="tag">Security Hub</span>
+                        <span class="tag">SIEM</span>
+                        <span class="tag">Detections Engg</span>
+                    </article>
+                    <article class="card automation">
+                        <h4>Secure Automation</h4>
+                        <p>Automating the “boring but critical” chores so humans can focus on the incidents that truly matter.</p>
+                        <span class="tag">Lambda</span>
+                        <span class="tag">SSM</span>
+                        <span class="tag">IaC</span>
+                    </article>
+                </div>
+            </section>
+            -->
+
+            <!-- Security Battle Stations: out-of-the-box "security dashboard" section -->
+            <section aria-labelledby="battle-heading">
+                <h3 id="battle-heading">Security Battle Stations</h3>
+                <p>Where I spend most of my time hardening systems and breaking things <em>before</em> attackers do:</p>
+                <div class="grid" aria-label="Security focus areas">
+                    <article class="card">
+                        <h4>Cloud Perimeter & Identity</h4>
+                        <p>Designing and enforcing least-privilege IAM, zero-trust patterns and guardrails for regulated workloads.</p>
+                        <span class="tag">AWS Organizations</span>
+                        <span class="tag">IAM</span>
+                        <span class="tag">SSO</span>
+                    </article>
+                    <article class="card">
+                        <h4>Runtime & Container Security</h4>
+                        <p>Building runtime detection and prevention for K8s and containers—prioritising signals over noise.</p>
+                        <span class="tag">eBPF</span>
+                        <span class="tag">Falco</span>
+                        <span class="tag">EKS</span>
+                    </article>
+                    <article class="card">
+                        <h4>Threat Detection & Telemetry</h4>
+                        <p>Curating high-fidelity detections and pipelines that turn logs into stories an IR team can act on.</p>
+                        <span class="tag">Security Hub</span>
+                        <span class="tag">SIEM</span>
+                        <span class="tag">Detections Engg</span>
+                    </article>
+                    <article class="card">
+                        <h4>Secure Automation</h4>
+                        <p>Automating the “boring but critical” chores so humans can focus on the incidents that truly matter.</p>
+                        <span class="tag">Lambda</span>
+                        <span class="tag">SSM</span>
+                        <span class="tag">IaC</span>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Threat modelling snippet, shows cyber thinking explicitly -->
+            <section aria-labelledby="threat-heading">
+                <h3 id="threat-heading">How I Think About Risk (Mini Threat Model)</h3>
+                <ul class="threat-list">
+                    <li><strong>Identity first:</strong> If an attacker compromises identity, they own your blast radius—so I prioritise hardening authentication, authorisation and path-to-prod.</li>
+                    <li><strong>Signal over noise:</strong> More alerts ≠ more security. I design detections that map to attacker behaviours, not just misconfigurations.</li>
+                    <li><strong>Secure-by-default:</strong> Developers should have to work <em>harder</em> to make something insecure than secure. Guardrails & golden paths > manual reviews.</li>
+                    <li><strong>Evidence-driven decisions:</strong> Whether it’s a CSPM alert or a SOC playbook, the question is always: “What data proves this is happening?”</li>
+                </ul>
+            </section>
+
+            <section id="learning" aria-labelledby="learning-heading">
+                <h3 id="learning-heading">Currently Learning & Exploring: My Security Jedi Training Continues 🌱</h3>
+                <p>The path to bringing balance to the Cloud-verse requires constant evolution. My current focus areas include:</p>
+                <ul>
+                    <li><em>eBPF-Powered Defenses</em>: Exploring advanced runtime security, syscall-level detection and kernel-side observability.</li>
+                    <li><em>Agentic AI for Autonomous Security</em>: Delving into agentic AI for autonomous threat detection, triage and auto-remediation.</li>
+                    <li><em>Post-Quantum Cryptography (PQC) & Advanced Privacy</em>: Understanding PQC, FHE and privacy-enhancing tech that can survive future cryptanalytic breakthroughs.</li>
+                    <li><em>Blockchain for Verifiable Cloud Security</em>: Researching how append-only ledgers can anchor digital forensics and supply-chain integrity.</li>
+                </ul>
+            </section>
+
+            <!-- FIXED SOCIAL ICONS -->
+            <section id="social" aria-labelledby="social-heading">
+                <h3 id="social-heading">
+                    Find me around the web 
+                    <img src="https://github.com/harshagv/harshagv/blob/master/src/imgs/earth.gif?raw=true" width="19" style="vertical-align: middle;" alt="Animated rotating earth">
+                </h3>
+                <div class="social-icons" aria-label="Social profiles">
+                    <a href="https://builder.aws.com/community/@harshagv" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="AWS Community Builder profile">
+                        <img src="https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/svg/aws.svg" alt="AWS icon">
+                    </a>
+                    <a href="https://www.credly.com/users/harshagv/badges" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Credly badge collection">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/credly.svg" alt="Credly icon">
+                    </a>
+                    <a href="https://x.com/harsha_gv" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter) profile">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/x.svg" alt="X icon">
+                    </a>
+                    <a href="https://www.linkedin.com/in/harshagv/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn profile">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/linkedin.svg" alt="LinkedIn icon">
+                    </a>
+                    <a href="https://leetcode.com/harsha_gv/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LeetCode profile">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/leetcode.svg" alt="LeetCode icon">
+                    </a>
+                    <a href="https://stackoverflow.com/users/10053482/harsha-g-v" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Stack Overflow profile">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/stackoverflow.svg" alt="Stack Overflow icon">
+                    </a>
+                    <a href="https://www.twitch.tv/harshagv" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitch channel">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/twitch.svg" alt="Twitch icon">
+                    </a>
+                    <a href="https://medium.com/@harshagv" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Medium blog">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@3.13.0/icons/medium.svg" alt="Medium icon">
+                    </a>
+                </div>
+            </section>
+        </main>
     </div> <!-- End Container -->
 
     <!-- FOOTER -->    
-    <div style="text-align: center; background-color: #000;">
-        <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
-    </div>
+    <footer class="footer-bar">
+        <img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" 
+             alt="Animated neon footer bar">
+        <div class="footer-meta">
+            &copy; <span id="year"></span> Harsha G V · Built like a hardened container image · No plaintext secrets, ever.
+        </div>
+    </footer>
 
-    <!-- JAVASCRIPT FOR TERMINAL EFFECT -->
+    <!-- JAVASCRIPT FOR TERMINAL EFFECT & FLASHLIGHT -->
     <script>
+        // 0. Dynamic year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 1. Typewriter Effect
         const textToType = [
             "I am a secure container with 65536mb memory and an AWS-certified processor, engineered for safeguarding cloud environments and enhancing security posture. ✰ 😇 🚀",
             "\n\nI am continuously learning to become a Security Jedi (bringing balance to Cloud-verse) ☺︎, and have a passion for technology, with a focus on Cloud, Cybersecurity, Blockchain, GenAI. I am inspired by the mission to help others understand how technology can transform and improve their lives.",
@@ -429,17 +935,85 @@
                 if (charIndex < textToType[textIndex].length) {
                     typeWriterElement.innerHTML += textToType[textIndex].charAt(charIndex);
                     charIndex++;
-                    setTimeout(typeWriter, 20); // Typing speed
+                    setTimeout(typeWriter, 20); 
                 } else {
                     textIndex++;
                     charIndex = 0;
-                    setTimeout(typeWriter, 300); // Pause between paragraphs
+                    setTimeout(typeWriter, 300); 
                 }
             }
         }
 
-        // Start typing when page loads
-        window.onload = typeWriter;
+        // 2. Flashlight Effect Logic
+        document.addEventListener('mousemove', (e) => {
+            document.body.style.setProperty('--x', e.clientX + 'px');
+            document.body.style.setProperty('--y', e.clientY + 'px');
+        });
+
+        // 3. Console Easter Egg + fun status shift
+        window.onload = function() {
+            typeWriter();
+            console.log(
+                "%c ACCESS GRANTED %c \\nWelcome to the mainframe, traveler. \\nLooking for vulnerabilities? You won't find any here. \\nBut if you're looking for a Cloud Security Engineer, you found him.",
+                "color: #000; background: #39FF14; font-size: 20px; padding: 5px; font-weight: bold;",
+                "color: #39FF14; background: #000; font-size: 14px; padding: 5px;"
+            );
+
+            const statusText = document.getElementById('status-text');
+            const hour = new Date().getHours();
+            if (hour >= 0 && hour < 6) {
+                statusText.textContent = "NIGHT WATCH MODE";
+            } else if (hour >= 6 && hour < 12) {
+                statusText.textContent = "MORNING PATCH WINDOW";
+            } else if (hour >= 12 && hour < 18) {
+                statusText.textContent = "THREAT HUNT IN PROGRESS";
+            } else {
+                statusText.textContent = "BLUE TEAM ON DUTY";
+            }
+        };
+
+        // 4. Wobble Animation Script
+        document.addEventListener('DOMContentLoaded', function() {
+          var wobbleElements = document.querySelectorAll('.wobble');
+
+          wobbleElements.forEach(function(el){
+            let originalText = el.innerText; // Store original text content
+
+            // Function to apply the animation
+            function applyAnimation() {
+              if (!el.classList.contains('animating')) {
+                el.classList.add('animating');
+                let letters = originalText.split('');
+
+                el.innerHTML = ''; // Clear existing content
+
+                letters.forEach(function(letter){
+                  if(letter === " "){
+                    el.innerHTML += '&nbsp;';
+                  } else {
+                    el.innerHTML += '<span class="letter">'+letter+'</span>';
+                  }
+                });
+
+                let letterElements = el.querySelectorAll('.letter');
+                let animationName = el.dataset.animation || "jump";
+
+                letterElements.forEach(function(letter, i){
+                  setTimeout(function(){
+                    letter.classList.add(animationName);
+                  }, 50 * i);
+                });
+
+                setTimeout(function(){
+                  el.classList.remove('animating');
+                  el.innerHTML = originalText;
+                  setTimeout(applyAnimation, 3000); // Wait 3 seconds, then restart animation
+                }, (letters.length * 50) + 500);
+              }
+            }
+            applyAnimation(); // Start the animation automatically
+          });
+        });
     </script>
 
 </body>
