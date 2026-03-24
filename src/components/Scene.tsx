@@ -1,135 +1,154 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Sphere, Icosahedron } from '@react-three/drei';
+import { Float, Stars, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
-const CryptographicCore: React.FC = () => {
+const CyberAstrolabe: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const innerCoreRef = useRef<THREE.Mesh>(null);
-  const outerWireframeRef = useRef<THREE.Mesh>(null);
+  const knotRef = useRef<THREE.Mesh>(null);
+  const ring1Ref = useRef<THREE.Mesh>(null);
+  const ring2Ref = useRef<THREE.Mesh>(null);
+  const ring3Ref = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
+  const smoothedScroll = useRef(0);
+
+  // Keyframes corresponding to scroll sections:
+  // Designed for hyper-dramatic sweeping transitions
+  const keyframes = [
+    { p: 0.00, pos: [3.5, 0, 0], rot: [0, 0, 0], scale: 1.0 },                 
+    { p: 0.25, pos: [-4.0, -1, -4], rot: [Math.PI, Math.PI/4, Math.PI], scale: 1.4 }, 
+    { p: 0.50, pos: [4.0, 1, -8], rot: [0, Math.PI, Math.PI/2], scale: 0.6 },   
+    { p: 0.75, pos: [0, 3.5, -2], rot: [Math.PI/2, Math.PI*2, 0], scale: 0.9 },      
+    { p: 1.00, pos: [0, 0, 3], rot: [Math.PI*2, Math.PI*2, Math.PI], scale: 1.6 },             
+  ];
+
+  useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
-    
-    // Rotate cores in opposite directions
-    if (innerCoreRef.current) {
-      innerCoreRef.current.rotation.y = time * 0.2;
-      innerCoreRef.current.rotation.x = time * 0.1;
+    const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
+    const rawScrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+
+    // Physics Engine: Dampen the scroll progress organically for massive cinematic weight
+    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, rawScrollProgress, 4, delta);
+    const scrollProgress = smoothedScroll.current;
+
+    // Calculate current keyframe segment
+    let startIndex = 0;
+    for (let i = 0; i < keyframes.length - 1; i++) {
+        if (scrollProgress >= keyframes[i].p && scrollProgress <= keyframes[i+1].p) {
+            startIndex = i;
+            break;
+        }
     }
+    const start = keyframes[startIndex];
+    const end = keyframes[Math.min(startIndex + 1, keyframes.length - 1)];
     
-    if (outerWireframeRef.current) {
-      outerWireframeRef.current.rotation.y = -time * 0.15;
-      outerWireframeRef.current.rotation.z = time * 0.05;
+    // Normalize progress to segment
+    const segmentProgress = (scrollProgress - start.p) / (end.p - start.p || 1);
+    
+    // Apple-like ease-in-out cubic curve mapped over the damped physics
+    const ease = segmentProgress < 0.5 
+      ? 4 * segmentProgress * segmentProgress * segmentProgress 
+      : 1 - Math.pow(-2 * segmentProgress + 2, 3) / 2;
+
+    const targetX = THREE.MathUtils.lerp(start.pos[0], end.pos[0], ease);
+    const targetY = THREE.MathUtils.lerp(start.pos[1], end.pos[1], ease);
+    const targetZ = THREE.MathUtils.lerp(start.pos[2], end.pos[2], ease);
+    
+    const targetRotX = THREE.MathUtils.lerp(start.rot[0], end.rot[0], ease);
+    const targetRotY = THREE.MathUtils.lerp(start.rot[1], end.rot[1], ease);
+    const targetRotZ = THREE.MathUtils.lerp(start.rot[2], end.rot[2], ease);
+
+    const targetScale = THREE.MathUtils.lerp(start.scale, end.scale, ease);
+
+    // Apply main group kinematics instantly as the raw scalar is already damped
+    if (groupRef.current) {
+      groupRef.current.position.set(targetX, targetY, targetZ);
+      groupRef.current.rotation.set(targetRotX, targetRotY, targetRotZ);
+      groupRef.current.scale.setScalar(targetScale);
     }
 
-    // Gentle tilt based on mouse position
-    if (groupRef.current) {
-      const targetX = (state.pointer.x * Math.PI) / 8;
-      const targetY = (state.pointer.y * Math.PI) / 8;
-      
-      // Smooth interpolation for silky movement
-      groupRef.current.rotation.x += (targetY - groupRef.current.rotation.x) * 0.05;
-      groupRef.current.rotation.y += (targetX - groupRef.current.rotation.y) * 0.05;
+    // Continual subtle ambient rotations inside the structure
+    if (knotRef.current) {
+      knotRef.current.rotation.x = time * 0.2;
+      knotRef.current.rotation.y = time * 0.3;
     }
+    
+    if (ring1Ref.current) ring1Ref.current.rotation.x = time * 0.5;
+    if (ring2Ref.current) ring2Ref.current.rotation.y = time * 0.4;
+    if (ring3Ref.current) ring3Ref.current.rotation.z = time * 0.3;
   });
 
   return (
     <group ref={groupRef}>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        {/* Inner Solid Core */}
-        <Icosahedron ref={innerCoreRef} args={[1.5, 0]} position={[0, 0, 0]}>
-          <meshStandardMaterial 
-            color="#111111" 
-            metalness={0.9} 
-            roughness={0.1} 
-            envMapIntensity={1}
-          />
-        </Icosahedron>
-
-        {/* Outer Glow/Wireframe Mesh */}
-        <Icosahedron ref={outerWireframeRef} args={[1.9, 1]} position={[0, 0, 0]}>
-          <meshBasicMaterial 
-            color="#00ff66" 
-            wireframe={true} 
-            transparent 
-            opacity={0.3} 
-          />
-        </Icosahedron>
+      <Float speed={2} rotationIntensity={0} floatIntensity={0.5}>
         
-        {/* Additional outer subtle sphere for 'shield' effect */}
-        <Sphere args={[2.2, 32, 32]}>
-          <meshBasicMaterial 
-            color="#00e5ff" 
-            wireframe={true} 
-            transparent 
-            opacity={0.05} 
+        {/* Core Torus Knot */}
+        <mesh ref={knotRef}>
+          <torusKnotGeometry args={[1.2, 0.35, 256, 64]} />
+          {/* High end metal aesthetic */}
+          <meshPhysicalMaterial 
+            color="#222222"
+            metalness={1}
+            roughness={0.15}
+            clearcoat={1}
+            clearcoatRoughness={0.1}
+            emissive="#0CAFFF"
+            emissiveIntensity={0.6}
+            wireframe={false}
           />
-        </Sphere>
+        </mesh>
+
+        {/* Outer Gyro Rings */}
+        <mesh ref={ring1Ref}>
+          <torusGeometry args={[2.2, 0.02, 16, 100]} />
+          <meshBasicMaterial color="#0CAFFF" transparent opacity={0.6} />
+        </mesh>
+        
+        <mesh ref={ring2Ref} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[2.5, 0.01, 16, 100]} />
+          <meshBasicMaterial color="#00ff66" transparent opacity={0.4} />
+        </mesh>
+
+        <mesh ref={ring3Ref} rotation={[0, Math.PI / 2, 0]}>
+          <torusGeometry args={[2.8, 0.005, 16, 100]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.2} />
+        </mesh>
+        
       </Float>
     </group>
   );
 };
 
-const DataParticles: React.FC = () => {
-  const pointsRef = useRef<THREE.Points>(null);
-  const particlesCount = 700;
-
-  const positions = useMemo(() => {
-    const pos = new Float32Array(particlesCount * 3);
-    for (let i = 0; i < particlesCount; i++) {
-      // Create a large sphere of particles
-      const distance = 10 + Math.random() * 20;
-      const theta = THREE.MathUtils.randFloatSpread(360); 
-      const phi = THREE.MathUtils.randFloatSpread(360); 
-
-      pos[i * 3] = distance * Math.sin(theta) * Math.cos(phi);
-      pos[i * 3 + 1] = distance * Math.sin(theta) * Math.sin(phi);
-      pos[i * 3 + 2] = distance * Math.cos(theta);
-    }
-    return pos;
-  }, []);
-
+const CameraController: React.FC = () => {
   useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.02;
-      pointsRef.current.rotation.z = state.clock.getElapsedTime() * 0.01;
-    }
+    // Elegant ambient parallax based on pointer
+    const targetX = (state.pointer.x * 0.5);
+    const targetY = (state.pointer.y * 0.5);
+    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.05);
+    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.05);
+    
+    // HARD LOCK Z to 8 so it NEVER crashes into or swallows the text/screen.
+    state.camera.position.z = 8; 
+    state.camera.lookAt(0, 0, 0);
   });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute 
-          attach="attributes-position" 
-          count={positions.length / 3} 
-          array={positions} 
-          itemSize={3} 
-          args={[positions, 3]}
-        />
-      </bufferGeometry>
-      <pointsMaterial 
-        size={0.05} 
-        color="#00ff66" 
-        transparent 
-        opacity={0.6}
-        sizeAttenuation={true}
-      />
-    </points>
-  );
+  return null;
 };
 
 const Scene: React.FC = () => {
   return (
     <>
-      {/* Lighting */}
+      {/* Studio Lighting for the metallic finish */}
       <ambientLight intensity={0.2} />
-      <directionalLight position={[10, 10, 10]} intensity={1} color="#ffffff" />
-      <pointLight position={[-10, -10, -10]} intensity={2} color="#00ff66" />
-      <pointLight position={[0, 0, -5]} intensity={1} color="#00e5ff" />
+      <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
+      <spotLight position={[-10, 10, -10]} angle={0.3} penumbra={1} intensity={5} color="#00ff66" />
+      <spotLight position={[10, -10, 10]} angle={0.3} penumbra={1} intensity={5} color="#0CAFFF" />
       
-      {/* 3D Elements */}
-      <CryptographicCore />
-      <DataParticles />
+      {/* Environment map gives the metal extremely realistic reflections */}
+      <Environment preset="city" />
+      
+      <CameraController />
+      <CyberAstrolabe />
+      <Stars radius={100} depth={50} count={2000} factor={3} saturation={0} fade speed={1} />
     </>
   );
 };

@@ -4,6 +4,13 @@ import Lenis from 'lenis';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Scene from './components/Scene';
+import About from './components/About';
+import Experience from './components/Experience';
+import Certifications from './components/Certifications';
+import Footer from './components/Footer';
+import Cursor from './components/Cursor';
+import Noise from './components/Noise';
+import FloatingTerminal from './components/FloatingTerminal';
 
 function App() {
   const lenisRef = useRef<Lenis | null>(null);
@@ -19,20 +26,29 @@ function App() {
       touchMultiplier: 2,
     });
 
+    let rafId: number;
+
     function raf(time: number) {
-      lenisRef.current?.raf(time);
-      requestAnimationFrame(raf);
+      if (lenisRef.current) {
+        lenisRef.current.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenisRef.current?.destroy();
+      lenisRef.current = null;
     };
   }, []);
 
   return (
-    <div className="relative w-full min-h-[200vh] bg-transparent">
+    <div className="relative w-full bg-transparent overflow-hidden">
+      <Cursor />
+      <Noise />
+      
       {/* 3D Background - Fixed behind everything */}
       <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-auto">
         <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
@@ -45,19 +61,12 @@ function App() {
         <Navbar />
         <main>
           <Hero />
-          
-          {/* Mock spacer content to show scrolling */}
-          <section className="min-h-screen flex items-center justify-center px-6 pointer-events-none">
-            <div className="max-w-4xl mx-auto p-10 bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl pointer-events-auto">
-              <h2 className="text-4xl font-bold mb-6 text-[var(--color-accent-cyan)]">Keep Scrolling</h2>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                The content here naturally scrolls over the fixed WebGL canvas in the background. 
-                Because the HTML overlay is structured carefully with CSS pointer-events, your mouse interactions 
-                continue to affect the 3D 'Cryptographic Core' through the transparent areas of the site.
-              </p>
-            </div>
-          </section>
+          <About />
+          <Experience />
+          <Certifications />
         </main>
+        <Footer />
+        <FloatingTerminal />
       </div>
     </div>
   );

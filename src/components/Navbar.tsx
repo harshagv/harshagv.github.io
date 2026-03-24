@@ -2,20 +2,24 @@ import React from 'react';
 import { Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 pointer-events-none">
-      <div className="max-w-7xl mx-auto flex items-center justify-between rounded-2xl bg-black/30 backdrop-blur-md border border-white/10 px-6 py-3 pointer-events-auto">
-        <div className="text-xl font-bold tracking-tighter text-white">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl z-50 pointer-events-none">
+      <div className="flex items-center justify-between rounded-full bg-[#0d1117]/80 backdrop-blur-xl border border-white/10 px-8 py-3 pointer-events-auto shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-all duration-300">
+        <div className="text-xl font-black tracking-tighter text-white mr-12 uppercase cursor-pointer" onClick={() => scrollTo('root')}>
           <span className="text-[var(--color-accent)]">H</span>arsha.
         </div>
-        <ul className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
-          <li className="hover:text-white transition-colors cursor-pointer">Home</li>
-          <li className="hover:text-white transition-colors cursor-pointer">About</li>
-          <li className="hover:text-white transition-colors cursor-pointer">Work</li>
-          <li className="hover:text-white transition-colors cursor-pointer">Contact</li>
+        <ul className="hidden md:flex items-center justify-center space-x-8 text-sm font-medium text-gray-400">
+          <li onClick={() => scrollTo('whoami')} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">About</li>
+          <li onClick={() => scrollTo('work')} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Stations</li>
+          <li onClick={() => scrollTo('certs')} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Certs</li>
+          <li onClick={() => scrollTo('contact')} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Contact</li>
         </ul>
         <button className="md:hidden text-white hover:text-[var(--color-accent)] transition-colors">
-          <Menu className="w-6 h-6" />
+          <Menu className="w-5 h-5" />
         </button>
       </div>
     </nav>
