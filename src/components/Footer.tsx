@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
           <a href="https://www.linkedin.com/in/harshagv/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:-translate-y-1 transition-transform">
             <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/linkedin.svg" alt="LinkedIn" className="w-6 h-6 filter invert opacity-60 hover:opacity-100 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all" />
           </a>
-          <a href="https://medium.com/@harsha.gv29" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:-translate-y-1 transition-transform">
+          <a href="https://medium.com/@harshagv" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:-translate-y-1 transition-transform">
             <img src="https://cdn.jsdelivr.net/npm/simple-icons@11.4.0/icons/medium.svg" alt="Medium" className="w-6 h-6 filter invert opacity-60 hover:opacity-100 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all" />
           </a>
           <a href="https://www.credly.com/users/harshagv" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:-translate-y-1 transition-transform">
