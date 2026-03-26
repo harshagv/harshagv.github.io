@@ -1,9 +1,12 @@
+// vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/', // this is '/' for a custom domain
+  base: '/', // Correct for https://www.harshagv.me/
+  build: {
+    outDir: 'dist', // Ensure output goes to 'dist'
+  }
 })
