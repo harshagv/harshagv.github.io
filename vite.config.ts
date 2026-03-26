@@ -6,7 +6,4 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: '/', // Correct for https://www.harshagv.me/
-  build: {
-    outDir: 'dist', // Ensure output goes to 'dist'
-  }
 })
