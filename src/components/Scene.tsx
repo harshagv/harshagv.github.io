@@ -15,12 +15,13 @@ const CyberAstrolabe: React.FC = () => {
   // Keyframes corresponding to scroll sections:
   // Designed for hyper-dramatic sweeping transitions
   // Designed for hyper-dramatic sweeping transitions
+  // Designed for hyper-dramatic sweeping transitions
   const keyframes = [
     { p: 0.00, pos: [3.5, 0, 0], rot: [0, 0, 0], scale: 1.0 },                 
     { p: 0.25, pos: [-2.0, -0.5, -2], rot: [Math.PI, Math.PI/3, Math.PI/2], scale: 1.6 }, // Noticeable cinematic focus without being overwhelming
-    { p: 0.50, pos: [2.5, 1, -4], rot: [0, Math.PI*1.5, Math.PI], scale: 0.8 },   
-    { p: 0.75, pos: [0, 2.0, -2], rot: [Math.PI/4, Math.PI*2, 0], scale: 1.1 },      
-    { p: 1.00, pos: [0, 0, 2], rot: [Math.PI*2, Math.PI*2, Math.PI/2], scale: 1.3 },             
+    { p: 0.50, pos: [2.5, 1, -4], rot: [0, Math.PI*1.5, Math.PI], scale: 0.8 }, // Experience / Threat Model
+    { p: 0.75, pos: [-4.0, -2.0, -10], rot: [Math.PI, 0, Math.PI*3], scale: 0.4 }, // Aggressive dive & triple-spin before Certs
+    { p: 1.00, pos: [0, 0, 2], rot: [Math.PI*2, Math.PI*2, Math.PI/2], scale: 1.3 }, // Final framing in Certs             
   ];
 
   useFrame((state, delta) => {

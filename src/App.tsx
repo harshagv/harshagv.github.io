@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar';
@@ -11,11 +11,17 @@ import Footer from './components/Footer';
 import Cursor from './components/Cursor';
 import Noise from './components/Noise';
 import FloatingTerminal from './components/FloatingTerminal';
+import BootSequence from './components/BootSequence';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
+  const [booted, setBooted] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // DO NOT INITIATE ENGINE UNTIL BOOT FINISHES
+    if (!booted) return;
+
     // Initialize smooth scrolling wrapper
     lenisRef.current = new Lenis({
       duration: 1.2,
@@ -44,12 +50,18 @@ function App() {
       lenisRef.current?.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, [booted]);
 
   return (
     <div className="relative w-full bg-transparent overflow-hidden">
-      <Cursor />
-      <Noise />
+      <AnimatePresence>
+        {!booted && <BootSequence onComplete={() => setBooted(true)} />}
+      </AnimatePresence>
+
+      {/* Freeze ALL interactive rendering until Boot sequence finishes clearing */}
+      <div className={`transition-opacity duration-1000 ${booted ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+        <Cursor />
+        <Noise />
       
       {/* 3D Background - Fixed behind everything */}
       <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-auto">
@@ -69,6 +81,8 @@ function App() {
         </main>
         <Footer />
         <FloatingTerminal />
+      </div>
+      
       </div>
     </div>
   );

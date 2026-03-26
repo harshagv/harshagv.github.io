@@ -42,8 +42,25 @@ const badges = [
 
 const Certifications: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const revealWrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    
+    // 0. The Aggressive Sub-Section Aperture Mask Effect (Opens Vault Door to Certifications)
+    gsap.fromTo(revealWrapperRef.current,
+      { clipPath: "circle(0% at 50% 100%)" },
+      {
+        clipPath: "circle(150% at 50% 100%)",
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 90%", // When top of Certs enters screen
+          end: "top 10%", // Finishes before Certs pushes off
+          scrub: true,
+        }
+      }
+    );
+
     // 1. Text list items progressive fade + slide
     gsap.utils.toArray('.cert-list-item').forEach((item: any, i: number) => {
       gsap.fromTo(item,
@@ -85,12 +102,16 @@ const Certifications: React.FC = () => {
   }, { scope: containerRef });
 
   return (
-    <section id="certs" ref={containerRef} className="relative py-24 px-6 pointer-events-none overflow-hidden">
-      {/* Dark overlay to ensure text contrasts cleanly against the bright 3D astrolabe */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent -z-10" />
+    <section id="certs" ref={containerRef} className="relative py-24 pointer-events-none min-h-screen">
       
-      <div className="max-w-6xl mx-auto z-10 pointer-events-auto mt-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      {/* Target of the huge Circular Clip Path vault door effect */}
+      <div ref={revealWrapperRef} className="absolute inset-0 pt-24 px-6 overflow-hidden">
+        
+        {/* Dark overlay to ensure text contrasts cleanly against the bright 3D astrolabe */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent -z-10" />
+        
+        <div className="max-w-6xl mx-auto z-10 pointer-events-auto mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
           {/* Certificates */}
           <div>
@@ -122,6 +143,7 @@ const Certifications: React.FC = () => {
           </div>
           
         </div>
+      </div>
       </div>
     </section>
   );

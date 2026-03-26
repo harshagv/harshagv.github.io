@@ -2,14 +2,32 @@ import React from 'react';
 import { Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
-  const scrollTo = (id: string) => {
+  const scrollTo = (id: string, e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    
+    const lenis = (window as any).lenis;
+    
     if (id === 'root') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const el = document.getElementById(id);
-      if (el) {
-        // Raw DOM math is completely immune to Virtual DOM or plugin hijacking
-        const yOffset = el.getBoundingClientRect().top + window.scrollY;
+      if (lenis) lenis.scrollTo(0, { duration: 1.2, force: true });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (id === 'whoami') {
+      const targetY = window.innerHeight; // Mathematically guaranteed 100vh offset
+      if (lenis) lenis.scrollTo(targetY, { duration: 1.2, force: true });
+      else window.scrollTo({ top: targetY, behavior: 'smooth' });
+      return;
+    }
+
+    const el = document.getElementById(id);
+    if (el) {
+      // Calculate exact absolute pixel distance from top of document
+      const yOffset = el.getBoundingClientRect().top + window.scrollY;
+      
+      if (lenis) {
+        lenis.scrollTo(yOffset, { duration: 1.2, force: true });
+      } else {
         window.scrollTo({ top: yOffset, behavior: 'smooth' });
       }
     }
