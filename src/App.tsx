@@ -12,6 +12,7 @@ import Cursor from './components/Cursor';
 import Noise from './components/Noise';
 import FloatingTerminal from './components/FloatingTerminal';
 import BootSequence from './components/BootSequence';
+import ScrollKinetics from './components/ScrollKinetics';
 import { AnimatePresence } from 'framer-motion';
 
 function App() {
@@ -62,27 +63,28 @@ function App() {
       <div className={`transition-opacity duration-1000 ${booted ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
         <Cursor />
         <Noise />
-      
-      {/* 3D Background - Fixed behind everything */}
-      <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-auto">
-        <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-          <Scene />
-        </Canvas>
-      </div>
 
-      {/* DOM Foreground Content */}
-      <div className="relative z-10 w-full pointer-events-none">
-        <Navbar />
-        <main>
-          <Hero />
-          <About />
-          <Experience />
-          <Certifications />
-        </main>
-        <Footer />
-        <FloatingTerminal />
-      </div>
-      
+        {/* 3D Background - Fixed behind everything */}
+        <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-auto">
+          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+            <Scene />
+          </Canvas>
+        </div>
+
+        {/* DOM Foreground Content */}
+        <div className="relative z-10 w-full pointer-events-none">
+          <Navbar />
+          <main>
+            <Hero />
+            <About />
+            <Experience />
+            <ScrollKinetics />
+            <Certifications />
+          </main>
+          <Footer />
+          <FloatingTerminal />
+        </div>
+
       </div>
     </div>
   );
