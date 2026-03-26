@@ -26,6 +26,8 @@ function App() {
       touchMultiplier: 2,
     });
 
+    (window as any).lenis = lenisRef.current; // Expose globally for Navbar routing
+
     let rafId: number;
 
     function raf(time: number) {

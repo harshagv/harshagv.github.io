@@ -128,10 +128,13 @@ const Hero: React.FC = () => {
           
           <motion.div variants={item} className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 pointer-events-auto">
             <button 
-              onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden hover:-translate-y-1"
+              onClick={() => {
+                const el = document.getElementById('work');
+                if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
+              }}
             >
-              <span className="relative z-10 font-mono uppercase tracking-widest text-sm">View Threat Model</span>
+              <span className="relative z-10 font-mono uppercase tracking-widest text-sm">Explore Battle Stations</span>
             </button>
             <button 
               onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}

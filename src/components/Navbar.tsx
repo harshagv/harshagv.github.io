@@ -3,7 +3,16 @@ import { Menu } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (id === 'root') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        // Raw DOM math is completely immune to Virtual DOM or plugin hijacking
+        const yOffset = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: yOffset, behavior: 'smooth' });
+      }
+    }
   };
 
   return (

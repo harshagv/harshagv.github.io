@@ -14,12 +14,13 @@ const CyberAstrolabe: React.FC = () => {
 
   // Keyframes corresponding to scroll sections:
   // Designed for hyper-dramatic sweeping transitions
+  // Designed for hyper-dramatic sweeping transitions
   const keyframes = [
     { p: 0.00, pos: [3.5, 0, 0], rot: [0, 0, 0], scale: 1.0 },                 
-    { p: 0.25, pos: [-4.0, -1, -4], rot: [Math.PI, Math.PI/4, Math.PI], scale: 1.4 }, 
-    { p: 0.50, pos: [4.0, 1, -8], rot: [0, Math.PI, Math.PI/2], scale: 0.6 },   
-    { p: 0.75, pos: [0, 3.5, -2], rot: [Math.PI/2, Math.PI*2, 0], scale: 0.9 },      
-    { p: 1.00, pos: [0, 0, 3], rot: [Math.PI*2, Math.PI*2, Math.PI], scale: 1.6 },             
+    { p: 0.25, pos: [-2.0, -0.5, -2], rot: [Math.PI, Math.PI/3, Math.PI/2], scale: 1.6 }, // Noticeable cinematic focus without being overwhelming
+    { p: 0.50, pos: [2.5, 1, -4], rot: [0, Math.PI*1.5, Math.PI], scale: 0.8 },   
+    { p: 0.75, pos: [0, 2.0, -2], rot: [Math.PI/4, Math.PI*2, 0], scale: 1.1 },      
+    { p: 1.00, pos: [0, 0, 2], rot: [Math.PI*2, Math.PI*2, Math.PI/2], scale: 1.3 },             
   ];
 
   useFrame((state, delta) => {
@@ -28,7 +29,7 @@ const CyberAstrolabe: React.FC = () => {
     const rawScrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
 
     // Physics Engine: Dampen the scroll progress organically for massive cinematic weight
-    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, rawScrollProgress, 4, delta);
+    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, rawScrollProgress, 3, delta);
     const scrollProgress = smoothedScroll.current;
 
     // Calculate current keyframe segment

@@ -36,7 +36,8 @@ const badges = [
   { img: "https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white", link: "https://www.virtualbox.org/" },
   { img: "https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white", link: "https://www.datadoghq.com/" },
   { img: "https://img.shields.io/badge/ELK_Stack-005571?style=for-the-badge&logo=elasticstack&logoColor=white", link: "https://www.elastic.co/" },
-  { img: "https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white", link: "https://www.splunk.com/" }
+  { img: "https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white", link: "https://www.splunk.com/" },
+  { img: "https://img.shields.io/badge/Teleport-18181A?style=for-the-badge&logo=teleport&logoColor=white", link: "https://goteleport.com/" }
 ];
 
 const Certifications: React.FC = () => {
@@ -84,8 +85,11 @@ const Certifications: React.FC = () => {
   }, { scope: containerRef });
 
   return (
-    <section id="certs" ref={containerRef} className="py-24 px-6 pointer-events-none">
-      <div className="max-w-6xl mx-auto z-10 pointer-events-auto">
+    <section id="certs" ref={containerRef} className="relative py-24 px-6 pointer-events-none overflow-hidden">
+      {/* Dark overlay to ensure text contrasts cleanly against the bright 3D astrolabe */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent -z-10" />
+      
+      <div className="max-w-6xl mx-auto z-10 pointer-events-auto mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
           {/* Certificates */}
