@@ -3,9 +3,9 @@ import { Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer id="contact" className="py-12 border-t border-white/10 bg-black/50 backdrop-blur-md pointer-events-auto mt-20">
+    <footer id="contact" className="py-12 border-t border-white/10 bg-black/50 backdrop-blur-md pointer-events-auto">
       <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-        
+
         <div className="mb-6 md:mb-0">
           <p className="font-mono text-sm text-gray-500">
             &copy; {new Date().getFullYear()} Harsha G V · Built like a hardened container image · No plaintext secrets, ever.

@@ -45,7 +45,6 @@ const Certifications: React.FC = () => {
   const revealWrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 0. The Aggressive Sub-Section Aperture Mask Effect
     gsap.fromTo(revealWrapperRef.current,
       { clipPath: "circle(0% at 50% 100%)" },
       {
@@ -60,54 +59,39 @@ const Certifications: React.FC = () => {
       }
     );
 
-    // 1. Text list items progressive fade + slide
-    gsap.utils.toArray<HTMLElement>('.cert-list-item').forEach((item, i) => {
+    gsap.utils.toArray('.cert-list-item').forEach((item: any, i: number) => {
       gsap.fromTo(item,
         { opacity: 0, x: -30 },
         {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          delay: (i % 8) * 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 90%",
-            toggleActions: "play none none reverse"
-          }
+          opacity: 1, x: 0, duration: 0.8, delay: (i % 8) * 0.1, ease: "power2.out",
+          scrollTrigger: { trigger: item, start: "top 90%", toggleActions: "play none none reverse" }
         }
       );
     });
 
-    // 2. Badges pop with an Apple-style spring back bounce
-    gsap.utils.toArray<HTMLElement>('.badge-item').forEach((badge, i) => {
+    gsap.utils.toArray('.badge-item').forEach((badge: any, i: number) => {
       gsap.fromTo(badge,
         { opacity: 0, scale: 0.5, y: 30 },
         {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.8,
-          delay: (i % 5) * 0.1,
-          ease: "back.out(1.5)",
-          scrollTrigger: {
-            trigger: badge,
-            start: "top 95%",
-            toggleActions: "play none none reverse"
-          }
+          opacity: 1, scale: 1, y: 0, duration: 0.8, delay: (i % 5) * 0.1, ease: "back.out(1.5)",
+          scrollTrigger: { trigger: badge, start: "top 95%", toggleActions: "play none none reverse" }
         }
       );
     });
   }, { scope: containerRef });
 
   return (
-    <section id="certs" ref={containerRef} className="relative pointer-events-none min-h-screen">
-      {/* Container controlled height */}
-      <div ref={revealWrapperRef} className="relative w-full h-full min-h-screen py-24 px-6 overflow-hidden flex items-center">
+    <section id="certs" ref={containerRef} className="relative pointer-events-none h-auto">
+
+      {/* FIX 1: Removed `flex items-center` so the content isn't pulled up to the top */}
+      <div ref={revealWrapperRef} className="relative w-full h-full overflow-hidden">
 
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent -z-10" />
 
-        <div className="max-w-6xl mx-auto w-full z-10 pointer-events-auto">
+        {/* FIX 2: Added `pt-36 pb-24`. 
+            pt-36 (144px) perfectly matches your original code's spacing (pt-24 + mt-12).
+            This pushes the text back down, forcing the user to scroll past the black background of the previous section! */}
+        <div className="max-w-6xl mx-auto w-full z-10 pointer-events-auto pt-36 pb-24 px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
             {/* Certificates */}
