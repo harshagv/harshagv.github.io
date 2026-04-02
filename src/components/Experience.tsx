@@ -39,30 +39,39 @@ const Experience: React.FC = () => {
       });
     }
 
-    // 2. Vertical reveals for Risk and Learning blocks
+    // 2. Cinematic 3D Parallax Scrubbing for Risk and Learning blocks
     gsap.utils.toArray('.reveal-card').forEach((card: any) => {
       gsap.fromTo(card, 
-        { autoAlpha: 0, y: 100, scale: 0.95 },
+        { autoAlpha: 0, y: 150, rotationX: -15, scale: 0.95, transformPerspective: 1000 },
         { 
           autoAlpha: 1, 
           y: 0, 
+          rotationX: 0,
           scale: 1,
-          duration: 1.5, 
-          ease: "power3.out",
           scrollTrigger: {
             trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
+            start: "top 95%",
+            end: "top 40%",
+            scrub: 1 // Ties directly to the 3D scroll mass
           }
         }
       );
     });
 
-    gsap.utils.toArray('.reveal-text').forEach((text: any, i: number) => {
+    // 3. Cyber Blur Decrypt scrubbing for list items
+    gsap.utils.toArray('.reveal-text').forEach((text: any) => {
       gsap.fromTo(text,
-        { autoAlpha: 0, x: -50 },
-        { autoAlpha: 1, x: 0, duration: 1, delay: i * 0.1, ease: "power2.out",
-          scrollTrigger: { trigger: text, start: "top 90%", toggleActions: "play none none reverse" }
+        { autoAlpha: 0, x: -40, filter: "blur(10px)" },
+        { 
+          autoAlpha: 1, 
+          x: 0, 
+          filter: "blur(0px)",
+          scrollTrigger: { 
+            trigger: text, 
+            start: "top 95%", 
+            end: "top 70%",
+            scrub: 1 
+          }
         }
       );
     });

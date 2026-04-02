@@ -65,8 +65,8 @@ function App() {
         <Noise />
 
         {/* 3D Background - Fixed behind everything */}
-        <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-auto">
-          <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
+        <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
+          <Canvas camera={{ position: [0, 0, 8], fov: 45 }} eventSource={document.body} eventPrefix="client">
             <Scene />
           </Canvas>
         </div>
