@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Scene from './components/Scene';
@@ -20,10 +22,7 @@ function App() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // DO NOT INITIATE ENGINE UNTIL BOOT FINISHES
-    if (!booted) return;
-
-    // Initialize smooth scrolling wrapper
+    // 1. Initialize Lenis IMMEDIATELY so the absolute DOM height establishes itself
     lenisRef.current = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -51,6 +50,19 @@ function App() {
       lenisRef.current?.destroy();
       lenisRef.current = null;
     };
+  }, []);
+
+  // 2. Lock / Unlock system routing based on Boot Hook
+  useEffect(() => {
+    if (!booted) {
+      if (lenisRef.current) lenisRef.current.stop();
+      window.scrollTo(0,0);
+    } else {
+      if (lenisRef.current) lenisRef.current.start();
+      // CRITICAL: Refresh all GSAP Pin calculations right as the Boot overlay releases the lock
+      // This forces the physics engine to trace the correct coordinates instead of crashing at 0
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+    }
   }, [booted]);
 
   return (
@@ -59,8 +71,8 @@ function App() {
         {!booted && <BootSequence onComplete={() => setBooted(true)} />}
       </AnimatePresence>
 
-      {/* Freeze ALL interactive rendering until Boot sequence finishes clearing */}
-      <div className={`transition-opacity duration-1000 ${booted ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'}`}>
+      {/* Freeze ONLY visual opacity but leave layout exact, allowing GSAP to map from ms 1 */}
+      <div className={`transition-opacity duration-1000 ${booted ? 'opacity-100' : 'opacity-0'}`}>
         <Cursor />
         <Noise />
 

@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
     const target = id === 'root' ? 0 : `#${id}`;
 
     if (lenis) {
-      lenis.scrollTo(target, { duration: 1.2, force: true });
+      lenis.scrollTo(target, { duration: 1.2, force: true, offset: 0 });
     } else {
       if (id === 'root') window.scrollTo({ top: 0, behavior: 'smooth' });
       else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
