@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Lenis from 'lenis';
-import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
