@@ -17,31 +17,23 @@ const About: React.FC = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 1. Cinematic Entry: Decoupled opacity/scale from the rigid pin scrub
+    // Restored: The "Appearing from nowhere" scrub effect
     gsap.fromTo(terminalRef.current,
       { opacity: 0, scale: 0.85, y: 150 },
       {
         opacity: 1,
         scale: 1,
         y: 0,
-        duration: 1.5,
-        ease: "power3.out",
+        ease: "power2.out",
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 85%', // Fades in smoothly prior to reaching the top
-          toggleActions: "play none none reverse"
+          start: 'top top',
+          end: '+=100%',
+          pin: true,
+          scrub: 1.5 // This ties the animation back to your scrollbar!
         }
       }
     );
-
-    // 2. Strict Position Pinning
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: 'top top',
-      end: '+=100%',
-      pin: true,
-      // No scrubbing opacity here — this stops the invisible trap!
-    });
   }, { scope: containerRef });
 
   useEffect(() => {
@@ -58,8 +50,9 @@ const About: React.FC = () => {
   }, []);
 
   return (
-    <section id="whoami" ref={containerRef} className="h-screen w-full flex items-center justify-center px-6 pointer-events-none">
-      <div className="max-w-4xl mx-auto w-full z-10 pointer-events-auto">
+    <div id="whoami" className="relative z-20 w-full">
+      <section ref={containerRef} className="relative z-20 h-screen w-full flex items-center justify-center px-6 pointer-events-none">
+        <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
             className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden"
@@ -100,6 +93,7 @@ const About: React.FC = () => {
           </div>
         </div>
       </section>
+    </div>
   );
 };
 

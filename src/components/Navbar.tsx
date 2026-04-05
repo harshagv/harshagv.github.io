@@ -11,8 +11,8 @@ const Navbar: React.FC = () => {
     const target = id === 'root' ? 0 : `#${id}`;
 
     if (lenis) {
-      // Intentionally clip slightly deep into the whoami block to resolve boundary stalling
-      const yOffset = id === 'whoami' ? 50 : 0;
+      // Scroll 80% into the pinned section so the scrub animation is almost finished and the box is visible
+      const yOffset = id === 'whoami' ? window.innerHeight * 0.8 : 0;
       lenis.scrollTo(target, { duration: 1.2, force: true, offset: yOffset });
     } else {
       if (id === 'root') window.scrollTo({ top: 0, behavior: 'smooth' });
