@@ -15,9 +15,16 @@ const About: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
   const containerRef = useRef<HTMLElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Restored: The "Appearing from nowhere" scrub effect
+    const getScrollAmount = () => {
+      const textHeight = textRef.current?.scrollHeight || 0;
+      const containerHeight = textRef.current?.parentElement?.clientHeight || 0;
+      return Math.max(0, textHeight - containerHeight + 80); // +80 for bottom buffer clearance
+    };
+
+    // 1. Terminal Entry Effect (No pinning here, finishes cleanly by 100% viewport)
     gsap.fromTo(terminalRef.current,
       { opacity: 0, scale: 0.85, y: 150 },
       {
@@ -28,12 +35,26 @@ const About: React.FC = () => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: '+=100%',
-          pin: true,
-          scrub: 1.5 // This ties the animation back to your scrollbar!
+          end: '+=80%',
+          scrub: 1.5
         }
       }
     );
+
+    // 2. Cinematic Text Scrub & Master Viewport Pin
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: 'top top',
+      end: () => `+=${Math.max(window.innerHeight, getScrollAmount())}`,
+      pin: true,
+      animation: gsap.to(textRef.current, {
+        y: () => -getScrollAmount(),
+        ease: "none",
+      }),
+      scrub: 1,
+      invalidateOnRefresh: true, // Auto-recalc if device rotates
+    });
+
   }, { scope: containerRef });
 
   useEffect(() => {
@@ -73,21 +94,23 @@ const About: React.FC = () => {
             </div>
 
             {/* Terminal Body */}
-            <div className="p-6 md:p-8 font-mono overflow-y-auto overscroll-contain" data-lenis-prevent="true">
-              <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
-              <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
-                {displayText}
-                <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
-              </div>
+            <div className="p-6 md:p-8 font-mono overflow-hidden relative flex-1">
+              <div ref={textRef} className="pb-8">
+                <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
+                <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
+                  {displayText}
+                  <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
+                </div>
 
-              <div className="mt-10 pt-6 border-t border-[#30363d] border-dashed">
-                <p className="text-white mb-4 text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
-                <ul className="text-[var(--color-accent)] space-y-2 text-lg">
-                  <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
-                </ul>
+                <div className="mt-10 pt-6 border-t border-[#30363d] border-dashed">
+                  <p className="text-white mb-4 text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
+                  <ul className="text-[var(--color-accent)] space-y-2 text-lg">
+                    <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
+                    <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
+                    <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
+                    <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
