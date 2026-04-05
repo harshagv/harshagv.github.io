@@ -11,8 +11,18 @@ const Navbar: React.FC = () => {
     const target = id === 'root' ? 0 : `#${id}`;
 
     if (lenis) {
-      // Scroll 80% into the pinned section so the scrub animation is almost finished and the box is visible
-      const yOffset = id === 'whoami' ? window.innerHeight * 0.8 : 0;
+      // Check if we are on mobile (under 768px)
+      const isMobile = window.innerWidth < 768;
+      
+      // If mobile: offset by -80px to clear the sticky navbar. 
+      // If desktop: offset by 80% of screen height to clear the GSAP pin.
+      let yOffset = 0;
+      if (id === 'whoami') {
+        yOffset = isMobile ? -80 : window.innerHeight * 0.8;
+      } else {
+        yOffset = isMobile ? -80 : 0; // Good practice to clear navbar for all sections on mobile
+      }
+
       lenis.scrollTo(target, { duration: 1.2, force: true, offset: yOffset });
     } else {
       if (id === 'root') window.scrollTo({ top: 0, behavior: 'smooth' });

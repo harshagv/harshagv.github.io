@@ -15,46 +15,43 @@ const About: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
   const containerRef = useRef<HTMLElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-
   useGSAP(() => {
-    const getScrollAmount = () => {
-      const textHeight = textRef.current?.scrollHeight || 0;
-      const containerHeight = textRef.current?.parentElement?.clientHeight || 0;
-      return Math.max(0, textHeight - containerHeight + 80); // +80 for bottom buffer clearance
-    };
+    let mm = gsap.matchMedia();
 
-    // 1. Terminal Entry Effect (No pinning here, finishes cleanly by 100% viewport)
-    gsap.fromTo(terminalRef.current,
-      { opacity: 0, scale: 0.85, y: 150 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: '+=80%',
-          scrub: 1.5
+    // 1. DESKTOP (768px and above): Pin the terminal
+    mm.add("(min-width: 768px)", () => {
+      gsap.fromTo(terminalRef.current,
+        { opacity: 0, scale: 0.85, y: 150 },
+        {
+          opacity: 1, scale: 1, y: 0, ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top top',
+            end: '+=100%',
+            pin: true,
+            scrub: 1.5
+          }
         }
-      }
-    );
-
-    // 2. Cinematic Text Scrub & Master Viewport Pin
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: 'top top',
-      end: () => `+=${Math.max(window.innerHeight, getScrollAmount())}`,
-      pin: true,
-      animation: gsap.to(textRef.current, {
-        y: () => -getScrollAmount(),
-        ease: "none",
-      }),
-      scrub: 1,
-      invalidateOnRefresh: true, // Auto-recalc if device rotates
+      );
     });
 
+    // 2. MOBILE (Under 768px): No pinning, just a smooth fade-in
+    mm.add("(max-width: 767px)", () => {
+      gsap.fromTo(terminalRef.current,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 1, ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 85%', // Fades in as it enters the screen
+            end: 'top 30%',
+            scrub: 1.5
+          }
+        }
+      );
+    });
+
+    return () => mm.revert(); // Cleanup
   }, { scope: containerRef });
 
   useEffect(() => {
@@ -72,11 +69,11 @@ const About: React.FC = () => {
 
   return (
     <div id="whoami" className="relative z-20 w-full">
-      <section ref={containerRef} className="relative z-20 h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none">
+      <section ref={containerRef} className="relative z-20 min-h-[100dvh] py-24 w-full flex items-center justify-center px-4 md:px-6 pointer-events-none">
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[80dvh] md:max-h-[85dvh]"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
@@ -94,8 +91,8 @@ const About: React.FC = () => {
             </div>
 
             {/* Terminal Body */}
-            <div className="p-6 md:p-8 font-mono overflow-hidden relative flex-1">
-              <div ref={textRef} className="pb-8">
+            <div className="p-6 md:p-8 font-mono relative flex-1">
+              <div className="pb-8">
                 <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
                 <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
                   {displayText}

@@ -23,28 +23,32 @@ const Experience: React.FC = () => {
   useGSAP(() => {
     // 1. Horizontal Scroll Jacking for Battle Stations
     if (scrollWrapperRef.current && scrollContentRef.current) {
-      // Instead of relying on gap-blind xPercent arrays, translate the entire continuous flex track length minus the viewport
+      
+      const getScrollAmount = () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 60);
+      
       gsap.to(scrollContentRef.current, {
-        x: () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 50), // 50px buffer ensures the final card clears the right-edge on mobile
+        x: getScrollAmount,
         ease: "none",
         scrollTrigger: {
           trigger: scrollWrapperRef.current,
           pin: true,
-          scrub: 1,
-          start: "center center",
+          scrub: 1, // Lenis and GSAP prefer `1` damping to prevent hyperspeed sliding
+          anticipatePin: 1, // Helps neutralize DOM shifts
+          // Engage exactly at the Navbar boundary on Mobile so the first card is beautifully staged upon landing
+          start: () => window.innerWidth < 768 ? "top 80px" : "top top", 
           end: () => `+=${scrollContentRef.current!.scrollWidth}`,
-          invalidateOnRefresh: true, // Auto-recalculate Math if mobile orientation flips
+          invalidateOnRefresh: true,
         }
       });
     }
 
     // 2. Cinematic 3D Parallax Scrubbing for Risk and Learning blocks
     gsap.utils.toArray('.reveal-card').forEach((card: any) => {
-      gsap.fromTo(card, 
+      gsap.fromTo(card,
         { autoAlpha: 0, y: 150, rotationX: -15, scale: 0.95, transformPerspective: 1000 },
-        { 
-          autoAlpha: 1, 
-          y: 0, 
+        {
+          autoAlpha: 1,
+          y: 0,
           rotationX: 0,
           scale: 1,
           scrollTrigger: {
@@ -61,15 +65,15 @@ const Experience: React.FC = () => {
     gsap.utils.toArray('.reveal-text').forEach((text: any) => {
       gsap.fromTo(text,
         { autoAlpha: 0, x: -40, filter: "blur(10px)" },
-        { 
-          autoAlpha: 1, 
-          x: 0, 
+        {
+          autoAlpha: 1,
+          x: 0,
           filter: "blur(0px)",
-          scrollTrigger: { 
-            trigger: text, 
-            start: "top 95%", 
+          scrollTrigger: {
+            trigger: text,
+            start: "top 95%",
             end: "top 70%",
-            scrub: 1 
+            scrub: 1
           }
         }
       );
@@ -78,10 +82,10 @@ const Experience: React.FC = () => {
   }, { scope: containerRef });
 
   return (
-    <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-hidden">
-      
+    <section id="work" ref={containerRef} className="pointer-events-none relative w-full overflow-hidden">
+
       {/* Horizontal Scroll Wrapper */}
-      <div ref={scrollWrapperRef} className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
+      <div ref={scrollWrapperRef} className="h-[100dvh] w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-b border-[#30363d]/50">
         <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
           <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4">Security Battle Stations</h2>
           <p className="text-gray-400 text-lg md:text-xl pl-6">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>
@@ -90,7 +94,7 @@ const Experience: React.FC = () => {
         <div className="w-full overflow-hidden flex items-center">
           <div ref={scrollContentRef} className="flex gap-8 px-[5vw] w-max items-stretch pb-12">
             {stations.map((s, i) => (
-              <div 
+              <div
                 key={i}
                 className="station-card shrink-0 w-[350px] md:w-[450px] min-h-[300px] bg-[#0d1117]/80 backdrop-blur-xl border border-[#30363d] rounded-2xl p-8 flex flex-col justify-between shadow-2xl hover:border-[var(--color-accent)] transition-colors duration-300"
               >
@@ -111,7 +115,7 @@ const Experience: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto z-10 pointer-events-auto px-6 mt-32">
+      <div className="max-w-6xl mx-auto z-10 pointer-events-auto px-6 mt-8 md:mt-32">
         {/* Threat Model Section */}
         <div className="reveal-card bg-gradient-to-br from-[#0d1117]/90 to-black/90 border border-[var(--color-accent-cyan)]/20 rounded-2xl p-8 md:p-12 backdrop-blur-md shadow-2xl">
           <h3 className="text-2xl md:text-4xl font-black text-white mb-8 border-l-4 border-[#0CAFFF] pl-6">How I Think About Risk</h3>

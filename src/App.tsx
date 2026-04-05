@@ -17,6 +17,8 @@ import BootSequence from './components/BootSequence';
 import ScrollKinetics from './components/ScrollKinetics';
 import { AnimatePresence } from 'framer-motion';
 
+gsap.registerPlugin(ScrollTrigger);
+
 function App() {
   const [booted, setBooted] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
@@ -50,7 +52,7 @@ function App() {
   useEffect(() => {
     if (!booted) {
       if (lenisRef.current) lenisRef.current.stop();
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     } else {
       if (lenisRef.current) lenisRef.current.start();
       // CRITICAL: Refresh all GSAP Pin calculations right as the Boot overlay releases the lock
