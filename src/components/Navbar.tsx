@@ -1,14 +1,19 @@
-import React from 'react';
-import { Menu } from 'lucide-react';
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const scrollTo = (id: string, e?: React.MouseEvent) => {
     if (e) e.preventDefault();
+    setIsOpen(false); // Close mobile menu when a link is clicked
     const lenis = (window as any).lenis;
     const target = id === 'root' ? 0 : `#${id}`;
 
     if (lenis) {
-      lenis.scrollTo(target, { duration: 1.2, force: true, offset: 0 });
+      // Intentionally clip slightly deep into the whoami block to resolve boundary stalling
+      const yOffset = id === 'whoami' ? 50 : 0;
+      lenis.scrollTo(target, { duration: 1.2, force: true, offset: yOffset });
     } else {
       if (id === 'root') window.scrollTo({ top: 0, behavior: 'smooth' });
       else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -27,10 +32,20 @@ const Navbar: React.FC = () => {
           <li><a href="#certs" onClick={(e) => scrollTo('certs', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Certs</a></li>
           <li><a href="#contact" onClick={(e) => scrollTo('contact', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Contact</a></li>
         </ul>
-        <button className="md:hidden text-white hover:text-[var(--color-accent)] transition-colors">
-          <Menu className="w-5 h-5" />
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white hover:text-[var(--color-accent)] transition-colors relative z-[60]">
+          {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
+
+      {/* Mobile Popdown Menu */}
+      {isOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full mt-4 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-6 pointer-events-auto flex flex-col gap-6 shadow-2xl">
+          <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="text-gray-300 hover:text-white font-medium text-lg">About</a>
+          <a href="#work" onClick={(e) => scrollTo('work', e)} className="text-gray-300 hover:text-white font-medium text-lg">Stations</a>
+          <a href="#certs" onClick={(e) => scrollTo('certs', e)} className="text-gray-300 hover:text-white font-medium text-lg">Certs</a>
+          <a href="#contact" onClick={(e) => scrollTo('contact', e)} className="text-gray-300 hover:text-white font-medium text-lg">Contact</a>
+        </div>
+      )}
     </nav>
   );
 };

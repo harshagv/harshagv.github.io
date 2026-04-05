@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -21,8 +22,7 @@ function App() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // 1. Initialize Lenis IMMEDIATELY so the absolute DOM height establishes itself
-    lenisRef.current = new Lenis({
+    const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
@@ -31,22 +31,17 @@ function App() {
       touchMultiplier: 2,
     });
 
-    (window as any).lenis = lenisRef.current; // Expose globally for Navbar routing
+    lenisRef.current = lenis;
+    (window as any).lenis = lenis; // Expose globally for Navbar routing
 
-    let rafId: number;
-
-    function raf(time: number) {
-      if (lenisRef.current) {
-        lenisRef.current.raf(time);
-        rafId = requestAnimationFrame(raf);
-      }
-    }
-
-    rafId = requestAnimationFrame(raf);
+    // ✅ THE BRIDGE — without this, GSAP and Lenis are blind to each other
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
-      lenisRef.current?.destroy();
+      lenis.destroy();
+      gsap.ticker.remove((time) => lenis.raf(time * 1000));
       lenisRef.current = null;
     };
   }, []);

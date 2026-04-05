@@ -101,9 +101,9 @@ const Certifications: React.FC = () => {
 
               <ol className="pl-6 space-y-4">
                 {certs.map((c, i) => (
-                  <li key={i} className="cert-list-item flex items-center text-gray-300 group">
-                    <span className="text-[var(--color-accent)] mr-4 whitespace-nowrap opacity-50 xl:opacity-100 group-hover:opacity-100 transition-opacity">0{i + 1}.</span>
-                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-accent)] focus:text-[var(--color-accent)] transition-all hover:translate-x-2 outline-none">
+                  <li key={i} className="cert-list-item flex items-start md:items-center text-white text-lg group">
+                    <span className="text-[var(--color-accent)] mr-4 mt-1 md:mt-0 font-bold opacity-50 xl:opacity-100 group-hover:opacity-100 transition-opacity whitespace-nowrap">0{i + 1}.</span>
+                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="font-bold hover:text-[var(--color-accent)] focus:text-[var(--color-accent)] transition-all hover:translate-x-2 outline-none">
                       {c.name}
                     </a>
                   </li>

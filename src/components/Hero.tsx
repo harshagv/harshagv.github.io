@@ -69,7 +69,7 @@ const RollingText: React.FC<{ titles: string[] }> = ({ titles }) => {
           initial={{ y: '120%', opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: '-120%', opacity: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="whitespace-nowrap"
         >
           {titles[index]}
@@ -151,12 +151,12 @@ const Hero: React.FC = () => {
             <button
               className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden hover:-translate-y-1"
               onClick={() => {
-                const el = document.getElementById('work');
-                if (el)
-                  window.scrollTo({
-                    top: el.getBoundingClientRect().top + window.scrollY,
-                    behavior: 'smooth',
-                  });
+                const lenis = (window as any).lenis;
+                if (lenis) {
+                  lenis.scrollTo('#work', { duration: 1.2, force: true, offset: 0 });
+                } else {
+                  document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' });
+                }
               }}
             >
               <span className="relative z-10 font-mono uppercase tracking-widest text-sm">
