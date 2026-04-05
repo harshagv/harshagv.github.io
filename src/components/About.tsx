@@ -51,14 +51,14 @@ const About: React.FC = () => {
 
   return (
     <div id="whoami" className="relative z-20 w-full">
-      <section ref={containerRef} className="relative z-20 h-screen w-full flex items-center justify-center px-6 pointer-events-none">
+      <section ref={containerRef} className="relative z-20 h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none">
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] overflow-hidden"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[80dvh] md:max-h-[85dvh]"
           >
             {/* Terminal Header */}
-            <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between">
+            <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
@@ -73,7 +73,7 @@ const About: React.FC = () => {
             </div>
 
             {/* Terminal Body */}
-            <div className="p-6 md:p-8 font-mono">
+            <div className="p-6 md:p-8 font-mono overflow-y-auto overscroll-contain" data-lenis-prevent="true">
               <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
               <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
                 {displayText}
