@@ -82,7 +82,7 @@ const About: React.FC = () => {
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[80dvh] md:max-h-[85dvh]"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden md:max-h-[85dvh]"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
@@ -100,7 +100,7 @@ const About: React.FC = () => {
             </div>
 
             {/* Terminal Body */}
-            <div className="p-6 md:p-8 font-mono overflow-y-auto overscroll-contain" data-lenis-prevent="true">
+            <div className="p-6 md:p-8 font-mono break-words">
               <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
               <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
                 {displayText}
