@@ -23,21 +23,17 @@ const Experience: React.FC = () => {
   useGSAP(() => {
     // 1. Horizontal Scroll Jacking for Battle Stations
     if (scrollWrapperRef.current && scrollContentRef.current) {
-      
-      const getScrollAmount = () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 60);
-      
+      // Instead of relying on gap-blind xPercent arrays, translate the entire continuous flex track length minus the viewport
       gsap.to(scrollContentRef.current, {
-        x: getScrollAmount,
+        x: () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 50), // 50px buffer ensures the final card clears the right-edge on mobile
         ease: "none",
         scrollTrigger: {
           trigger: scrollWrapperRef.current,
           pin: true,
-          scrub: 1, // Lenis and GSAP prefer `1` damping to prevent hyperspeed sliding
-          anticipatePin: 1, // Helps neutralize DOM shifts
-          // Engage exactly at the Navbar boundary on Mobile so the first card is beautifully staged upon landing
-          start: () => window.innerWidth < 768 ? "top 80px" : "top top", 
+          scrub: 1,
+          start: "center center",
           end: () => `+=${scrollContentRef.current!.scrollWidth}`,
-          invalidateOnRefresh: true,
+          invalidateOnRefresh: true, // Auto-recalculate Math if mobile orientation flips
         }
       });
     }
@@ -82,10 +78,10 @@ const Experience: React.FC = () => {
   }, { scope: containerRef });
 
   return (
-    <section id="work" ref={containerRef} className="pointer-events-none relative w-full overflow-hidden">
+    <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-hidden">
 
       {/* Horizontal Scroll Wrapper */}
-      <div ref={scrollWrapperRef} className="h-[100dvh] w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-b border-[#30363d]/50">
+      <div ref={scrollWrapperRef} className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
         <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
           <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4">Security Battle Stations</h2>
           <p className="text-gray-400 text-lg md:text-xl pl-6">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>
@@ -115,7 +111,7 @@ const Experience: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto z-10 pointer-events-auto px-6 mt-8 md:mt-32">
+      <div className="max-w-6xl mx-auto z-10 pointer-events-auto px-6 mt-32">
         {/* Threat Model Section */}
         <div className="reveal-card bg-gradient-to-br from-[#0d1117]/90 to-black/90 border border-[var(--color-accent-cyan)]/20 rounded-2xl p-8 md:p-12 backdrop-blur-md shadow-2xl">
           <h3 className="text-2xl md:text-4xl font-black text-white mb-8 border-l-4 border-[#0CAFFF] pl-6">How I Think About Risk</h3>

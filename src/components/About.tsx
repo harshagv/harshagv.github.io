@@ -15,43 +15,52 @@ const About: React.FC = () => {
   const [displayText, setDisplayText] = useState('');
   const containerRef = useRef<HTMLElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+
   useGSAP(() => {
     let mm = gsap.matchMedia();
 
-    // 1. DESKTOP (768px and above): Pin the terminal
+    // Desktop: Standard Cinematic Scrub & Pin
     mm.add("(min-width: 768px)", () => {
       gsap.fromTo(terminalRef.current,
         { opacity: 0, scale: 0.85, y: 150 },
         {
-          opacity: 1, scale: 1, y: 0, ease: "power2.out",
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
             end: '+=100%',
             pin: true,
-            scrub: 1.5
+            scrub: 1.5 // This ties the animation back to your scrollbar!
           }
         }
       );
     });
 
-    // 2. MOBILE (Under 768px): No pinning, just a smooth fade-in
+    // Mobile: 100% Native Scrolling (No Pin traps)
     mm.add("(max-width: 767px)", () => {
       gsap.fromTo(terminalRef.current,
-        { opacity: 0, y: 50 },
+        { opacity: 0, scale: 0.95, y: 50 },
         {
-          opacity: 1, y: 0, duration: 1, ease: "power2.out",
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: 'top 85%', // Fades in as it enters the screen
-            end: 'top 30%',
-            scrub: 1.5
+            start: 'top 85%',
+            end: 'top 15%',
+            pin: false,
+            scrub: 1
           }
         }
       );
     });
 
-    return () => mm.revert(); // Cleanup
+    // Cleanup matchMedia when component unmounts
+    return () => mm.revert();
   }, { scope: containerRef });
 
   useEffect(() => {
@@ -69,11 +78,11 @@ const About: React.FC = () => {
 
   return (
     <div id="whoami" className="relative z-20 w-full">
-      <section ref={containerRef} className="relative z-20 min-h-[100dvh] py-24 w-full flex items-center justify-center px-4 md:px-6 pointer-events-none">
+      <section ref={containerRef} className="relative z-20 h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none">
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col max-h-[80dvh] md:max-h-[85dvh]"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
@@ -91,23 +100,21 @@ const About: React.FC = () => {
             </div>
 
             {/* Terminal Body */}
-            <div className="p-6 md:p-8 font-mono relative flex-1">
-              <div className="pb-8">
-                <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
-                <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
-                  {displayText}
-                  <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
-                </div>
+            <div className="p-6 md:p-8 font-mono overflow-y-auto overscroll-contain" data-lenis-prevent="true">
+              <h3 className="text-[#F4511E] text-2xl font-bold mb-6 font-sans tracking-tight">$ whoami</h3>
+              <div className="text-[var(--color-accent)] text-lg md:text-xl leading-relaxed whitespace-pre-wrap">
+                {displayText}
+                <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
+              </div>
 
-                <div className="mt-10 pt-6 border-t border-[#30363d] border-dashed">
-                  <p className="text-white mb-4 text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
-                  <ul className="text-[var(--color-accent)] space-y-2 text-lg">
-                    <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
-                    <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
-                    <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
-                    <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
-                  </ul>
-                </div>
+              <div className="mt-10 pt-6 border-t border-[#30363d] border-dashed">
+                <p className="text-white mb-4 text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
+                <ul className="text-[var(--color-accent)] space-y-2 text-lg">
+                  <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
+                  <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
+                  <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
+                  <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
+                </ul>
               </div>
             </div>
           </div>

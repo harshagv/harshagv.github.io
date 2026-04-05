@@ -18,6 +18,8 @@ import ScrollKinetics from './components/ScrollKinetics';
 import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
+// 🔥 FIX: eliminate mobile viewport jump
+ScrollTrigger.normalizeScroll(true);
 
 function App() {
   const [booted, setBooted] = useState(false);
