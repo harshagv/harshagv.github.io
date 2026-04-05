@@ -33,10 +33,11 @@ const ScrollKinetics: React.FC = () => {
             scrollTrigger: {
                 trigger: sectionRef.current,
                 start: 'top top',
-                end: '+=250%',          // pin length — 2.5× viewport height of scroll travel
+                end: () => window.innerWidth < 768 ? '+=80%' : '+=250%', // 80% enables single-swipe navigation on mobile, 2.5x retains deep-scrub depth on desktop
                 pin: true,
                 scrub: 1.2,
                 anticipatePin: 1,
+                invalidateOnRefresh: true, // Re-evaluates target height on layout shift
             },
         });
 
