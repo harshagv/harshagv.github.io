@@ -76,11 +76,11 @@ const About: React.FC = () => {
 
   return (
     <div id="whoami" className="relative z-20 w-full scroll-mt-24">
-      <section ref={containerRef} className="relative z-20 min-h-[100dvh] md:h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none mt-16 md:mt-0">
+      <section ref={containerRef} className="relative z-20 min-h-screen w-full flex items-center justify-center px-4 md:px-6 py-32 pointer-events-none mt-16 md:mt-0">
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-[102dvh] md:max-h-[92dvh]"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden h-auto"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
@@ -97,19 +97,10 @@ const About: React.FC = () => {
               </span>
             </div>
 
-            {/* Terminal Body - Optimized for tall mobile screens */}
+            {/* Terminal Body - Fluid natural height mapping */}
             <div
-              className="p-5 md:p-6 md:pb-14 font-mono break-words flex-1 overflow-y-auto scrollbar-hide min-h-0"
-              style={{
-                msOverflowStyle: 'none',
-                scrollbarWidth: 'none',
-              }}
+              className="p-5 md:p-6 md:pb-14 font-mono break-words flex-1 h-auto"
             >
-              <style dangerouslySetInnerHTML={{
-                __html: `
-                  .scrollbar-hide::-webkit-scrollbar { display: none; }
-                `
-              }} />
 
               <h3 className="text-[#F4511E] text-2xl font-bold mb-4 font-sans tracking-tight">$ whoami</h3>
 
