@@ -80,7 +80,7 @@ const About: React.FC = () => {
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-[98dvh]"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-[102dvh] md:max-h-[92dvh]"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
@@ -97,9 +97,9 @@ const About: React.FC = () => {
               </span>
             </div>
 
-            {/* Terminal Body - Maximized content space */}
+            {/* Terminal Body - Optimized for tall mobile screens */}
             <div
-              className="p-5 md:p-6 font-mono break-words flex-1 overflow-y-auto scrollbar-hide min-h-0"
+              className="p-5 md:p-6 md:pb-14 font-mono break-words flex-1 overflow-y-auto scrollbar-hide min-h-0"
               style={{
                 msOverflowStyle: 'none',
                 scrollbarWidth: 'none',
@@ -113,24 +113,24 @@ const About: React.FC = () => {
 
               <h3 className="text-[#F4511E] text-2xl font-bold mb-4 font-sans tracking-tight">$ whoami</h3>
 
-              <div className="text-[var(--color-accent)] text-base md:text-[17px] leading-[1.6] whitespace-pre-wrap">
+              <div className="text-[var(--color-accent)] text-base md:text-[17px] leading-[1.65] whitespace-pre-wrap">
                 {displayText}
                 <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
               </div>
 
-              {/* Static section */}
-              <div className="mt-7 pt-5 border-t border-[#30363d] border-dashed">
-                <p className="text-white mb-3 text-base md:text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
-                <ul className="text-[var(--color-accent)] space-y-1 text-base md:text-lg">
+              {/* Static section - Guaranteed to show */}
+              <div className="mt-8 pt-6 border-t border-[#30363d] border-dashed">
+                <p className="text-white mb-4 text-base md:text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
+                <ul className="text-[var(--color-accent)] space-y-1.5 text-base md:text-lg">
                   <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
                   <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
                   <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
                   <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
                 </ul>
-              </div>
 
-              {/* Aesthetic spacing at the bottom */}
-              <div className="h-10 md:h-12"></div>
+                {/* FIX: Explicit spacer div to force a scrollable gap at the bottom */}
+                <div className="h-20 w-full" aria-hidden="true"></div>
+              </div>
             </div>
           </div>
         </div>
