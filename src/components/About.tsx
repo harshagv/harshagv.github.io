@@ -120,7 +120,7 @@ const About: React.FC = () => {
                 </ul>
 
                 {/* FIX: Explicit spacer div to force a scrollable gap at the bottom */}
-                <div className="h-20 w-full" aria-hidden="true"></div>
+                <div className="h-5 w-full" aria-hidden="true"></div>
               </div>
             </div>
           </div>

@@ -50,9 +50,9 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           return (
             <div
               key={index}
-              className={`w-3 h-3 rounded-full transition-transform duration-300 ${isActive
-                ? 'bg-white scale-100 opacity-100'
-                : 'bg-white/10 scale-50 opacity-40'
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${isActive
+                ? 'bg-white scale-100 opacity-100 shadow-[0_0_8px_#ffffff]'
+                : 'bg-white/20 scale-100 opacity-40'
                 }`}
             />
           );
