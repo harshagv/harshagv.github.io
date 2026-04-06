@@ -4,16 +4,20 @@ import { motion } from 'framer-motion';
 const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [bootText, setBootText] = useState('');
   const [spinnerStep, setSpinnerStep] = useState(0);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
-  // Original boot text animation (character-by-character)
+  // Original typing animation
   useEffect(() => {
     const fullText = '> INIT SYSTEM...\n> SYSTEM ONLINE.\n> ACCESS GRANTED.\n';
     let i = 0;
+
     const interval = setInterval(() => {
       setBootText(fullText.slice(0, i));
       i++;
+
       if (i > fullText.length) {
         clearInterval(interval);
+        setIsTypingComplete(true);
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('boot-complete'));
           onComplete();
@@ -24,50 +28,42 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     return () => clearInterval(interval);
   }, [onComplete]);
 
-  // H-Shaped Spinner Animation - Exact sequence you requested
+  // Spinner Animation
   useEffect(() => {
-    const spinnerInterval = setInterval(() => {
-      setSpinnerStep((prev) => (prev + 1) % 9); // 9 stages for precise control
-    }, 280);
-
-    return () => clearInterval(spinnerInterval);
+    const interval = setInterval(() => {
+      setSpinnerStep((prev) => (prev + 1) % 10);
+    }, 260);
+    return () => clearInterval(interval);
   }, []);
 
   const renderHSpinner = () => {
-    // Dot lighting thresholds (0 = top-left, 2 = top-right, etc.)
-    const isLit = (dot: number) => {
-      if (dot === 0) return spinnerStep >= 1; // left vertical top
-      if (dot === 3) return spinnerStep >= 2; // left vertical middle
-      if (dot === 6) return spinnerStep >= 3; // left vertical bottom
-      if (dot === 4) return spinnerStep >= 4; // horizontal center
-      if (dot === 5) return spinnerStep >= 5; // horizontal right
-      if (dot === 2) return spinnerStep >= 6; // right vertical top
-      if (dot === 8) return spinnerStep >= 7; // right vertical bottom
-      return false;
-    };
+    const activeDots = [0, 3, 6, 4, 5, 2, 8]; // Left vertical → Horizontal → Right vertical
 
     return (
-      <div className="grid grid-cols-3 gap-1.5 mb-12">
-        {/* Row 1 */}
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(0) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
-        <div className="w-3.5 h-3.5 bg-transparent" />
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(2) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
+      <div className="grid grid-cols-3 gap-3">
+        {Array.from({ length: 9 }).map((_, index) => {
+          if (index === 1 || index === 7) return <div key={index} className="w-3.5 h-3.5" />;
 
-        {/* Row 2 - Horizontal Bar */}
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(3) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(4) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(5) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
+          const order = activeDots.indexOf(index);
+          const isActive = spinnerStep > order;
 
-        {/* Row 3 */}
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(6) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
-        <div className="w-3.5 h-3.5 bg-transparent" />
-        <div className={`w-3.5 h-3.5 rounded-full transition-all duration-200 ${isLit(8) ? 'bg-white scale-100' : 'bg-transparent scale-0'}`} />
+          return (
+            <div
+              key={index}
+              className={`w-3.5 h-3.5 rounded-full transition-all duration-300 ${isActive
+                  ? 'bg-white scale-110 shadow-[0_0_12px_#ffffff] opacity-100'
+                  : 'bg-white/10 scale-50 opacity-40'
+                }`}
+            />
+          );
+        })}
       </div>
     );
   };
 
-  // Split typed text into lines so we can color them individually while keeping original typing effect
-  const typedLines = bootText.split('\n');
+  const lines = bootText.split('\n');
+  const currentLine = lines[lines.length - 1] || '';
+  const previousLines = lines.slice(0, -1);
 
   return (
     <motion.div
@@ -76,23 +72,33 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center p-8 pointer-events-auto"
     >
-      {/* H Spinner - centered above text */}
-      {renderHSpinner()}
-
-      {/* Boot Text - original character-by-character animation + left indent */}
-      <div className="font-mono text-lg md:text-2xl whitespace-pre-wrap max-w-2xl w-full leading-relaxed drop-shadow-[0_0_15px_rgba(0,255,102,0.4)] pl-8 text-left">
-        {/* Line 1 - Hot Lemon */}
-        {typedLines[0] && <span className="text-[#f5ff00] block">{typedLines[0]}</span>}
-
-        {/* Line 2 - Hot Lemon */}
-        {typedLines[1] && <span className="text-[#f5ff00] block">{typedLines[1]}</span>}
-
-        {/* Line 3 - Accent color */}
-        {typedLines[2] && <span className="text-[var(--color-accent)] block">{typedLines[2]}</span>}
-
-        {/* Cursor - always visible at the end */}
-        <span className="inline-block w-3 h-5 md:h-6 bg-[var(--color-accent)] animate-pulse ml-1 align-middle" />
+      {/* Spinner Area - Better constrained height */}
+      <div className="flex-1 flex items-center justify-center min-h-[180px]">
+        {renderHSpinner()}
       </div>
+
+      {/* Terminal Text - Better positioned */}
+      <div className="w-full max-w-2xl font-mono text-lg md:text-2xl whitespace-pre-wrap leading-relaxed drop-shadow-[0_0_15px_rgba(0,255,102,0.4)] pl-8 text-left">
+        {previousLines.map((line, idx) => (
+          <span
+            key={idx}
+            className={`block ${idx < 2 ? 'text-[#f5ff00]' : 'text-[var(--color-accent)]'}`}
+          >
+            {line}
+          </span>
+        ))}
+
+        {/* Current line with cursor */}
+        <span className={`${lines.length > 2 ? 'text-[var(--color-accent)]' : 'text-[#f5ff00]'}`}>
+          {currentLine}
+          {!isTypingComplete && (
+            <span className="inline-block w-3.5 h-6 bg-[var(--color-accent)] animate-pulse ml-1 align-middle" />
+          )}
+        </span>
+      </div>
+
+      {/* Subtle terminal aesthetic line at bottom */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 h-px w-32 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </motion.div>
   );
 };
