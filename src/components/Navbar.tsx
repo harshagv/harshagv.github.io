@@ -4,17 +4,26 @@ import { Menu, X } from 'lucide-react';
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Find the scrollTo function and update the yOffset logic
   const scrollTo = (id: string, e?: React.MouseEvent) => {
     if (e) e.preventDefault();
-    setIsOpen(false); // Close mobile menu when a link is clicked
+    setIsOpen(false);
     const lenis = (window as any).lenis;
     const target = id === 'root' ? 0 : `#${id}`;
 
     if (lenis) {
-      // Scroll 80% into the pinned section so the scrub animation is almost finished and the box is visible
-      const yOffset = id === 'whoami' ? window.innerHeight * 0.8 : 0;
-      lenis.scrollTo(target, { duration: 1.2, force: true, offset: yOffset });
+      // FIX: Only apply the 80% offset if the screen is desktop width (>= 768px)
+      // and the target is 'whoami'. Otherwise, use a standard small offset.
+      const isMobile = window.innerWidth < 768;
+      const yOffset = (id === 'whoami' && !isMobile) ? window.innerHeight * 0.8 : 0;
+
+      lenis.scrollTo(target, {
+        duration: 1.2,
+        force: true,
+        offset: yOffset
+      });
     } else {
+      // Fallback logic remains same
       if (id === 'root') window.scrollTo({ top: 0, behavior: 'smooth' });
       else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }

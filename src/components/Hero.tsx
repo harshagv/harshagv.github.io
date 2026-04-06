@@ -8,7 +8,8 @@ const HackerText: React.FC<{ text: string, className?: string }> = ({ text, clas
   const scramble = (t: string) =>
     t.split("").map(() => letters[Math.floor(Math.random() * letters.length)]).join("");
 
-  const [displayText, setDisplayText] = useState(() => scramble(text));
+  const [booted, setBooted] = useState(false);
+  const [displayText, setDisplayText] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const animateText = () => {
@@ -31,18 +32,34 @@ const HackerText: React.FC<{ text: string, className?: string }> = ({ text, clas
   };
 
   useEffect(() => {
-    const handleBootComplete = () => setTimeout(animateText, 300);
+    let bootTimeout: ReturnType<typeof setTimeout>;
+
+    const handleBootComplete = () => {
+      setBooted(true);
+      bootTimeout = setTimeout(animateText, 300);
+    };
+
     window.addEventListener('boot-complete', handleBootComplete);
+
+    // ✅ Fallback in case event already fired before mount
+    bootTimeout = setTimeout(() => {
+      setBooted(true);
+      animateText();
+    }, 1500);
 
     return () => {
       window.removeEventListener('boot-complete', handleBootComplete);
+      clearTimeout(bootTimeout);
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <span className={className} onMouseEnter={animateText}>
-      {displayText}
+    <span
+      className={`${className} transition-opacity duration-300 ${booted ? 'opacity-100' : 'opacity-0'}`}
+      onMouseEnter={animateText}
+    >
+      {booted ? displayText : ''}
     </span>
   );
 };
@@ -153,9 +170,13 @@ const Hero: React.FC = () => {
               onClick={() => {
                 const lenis = (window as any).lenis;
                 if (lenis) {
-                  lenis.scrollTo('#work', { duration: 1.2, force: true, offset: 0 });
+                  lenis.scrollTo('#whoami', {
+                    duration: 1.2,
+                    force: true,
+                    offset: -80
+                  });
                 } else {
-                  document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' });
+                  document.getElementById('whoami')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
               }}
             >
