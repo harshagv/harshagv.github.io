@@ -55,9 +55,9 @@ function App() {
       window.scrollTo(0, 0);
     } else {
       if (lenisRef.current) lenisRef.current.start();
-      // CRITICAL: Refresh all GSAP Pin calculations right as the Boot overlay releases the lock
-      // This forces the physics engine to trace the correct coordinates instead of crashing at 0
-      setTimeout(() => ScrollTrigger.refresh(), 100);
+      // CRITICAL: Refresh GSAP calculations AFTER the 1000ms opacity fade is fully complete.
+      // Reflowing the DOM mid-transition causes heavy GPU flicker on mobile devices.
+      setTimeout(() => ScrollTrigger.refresh(), 1200);
     }
   }, [booted]);
 

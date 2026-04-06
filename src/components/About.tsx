@@ -76,11 +76,11 @@ const About: React.FC = () => {
 
   return (
     <div id="whoami" className="relative z-20 w-full scroll-mt-24">
-      <section ref={containerRef} className="relative z-20 min-h-[100dvh] md:h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none mt-16 md:mt-0">
+      <section ref={containerRef} className="relative z-20 min-h-screen md:h-[100dvh] w-full flex items-center justify-center px-4 md:px-6 pointer-events-none mt-16 md:mt-0">
         <div className="max-w-4xl mx-auto w-full z-20 pointer-events-auto">
           <div
             ref={terminalRef}
-            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-[102dvh] md:max-h-[92dvh]"
+            className="bg-[#0d1117]/90 backdrop-blur-md rounded-xl border border-[#30363d] shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden max-h-none md:max-h-[92dvh]"
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
