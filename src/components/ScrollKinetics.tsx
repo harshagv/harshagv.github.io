@@ -42,9 +42,10 @@ const ScrollKinetics: React.FC = () => {
         });
 
         /* ── Phase 0 (0→0.15): scene fades in from black ──────────────────── */
+        // iOS WebKit Bug: combining filter: blur with preserve-3d causes complete container invisibility
         tl.fromTo(sceneRef.current,
-            { opacity: 0, filter: 'blur(20px)' },
-            { opacity: 1, filter: 'blur(0px)', duration: 0.15, ease: 'power2.out' },
+            { opacity: 0 },
+            { opacity: 1, duration: 0.15, ease: 'power2.out' },
             0
         );
 
@@ -110,8 +111,8 @@ const ScrollKinetics: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full h-screen overflow-hidden bg-[#020202] flex items-center justify-center"
-            style={{ perspective: '900px', perspectiveOrigin: '50% 50%' }}
+            className="relative w-full h-[100dvh] overflow-hidden bg-[#020202] flex items-center justify-center"
+            style={{ perspective: '900px', perspectiveOrigin: '50% 50%', minHeight: '400px', WebkitPerspective: '900px' }}
         >
             {/* Scene root — all 3D children live here */}
             <div

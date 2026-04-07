@@ -2,30 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
-  const [bootText, setBootText] = useState('');
+  const [bootText, setBootText] = useState('> INIT SYSTEM');
   const [spinnerStep, setSpinnerStep] = useState(0);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   // Original typing animation
   useEffect(() => {
-    const fullText = '> INIT SYSTEM...\n> SYSTEM ONLINE.\n> ACCESS GRANTED.\n';
-    let i = 0;
+    let isCancelled = false;
 
-    const interval = setInterval(() => {
-      setBootText(fullText.slice(0, i));
-      i++;
+    const runSequence = async () => {
+      const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-      if (i > fullText.length) {
-        clearInterval(interval);
-        setIsTypingComplete(true);
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('boot-complete'));
-          onComplete();
-        }, 900);
+      if (isCancelled) return;
+      setBootText('> INIT SYSTEM.');
+      await wait(400);
+
+      if (isCancelled) return;
+      setBootText('> INIT SYSTEM..');
+      await wait(400);
+
+      if (isCancelled) return;
+      setBootText('> INIT SYSTEM...');
+      await wait(400);
+
+      const remainingText = '\n> SYSTEM ONLINE\n> ACCESS GRANTED\n';
+      let currentText = '> INIT SYSTEM...';
+
+      // Rapid typewriter effect for the final readout
+      for (let i = 0; i < remainingText.length; i++) {
+        if (isCancelled) return;
+        currentText += remainingText[i];
+        setBootText(currentText);
+        await wait(45); // Standard rapid terminal typing speed
       }
-    }, 45);
 
-    return () => clearInterval(interval);
+      if (isCancelled) return;
+      setIsTypingComplete(true);
+      await wait(800);
+
+      if (isCancelled) return;
+      window.dispatchEvent(new CustomEvent('boot-complete'));
+      onComplete();
+    };
+
+    runSequence();
+
+    return () => { isCancelled = true; };
   }, [onComplete]);
 
   // Spinner Animation
