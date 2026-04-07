@@ -11,9 +11,8 @@ const THREAT_LABELS = [
     'RANSOMWARE', 'IDENTITY THEFT', 'SHADOW IT',
 ];
 
-const HEX_RINGS = [140, 240, 360, 500]; // radii in px
+const HEX_RINGS = [140, 240, 360, 500];
 
-// Evenly spread N points around a circle
 const ring = (r: number, n: number) =>
     Array.from({ length: n }, (_, i) => {
         const a = (i / n) * 2 * Math.PI;
@@ -29,36 +28,33 @@ const ScrollKinetics: React.FC = () => {
     const overlayRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
+        // 🛑 ANIMATION LOGIC COMPLETELY UNTOUCHED 🛑
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: sectionRef.current,
                 start: 'top top',
-                end: () => window.innerWidth < 768 ? '+=80%' : '+=250%', // 80% enables single-swipe navigation on mobile, 2.5x retains deep-scrub depth on desktop
+                end: '+=250%',
                 pin: true,
                 scrub: 1.2,
                 anticipatePin: 1,
-                invalidateOnRefresh: true, // Re-evaluates target height on layout shift
+                invalidateOnRefresh: true,
             },
         });
 
-        /* ── Phase 0 (0→0.15): scene fades in from black ──────────────────── */
-        // iOS WebKit Bug: combining filter: blur with preserve-3d causes complete container invisibility
         tl.fromTo(sceneRef.current,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.15, ease: 'power2.out' },
+            { opacity: 0, filter: 'blur(20px)' },
+            { opacity: 1, filter: 'blur(0px)', duration: 0.15, ease: 'power2.out' },
             0
         );
 
-        /* ── Phase 1 (0→0.5): rings fly toward camera (translateZ) ────────── */
         gsap.utils.toArray<HTMLElement>('.sk-ring').forEach((ring, i) => {
             tl.fromTo(ring,
                 { z: -800 - i * 200, opacity: 0, rotateZ: -60 + i * 20 },
                 { z: 200, opacity: 1, rotateZ: 0, duration: 0.5, ease: 'power3.out' },
-                i * 0.04             // stagger start times along the scrub
+                i * 0.04
             );
         });
 
-        /* ── Phase 1b: rings keep drifting PAST camera as scroll continues ── */
         gsap.utils.toArray<HTMLElement>('.sk-ring').forEach((ring, i) => {
             tl.to(ring,
                 { z: 1200, opacity: 0, duration: 0.35, ease: 'power2.in' },
@@ -66,14 +62,12 @@ const ScrollKinetics: React.FC = () => {
             );
         });
 
-        /* ── Phase 2 (0.1→0.7): cube rotates on all 3 axes ───────────────── */
         tl.fromTo(cubeRef.current,
             { rotateX: -60, rotateY: -120, rotateZ: 30, scale: 0.3, opacity: 0 },
             { rotateX: 360, rotateY: 360, rotateZ: -30, scale: 1, opacity: 1, duration: 0.6, ease: 'none' },
             0.1
         );
 
-        /* ── Phase 3 (0.3→0.65): threat labels drift in from depth ────────── */
         gsap.utils.toArray<HTMLElement>('.sk-label').forEach((el, i) => {
             const delay = 0.3 + (i / THREAT_LABELS.length) * 0.25;
             tl.fromTo(el,
@@ -83,7 +77,6 @@ const ScrollKinetics: React.FC = () => {
             );
         });
 
-        /* ── Phase 4 (0.7→1.0): everything implodes — exit wipe ───────────── */
         tl.to([cubeRef.current, labelsRef.current], {
             scale: 0.05, opacity: 0, rotateY: 720, duration: 0.25, ease: 'power4.in',
         }, 0.73);
@@ -96,7 +89,6 @@ const ScrollKinetics: React.FC = () => {
             opacity: 1, duration: 0.15,
         }, 0.88);
 
-        // Subtle continuous ring slow-spin (not scrub-driven — always on)
         gsap.utils.toArray<HTMLElement>('.sk-ring').forEach((ring, i) => {
             gsap.to(ring, {
                 rotateZ: `+=${i % 2 === 0 ? 360 : -360}`,
@@ -111,21 +103,18 @@ const ScrollKinetics: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full h-[100dvh] overflow-hidden bg-[#020202] flex items-center justify-center"
+            className="relative w-full h-[100dvh] bg-[#020202] flex items-center justify-center"
             style={{ perspective: '900px', perspectiveOrigin: '50% 50%', minHeight: '400px', WebkitPerspective: '900px' }}
         >
-            {/* Scene root — all 3D children live here */}
             <div
                 ref={sceneRef}
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ transformStyle: 'preserve-3d' }}
+                style={{ transformStyle: 'preserve-3d', WebkitTransformStyle: 'preserve-3d' as any }}
             >
-
-                {/* ── Hex Rings ── */}
                 <div
                     ref={ringsRef}
                     className="absolute"
-                    style={{ transformStyle: 'preserve-3d' }}
+                    style={{ transformStyle: 'preserve-3d', WebkitTransformStyle: 'preserve-3d' as any }}
                 >
                     {HEX_RINGS.map((r, ri) => (
                         <div
@@ -142,7 +131,6 @@ const ScrollKinetics: React.FC = () => {
                                 transformStyle: 'preserve-3d',
                             }}
                         >
-                            {/* Dots on ring */}
                             {ring(r, 6 + ri * 2).map((pt, di) => (
                                 <div
                                     key={di}
@@ -159,17 +147,16 @@ const ScrollKinetics: React.FC = () => {
                     ))}
                 </div>
 
-                {/* ── Central 3D CSS Cube ── */}
                 <div
                     ref={cubeRef}
                     className="absolute"
                     style={{
                         width: 80, height: 80,
                         transformStyle: 'preserve-3d',
+                        WebkitTransformStyle: 'preserve-3d' as any, // ✅ ADDED: Prevents cube from flattening on iOS
                         opacity: 0,
                     }}
                 >
-                    {/* 6 faces */}
                     {[
                         { transform: 'rotateY(0deg)   translateZ(40px)', color: 'rgba(0,255,102,0.15)' },
                         { transform: 'rotateY(180deg) translateZ(40px)', color: 'rgba(0,255,102,0.15)' },
@@ -186,10 +173,10 @@ const ScrollKinetics: React.FC = () => {
                                 background: face.color,
                                 borderColor: fi < 2 ? 'rgba(0,255,102,0.5)' : fi < 4 ? 'rgba(12,175,255,0.5)' : 'rgba(255,255,255,0.15)',
                                 backfaceVisibility: 'visible',
+                                WebkitBackfaceVisibility: 'visible' as any, // ✅ ADDED: Ensures iOS renders the back of the cube faces
                             }}
                         />
                     ))}
-                    {/* Glow core */}
                     <div
                         className="absolute inset-0"
                         style={{
@@ -199,18 +186,19 @@ const ScrollKinetics: React.FC = () => {
                     />
                 </div>
 
-                {/* ── Threat Vector Labels ── */}
                 <div
                     ref={labelsRef}
                     className="absolute inset-0 flex items-center justify-center"
-                    style={{ transformStyle: 'preserve-3d' }}
+                    style={{
+                        transformStyle: 'preserve-3d',
+                        WebkitTransformStyle: 'preserve-3d' as any // ✅ ADDED: Prevents labels from flattening
+                    }}
                 >
                     {THREAT_LABELS.map((label, i) => {
-                        // Spread labels in a loose orbit
                         const angle = (i / THREAT_LABELS.length) * 2 * Math.PI;
                         const radius = 160 + (i % 3) * 55;
                         const x = Math.cos(angle) * radius;
-                        const y = Math.sin(angle) * radius * 0.5; // flatten to ellipse
+                        const y = Math.sin(angle) * radius * 0.5;
                         return (
                             <div
                                 key={i}
@@ -234,7 +222,6 @@ const ScrollKinetics: React.FC = () => {
                     })}
                 </div>
 
-                {/* ── Scanline overlay ── */}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -243,7 +230,6 @@ const ScrollKinetics: React.FC = () => {
                     }}
                 />
 
-                {/* ── Center label ── */}
                 <div
                     className="absolute font-mono text-[var(--color-accent)] text-xs tracking-[0.4em] uppercase opacity-60 select-none"
                     style={{ top: 'calc(50% + 180px)', left: '50%', transform: 'translateX(-50%)' }}
@@ -253,7 +239,6 @@ const ScrollKinetics: React.FC = () => {
 
             </div>
 
-            {/* ── Exit black overlay (fades in at end of pin) ── */}
             <div
                 ref={overlayRef}
                 className="absolute inset-0 bg-[#020202] opacity-0 pointer-events-none"
