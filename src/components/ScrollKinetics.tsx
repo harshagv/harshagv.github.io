@@ -103,13 +103,16 @@ const ScrollKinetics: React.FC = () => {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full h-[100dvh] bg-[#020202] flex items-center justify-center"
+            className="relative w-full h-[100dvh] flex items-center justify-center"
             style={{ perspective: '900px', perspectiveOrigin: '50% 50%', minHeight: '400px', WebkitPerspective: '900px' }}
         >
+            {/* Background plate to softly obscure TorusKnot without triggering WebKit crashes */}
+            <div className="absolute inset-0 bg-[#020202]/75 backdrop-blur-md pointer-events-none" style={{ zIndex: 0 }} />
+
             <div
                 ref={sceneRef}
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ transformStyle: 'preserve-3d', WebkitTransformStyle: 'preserve-3d' as any }}
+                style={{ transformStyle: 'preserve-3d', WebkitTransformStyle: 'preserve-3d' as any, zIndex: 1 }}
             >
                 <div
                     ref={ringsRef}
