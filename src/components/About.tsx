@@ -122,10 +122,10 @@ const About: React.FC = () => {
               <div className="mt-8 pt-6 border-t border-[#30363d] border-dashed">
                 <p className="text-white mb-4 text-base md:text-lg">I thrive on leveraging cutting-edge technologies and methodologies across:</p>
                 <ul className="text-[var(--color-accent)] space-y-1.5 text-base md:text-lg">
-                  <li><span className="text-gray-500 mr-2">➼</span>Cybersecurity Engineering</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>Cloud Security</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>Application Security</li>
-                  <li><span className="text-gray-500 mr-2">➼</span>DevSecOps</li>
+                  <li><span className="text-[var(--color-accent)] mr-3 mt-1">▹</span>Cybersecurity Engineering</li>
+                  <li><span className="text-[var(--color-accent)] mr-3 mt-1">▹</span>Cloud Security</li>
+                  <li><span className="text-[var(--color-accent)] mr-3 mt-1">▹</span>Application Security</li>
+                  <li><span className="text-[var(--color-accent)] mr-3 mt-1">▹</span>DevSecOps</li>
                 </ul>
 
                 {/* FIX: Explicit spacer div to force a scrollable gap at the bottom */}
