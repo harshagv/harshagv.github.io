@@ -62,9 +62,10 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const activeDots = [0, 3, 6, 4, 5, 2, 8];
 
     return (
-      <div className="grid grid-cols-3 gap-2.5"> {/* Slightly reduced gap for smaller dots */}
+      <div className="grid grid-cols-3 gap-4 md:gap-5"> {/* Increased gap proportionally for larger shape */}
         {Array.from({ length: 9 }).map((_, index) => {
-          if (index === 1 || index === 7) return <div key={index} className="w-3 h-3" />;
+          // Empty grid spaces
+          if (index === 1 || index === 7) return <div key={index} className="w-5 h-5 md:w-6 md:h-6" />;
 
           const order = activeDots.indexOf(index);
           const isActive = spinnerStep > order;
@@ -72,8 +73,8 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           return (
             <div
               key={index}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${isActive
-                ? 'bg-white scale-100 opacity-100 shadow-[0_0_8px_#ffffff]'
+              className={`w-5 h-5 md:w-6 md:h-6 rounded-full transition-all duration-300 ${isActive
+                ? 'bg-white scale-100 opacity-100 shadow-[0_0_12px_#ffffff]'
                 : 'bg-white/20 scale-100 opacity-40'
                 }`}
             />
