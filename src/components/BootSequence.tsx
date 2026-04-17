@@ -101,7 +101,10 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       </div>
 
       {/* Terminal Text - SURGICAL EDIT HERE */}
-      <div className="w-full max-w-2xl font-mono text-lg md:text-2xl leading-relaxed pl-8 text-left h-[120px] md:h-[160px]">
+      <div 
+        className="w-full max-w-2xl text-lg md:text-2xl leading-relaxed pl-8 text-left h-[120px] md:h-[160px]"
+        style={{ fontFamily: 'var(--font-fira)' }}
+      >
         {previousLines.map((line, idx) => (
           <span
             key={idx}

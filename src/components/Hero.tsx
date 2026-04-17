@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
+import MagneticButton from './MagneticButton';
 import type { Variants } from 'framer-motion';
 
 const HackerText: React.FC<{ text: string, className?: string }> = ({ text, className }) => {
@@ -114,6 +116,27 @@ const Hero: React.FC = () => {
     },
   };
 
+  // We map the SplitText staggered blast-in right after Boot Complete, utilizing the native GSAP pipeline instead of basic Framer Motion.
+  useEffect(() => {
+    // Only fire typography physics if the element isn't hidden by BootSequence intercept
+    const handleBoot = () => {
+      gsap.fromTo('.split-char',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          stagger: { amount: 1.5 },
+          ease: "expo.out",
+          delay: 0.8
+        }
+      );
+    };
+
+    window.addEventListener('boot-complete', handleBoot);
+    return () => window.removeEventListener('boot-complete', handleBoot);
+  }, []);
+
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center px-6 pointer-events-none">
       <div className="max-w-7xl mx-auto w-full z-10 pointer-events-auto mt-20">
@@ -156,41 +179,43 @@ const Hero: React.FC = () => {
             variants={item}
             className="mt-6 text-gray-400 max-w-2xl text-lg md:text-xl font-light pointer-events-auto leading-relaxed"
           >
-            Cybersecurity Engineer based in Sydney, architecting resilient defense
-            postures and Zero Trust environments. Specialising in Cloud Security,
-            Threat Detection, Agentic AI Security, and DevSecOps for the APAC region.
+            Cybersecurity Engineer based in Sydney, architecting resilient defense postures and Zero Trust environments. Specialising in Cloud Security, Threat Detection, Agentic AI Security, and DevSecOps for the APAC region.
           </motion.p>
 
           <motion.div
             variants={item}
             className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 pointer-events-auto"
           >
-            <button
-              className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden hover:-translate-y-1"
-              onClick={() => {
-                const lenis = (window as any).lenis;
-                if (lenis) {
-                  lenis.scrollTo('#whoami', {
-                    duration: 1.2,
-                    force: true,
-                    offset: -80
-                  });
-                } else {
-                  document.getElementById('whoami')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-              }}
-            >
-              <span className="relative z-10 font-mono uppercase tracking-widest text-sm">
-                Explore Battle Stations
-              </span>
-            </button>
+            <MagneticButton intensity={0.4}>
+              <button
+                className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden"
+                onClick={() => {
+                  const lenis = (window as any).lenis;
+                  if (lenis) {
+                    lenis.scrollTo('#work', {
+                      duration: 1.2,
+                      force: true,
+                      offset: -80
+                    });
+                  } else {
+                    document.getElementById('work')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
+                <span className="relative z-10 font-mono uppercase tracking-widest text-sm">
+                  Explore Battle Stations
+                </span>
+              </button>
+            </MagneticButton>
 
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
-              className="px-8 py-4 bg-transparent border border-[var(--color-accent)]/40 text-white font-mono uppercase tracking-widest text-sm font-bold rounded-lg hover:bg-[var(--color-accent)]/10 transition-colors hover:-translate-y-1"
-            >
-              Access Terminal
-            </button>
+            <MagneticButton intensity={0.4}>
+              <button
+                onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
+                className="px-8 py-4 bg-transparent border border-[var(--color-accent)]/40 text-white font-mono uppercase tracking-widest text-sm font-bold rounded-lg hover:bg-[var(--color-accent)]/10 transition-colors"
+              >
+                Access Terminal
+              </button>
+            </MagneticButton>
           </motion.div>
         </motion.div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import MagneticButton from './MagneticButton';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,14 +33,32 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl z-50 pointer-events-none">
       <div className="flex items-center justify-between rounded-full bg-[#0d1117]/80 backdrop-blur-xl border border-white/10 px-8 py-3 pointer-events-auto shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-all duration-300">
-        <a href="#root" className="text-xl font-black tracking-tighter text-white mr-12 uppercase cursor-pointer" onClick={(e) => scrollTo('root', e)}>
-          <span className="text-[var(--color-accent)]">H</span>arsha.
-        </a>
-        <ul className="hidden md:flex items-center justify-center space-x-8 text-sm font-medium text-gray-400">
-          <li><a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">About</a></li>
-          <li><a href="#work" onClick={(e) => scrollTo('work', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Stations</a></li>
-          <li><a href="#certs" onClick={(e) => scrollTo('certs', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Certs</a></li>
-          <li><a href="#contact" onClick={(e) => scrollTo('contact', e)} className="hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer">Contact</a></li>
+        <MagneticButton intensity={0.4}>
+          <a href="#root" className="text-xl font-black tracking-tighter text-white mr-8 uppercase cursor-pointer" onClick={(e) => scrollTo('root', e)}>
+            <span className="text-[var(--color-accent)]">H</span>arsha.
+          </a>
+        </MagneticButton>
+        <ul className="hidden md:flex items-center justify-center space-x-4 text-sm font-medium text-gray-400">
+          <li>
+            <MagneticButton intensity={0.3}>
+              <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">About</a>
+            </MagneticButton>
+          </li>
+          <li>
+            <MagneticButton intensity={0.3}>
+              <a href="#work" onClick={(e) => scrollTo('work', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Stations</a>
+            </MagneticButton>
+          </li>
+          <li>
+            <MagneticButton intensity={0.3}>
+              <a href="#certs" onClick={(e) => scrollTo('certs', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Certs</a>
+            </MagneticButton>
+          </li>
+          <li>
+            <MagneticButton intensity={0.3}>
+              <a href="#contact" onClick={(e) => scrollTo('contact', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Contact</a>
+            </MagneticButton>
+          </li>
         </ul>
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white hover:text-[var(--color-accent)] transition-colors relative z-[60]">
           {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
