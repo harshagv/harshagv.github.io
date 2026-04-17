@@ -72,7 +72,20 @@ function App() {
         <Cursor />
         <Noise />
 
-        {/* 3D Background - Fixed behind everything */}
+        {/* CSS LAYER (Z: -2) -> HARDWARE_SECURITY: LOGIC_TRACE at absolute bottom */}
+        <div 
+          className="fixed inset-0 w-full h-full z-[-2] pointer-events-none"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, rgba(0, 255, 102, 0.06) 1.5px, transparent 0),
+              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 0),
+              linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        />
+
+        {/* WEBGL LAYER (Z: -1) -> 3D WebGL Orbiting Star-field and Astrolabe over the top */}
         <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
           <Canvas camera={{ position: [0, 0, 8], fov: 45 }} eventSource={document.body} eventPrefix="client">
             <Scene />
