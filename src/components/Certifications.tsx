@@ -18,26 +18,36 @@ const certs = [
 ];
 
 const badges = [
+  // Security & Threat Detection
+  { img: "https://img.shields.io/badge/CrowdStrike-FC0000?style=for-the-badge&logo=crowdstrike&logoColor=white", link: "https://www.crowdstrike.com/" },
+  { img: "https://img.shields.io/badge/SentinelOne-6100FF?style=for-the-badge&logo=sentinelone&logoColor=white", link: "https://www.sentinelone.com/" },
+  { img: "https://img.shields.io/badge/Sysdig-BDF78B?style=for-the-badge&logo=sysdig&logoColor=white", link: "https://sysdig.com/" },
+  { img: "https://img.shields.io/badge/Falco-E71822?style=for-the-badge&logo=falco&logoColor=white", link: "https://falco.org/" },
+  { img: "https://img.shields.io/badge/StackRox-E31837?style=for-the-badge&logo=redhat&logoColor=white", link: "https://www.stackrox.io/" },
+  { img: "https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white", link: "https://snyk.io/" },
+  { img: "https://img.shields.io/badge/OpenVAS-4F4F4F?style=for-the-badge&logo=openvas&logoColor=white", link: "https://www.greenbone.net/" },
+
+  // Observability & SIEM
+  { img: "https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white", link: "https://www.splunk.com/" },
+  { img: "https://img.shields.io/badge/ELK_Stack-005571?style=for-the-badge&logo=elasticstack&logoColor=white", link: "https://www.elastic.co/" },
+  { img: "https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white", link: "https://www.datadoghq.com/" },
+  { img: "https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white", link: "https://prometheus.io/" },
+  { img: "https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white", link: "https://grafana.com/" },
+
+  // Cloud & Infrastructure
   { img: "https://img.shields.io/badge/Amazon_AWS-EC7211?style=for-the-badge&logo=amazon-aws&logoColor=white", link: "https://aws.amazon.com/" },
   { img: "https://img.shields.io/badge/Microsoft_Azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white", link: "https://azure.microsoft.com/" },
+  { img: "https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white", link: "https://www.cloudflare.com/" },
+
+  // Compute & Containers
   { img: "https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white", link: "https://kubernetes.io/" },
   { img: "https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white", link: "https://www.docker.com/" },
   { img: "https://img.shields.io/badge/Podman-892CA0?style=for-the-badge&logo=podman&logoColor=white", link: "https://podman.io/" },
-  { img: "https://img.shields.io/badge/Sysdig-BDF78B?style=for-the-badge&logo=sysdig&logoColor=white", link: "https://sysdig.com/" },
-  { img: "https://img.shields.io/badge/Falco-E71822?style=for-the-badge&logo=falco&logoColor=white", link: "https://falco.org/" },
+  { img: "https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white", link: "https://www.virtualbox.org/" },
+
+  // IaC & Access
   { img: "https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white", link: "https://www.terraform.io/" },
   { img: "https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white", link: "https://www.ansible.com/" },
-  { img: "https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white", link: "https://www.cloudflare.com/" },
-  { img: "https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white", link: "https://snyk.io/" },
-  { img: "https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white", link: "https://prometheus.io/" },
-  { img: "https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white", link: "https://grafana.com/" },
-  { img: "https://img.shields.io/badge/SentinelOne-6100FF?style=for-the-badge&logo=sentinelone&logoColor=white", link: "https://www.sentinelone.com/" },
-  { img: "https://img.shields.io/badge/OpenVAS-4F4F4F?style=for-the-badge&logo=openvas&logoColor=white", link: "https://www.greenbone.net/" },
-  { img: "https://img.shields.io/badge/StackRox-E31837?style=for-the-badge&logo=redhat&logoColor=white", link: "https://www.stackrox.io/" },
-  { img: "https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white", link: "https://www.virtualbox.org/" },
-  { img: "https://img.shields.io/badge/Datadog-632CA6?style=for-the-badge&logo=datadog&logoColor=white", link: "https://www.datadoghq.com/" },
-  { img: "https://img.shields.io/badge/ELK_Stack-005571?style=for-the-badge&logo=elasticstack&logoColor=white", link: "https://www.elastic.co/" },
-  { img: "https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white", link: "https://www.splunk.com/" },
   { img: "https://img.shields.io/badge/Teleport-18181A?style=for-the-badge&logo=teleport&logoColor=white", link: "https://goteleport.com/" }
 ];
 
