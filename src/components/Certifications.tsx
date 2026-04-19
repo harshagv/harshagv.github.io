@@ -25,7 +25,7 @@ const badges = [
   { img: "https://img.shields.io/badge/Falco-E71822?style=for-the-badge&logo=falco&logoColor=white", link: "https://falco.org/" },
   { img: "https://img.shields.io/badge/StackRox-E31837?style=for-the-badge&logo=redhat&logoColor=white", link: "https://www.stackrox.io/" },
   { img: "https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white", link: "https://snyk.io/" },
-  { img: "https://img.shields.io/badge/OpenVAS-4F4F4F?style=for-the-badge&logo=openvas&logoColor=white", link: "https://www.greenbone.net/" },
+  { img: "https://img.shields.io/badge/OpenVAS-4F4F4F?style=for-the-badge&logo=openvas&logoColor=white", link: "https://www.openvas.org/" },
 
   // Observability & SIEM
   { img: "https://img.shields.io/badge/Splunk-000000?style=for-the-badge&logo=splunk&logoColor=white", link: "https://www.splunk.com/" },
