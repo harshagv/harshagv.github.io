@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 
 const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   const [bootText, setBootText] = useState('> INIT SYSTEM');
-  const [spinnerStep, setSpinnerStep] = useState(0);
+  const [spinnerStep, setSpinnerStep] = useState(-1);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [spinnerStarted, setSpinnerStarted] = useState(false);
 
   // Original typing animation
   useEffect(() => {
@@ -13,17 +14,20 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const runSequence = async () => {
       const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+      // Wait 1.2s before even starting the text so the H-appear takes full focus
+      await wait(1200);
+
       if (isCancelled) return;
       setBootText('> INIT SYSTEM.');
-      await wait(400);
+      await wait(600);
 
       if (isCancelled) return;
       setBootText('> INIT SYSTEM..');
-      await wait(400);
+      await wait(600);
 
       if (isCancelled) return;
       setBootText('> INIT SYSTEM...');
-      await wait(400);
+      await wait(800);
 
       const remainingText = '\n> SYSTEM ONLINE\n> ACCESS GRANTED\n';
       let currentText = '> INIT SYSTEM...';
@@ -33,12 +37,14 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         if (isCancelled) return;
         currentText += remainingText[i];
         setBootText(currentText);
-        await wait(45); // Standard rapid terminal typing speed
+        await wait(45); // Standard rapid terminal typing speed (~1.5s total)
       }
 
       if (isCancelled) return;
       setIsTypingComplete(true);
-      await wait(800);
+      
+      // Extended buffer to guarantee the spinner completes at least 2 full loops
+      await wait(1500); 
 
       if (isCancelled) return;
       window.dispatchEvent(new CustomEvent('boot-complete'));
@@ -52,11 +58,20 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
   // Spinner Animation
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSpinnerStarted(true);
+      setSpinnerStep(0);
+    }, 800); // Start tracer loop after the 800ms stagger-appear finishes
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (!spinnerStarted) return;
     const interval = setInterval(() => {
       setSpinnerStep((prev) => (prev + 1) % 10);
     }, 260);
     return () => clearInterval(interval);
-  }, []);
+  }, [spinnerStarted]);
 
   const renderHSpinner = () => {
     const activeDots = [0, 3, 6, 4, 5, 2, 8];
@@ -68,11 +83,14 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
           if (index === 1 || index === 7) return <div key={index} className="w-5 h-5 md:w-6 md:h-6" />;
 
           const order = activeDots.indexOf(index);
-          const isActive = spinnerStep > order;
+          const isActive = spinnerStarted && spinnerStep > order;
 
           return (
-            <div
+            <motion.div
               key={index}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: order * 0.1, duration: 0.3, ease: "easeOut" }}
               className={`w-5 h-5 md:w-6 md:h-6 rounded-full transition-all duration-300 ${isActive
                 ? 'bg-white scale-100 opacity-100 shadow-[0_0_12px_#ffffff]'
                 : 'bg-white/20 scale-100 opacity-40'
