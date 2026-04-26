@@ -82,10 +82,19 @@ const Certifications: React.FC = () => {
 
     gsap.utils.toArray('.badge-item').forEach((badge: any, i: number) => {
       gsap.fromTo(badge,
-        { opacity: 0, scale: 0.5, y: 30 },
+        { opacity: 0, y: 80, scale: 0.4 },
         {
-          opacity: 1, scale: 1, y: 0, duration: 0.8, delay: (i % 5) * 0.1, ease: "back.out(1.5)",
-          scrollTrigger: { trigger: badge, start: "top 95%", toggleActions: "play none none reverse" }
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          delay: i * 0.04,        // very tight stagger = wave effect
+          ease: "elastic.out(1, 0.5)",
+          scrollTrigger: {
+            trigger: badge,
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
         }
       );
     });

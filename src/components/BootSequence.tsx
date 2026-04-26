@@ -42,9 +42,9 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
 
       if (isCancelled) return;
       setIsTypingComplete(true);
-      
+
       // Extended buffer to guarantee the spinner completes at least 2 full loops
-      await wait(1500); 
+      await wait(1500);
 
       if (isCancelled) return;
       window.dispatchEvent(new CustomEvent('boot-complete'));
@@ -113,36 +113,60 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
       transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center p-8 pointer-events-auto"
     >
-      {/* Spinner Area - Position stays locked */}
+      {/* Spinner Area */}
       <div className="flex-1 flex items-center justify-center min-h-[180px]">
         {renderHSpinner()}
       </div>
 
-      {/* Terminal Text - SURGICAL EDIT HERE */}
-      <div 
-        className="w-full max-w-2xl text-lg md:text-2xl leading-relaxed pl-8 text-left h-[120px] md:h-[160px]"
-        style={{ fontFamily: 'var(--font-fira)' }}
+      {/* Terminal Text Container */}
+      <div
+        className="w-full max-w-2xl text-lg md:text-2xl leading-relaxed pl-8 text-left h-[160px]"
+        style={{
+          fontFamily: 'var(--font-fira), monospace',
+          fontVariantLigatures: 'none',
+          fontFeatureSettings: '"kern" 0',
+          letterSpacing: '0px',
+          fontVariantNumeric: 'tabular-nums',
+          whiteSpace: 'pre',
+          textAlign: 'left'
+        }}
       >
-        {previousLines.map((line, idx) => (
-          <span
-            key={idx}
-            // Line 0 & 1: Yellow (#f5ff00), Line 2: Accent color
-            className={`block ${idx < 2 ? 'text-[#f5ff00]' : 'text-[var(--color-accent)]'}`}
-          >
-            {line}
-          </span>
-        ))}
+        <div className="flex flex-col items-start">
+          {previousLines.map((line, idx) => (
+            <span
+              key={idx}
+              className={`block h-[1.5em] ${idx < 1 ? 'text-[#f5ff00]' : 'text-[var(--color-accent)]'}`}
+            >
+              {line}
+            </span>
+          ))}
 
-        {/* Current line with cursor */}
-        <span className={`${lines.length > 2 ? 'text-[var(--color-accent)]' : 'text-[#f5ff00]'}`}>
-          {currentLine}
-          {!isTypingComplete && (
-            <span className="inline-block w-3 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle" />
-          )}
-        </span>
+          {/* Combined Text and Cursor for unified color and zero-jitter alignment */}
+          <div
+            className={`flex items-center ${lines.length > 1 ? 'text-[var(--color-accent)]' : 'text-[#f5ff00]'}`}
+          >
+            <span>{currentLine}</span>
+
+            {!isTypingComplete && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 0.8,
+                  // This creates the "step" effect by holding the 
+                  // first value for 50% of the time and the second for 50%
+                  times: [0, 0.5],
+                  ease: "linear"
+                }}
+                className="w-[1ch] h-[1.1em] ml-[2px]"
+                style={{ backgroundColor: 'currentColor', display: 'inline-block' }}
+              />
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* Subtle aesthetic line */}
+      {/* Aesthetic Footer */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 h-px w-32 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
     </motion.div>
   );
