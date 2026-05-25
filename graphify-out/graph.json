@@ -1,0 +1,467 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "id": "eslint_config_js",
+      "community": 11,
+      "norm_label": "eslint.config.js"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "id": "vite_config_ts",
+      "community": 12,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "id": "src_app_tsx",
+      "community": 1,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L22",
+      "id": "src_app_app",
+      "community": 1,
+      "norm_label": "app()"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src/main.tsx",
+      "source_location": "L1",
+      "id": "src_main_tsx",
+      "community": 1,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "FramerSplitText.tsx",
+      "file_type": "code",
+      "source_file": "src/components/FramerSplitText.tsx",
+      "source_location": "L1",
+      "id": "src_components_framersplittext_tsx",
+      "community": 3,
+      "norm_label": "framersplittext.tsx"
+    },
+    {
+      "label": "FramerSplitText()",
+      "file_type": "code",
+      "source_file": "src/components/FramerSplitText.tsx",
+      "source_location": "L12",
+      "id": "components_framersplittext_framersplittext",
+      "community": 3,
+      "norm_label": "framersplittext()"
+    },
+    {
+      "label": "Hero.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L1",
+      "id": "src_components_hero_tsx",
+      "community": 0,
+      "norm_label": "hero.tsx"
+    },
+    {
+      "label": "HackerText()",
+      "file_type": "code",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L7",
+      "id": "components_hero_hackertext",
+      "community": 0,
+      "norm_label": "hackertext()"
+    },
+    {
+      "label": "RollingText()",
+      "file_type": "code",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L69",
+      "id": "components_hero_rollingtext",
+      "community": 0,
+      "norm_label": "rollingtext()"
+    },
+    {
+      "label": "handleBoot()",
+      "file_type": "code",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L122",
+      "id": "components_hero_handleboot",
+      "community": 0,
+      "norm_label": "handleboot()"
+    },
+    {
+      "label": "Navbar.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Navbar.tsx",
+      "source_location": "L1",
+      "id": "src_components_navbar_tsx",
+      "community": 4,
+      "norm_label": "navbar.tsx"
+    },
+    {
+      "label": "scrollTo()",
+      "file_type": "code",
+      "source_file": "src/components/Navbar.tsx",
+      "source_location": "L9",
+      "id": "components_navbar_scrollto",
+      "community": 4,
+      "norm_label": "scrollto()"
+    },
+    {
+      "label": "Experience.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Experience.tsx",
+      "source_location": "L1",
+      "id": "src_components_experience_tsx",
+      "community": 5,
+      "norm_label": "experience.tsx"
+    },
+    {
+      "label": "Experience()",
+      "file_type": "code",
+      "source_file": "src/components/Experience.tsx",
+      "source_location": "L18",
+      "id": "components_experience_experience",
+      "community": 5,
+      "norm_label": "experience()"
+    },
+    {
+      "label": "SplitText.tsx",
+      "file_type": "code",
+      "source_file": "src/components/SplitText.tsx",
+      "source_location": "L1",
+      "id": "src_components_splittext_tsx",
+      "community": 13,
+      "norm_label": "splittext.tsx"
+    },
+    {
+      "label": "MagneticButton.tsx",
+      "file_type": "code",
+      "source_file": "src/components/MagneticButton.tsx",
+      "source_location": "L1",
+      "id": "src_components_magneticbutton_tsx",
+      "community": 6,
+      "norm_label": "magneticbutton.tsx"
+    },
+    {
+      "label": "MagneticButton()",
+      "file_type": "code",
+      "source_file": "src/components/MagneticButton.tsx",
+      "source_location": "L12",
+      "id": "components_magneticbutton_magneticbutton",
+      "community": 6,
+      "norm_label": "magneticbutton()"
+    },
+    {
+      "label": "Cursor.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Cursor.tsx",
+      "source_location": "L1",
+      "id": "src_components_cursor_tsx",
+      "community": 7,
+      "norm_label": "cursor.tsx"
+    },
+    {
+      "label": "Cursor()",
+      "file_type": "code",
+      "source_file": "src/components/Cursor.tsx",
+      "source_location": "L4",
+      "id": "components_cursor_cursor",
+      "community": 7,
+      "norm_label": "cursor()"
+    },
+    {
+      "label": "BootSequence.tsx",
+      "file_type": "code",
+      "source_file": "src/components/BootSequence.tsx",
+      "source_location": "L1",
+      "id": "src_components_bootsequence_tsx",
+      "community": 8,
+      "norm_label": "bootsequence.tsx"
+    },
+    {
+      "label": "runSequence()",
+      "file_type": "code",
+      "source_file": "src/components/BootSequence.tsx",
+      "source_location": "L14",
+      "id": "components_bootsequence_runsequence",
+      "community": 8,
+      "norm_label": "runsequence()"
+    },
+    {
+      "label": "FloatingTerminal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/FloatingTerminal.tsx",
+      "source_location": "L1",
+      "id": "src_components_floatingterminal_tsx",
+      "community": 2,
+      "norm_label": "floatingterminal.tsx"
+    },
+    {
+      "label": "handler()",
+      "file_type": "code",
+      "source_file": "src/components/FloatingTerminal.tsx",
+      "source_location": "L25",
+      "id": "components_floatingterminal_handler",
+      "community": 2,
+      "norm_label": "handler()"
+    },
+    {
+      "label": "handleKeyDown()",
+      "file_type": "code",
+      "source_file": "src/components/FloatingTerminal.tsx",
+      "source_location": "L30",
+      "id": "components_floatingterminal_handlekeydown",
+      "community": 2,
+      "norm_label": "handlekeydown()"
+    },
+    {
+      "label": "Footer.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Footer.tsx",
+      "source_location": "L1",
+      "id": "src_components_footer_tsx",
+      "community": 14,
+      "norm_label": "footer.tsx"
+    },
+    {
+      "label": "Noise.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Noise.tsx",
+      "source_location": "L1",
+      "id": "src_components_noise_tsx",
+      "community": 9,
+      "norm_label": "noise.tsx"
+    },
+    {
+      "label": "Noise()",
+      "file_type": "code",
+      "source_file": "src/components/Noise.tsx",
+      "source_location": "L3",
+      "id": "components_noise_noise",
+      "community": 9,
+      "norm_label": "noise()"
+    },
+    {
+      "label": "Odometer.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Odometer.tsx",
+      "source_location": "L1",
+      "id": "src_components_odometer_tsx",
+      "community": 15,
+      "norm_label": "odometer.tsx"
+    },
+    {
+      "label": "ScrollKinetics.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ScrollKinetics.tsx",
+      "source_location": "L1",
+      "id": "src_components_scrollkinetics_tsx",
+      "community": 10,
+      "norm_label": "scrollkinetics.tsx"
+    },
+    {
+      "label": "ring()",
+      "file_type": "code",
+      "source_file": "src/components/ScrollKinetics.tsx",
+      "source_location": "L16",
+      "id": "components_scrollkinetics_ring",
+      "community": 10,
+      "norm_label": "ring()"
+    },
+    {
+      "label": "Scene.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Scene.tsx",
+      "source_location": "L1",
+      "id": "src_components_scene_tsx",
+      "community": 16,
+      "norm_label": "scene.tsx"
+    },
+    {
+      "label": "About.tsx",
+      "file_type": "code",
+      "source_file": "src/components/About.tsx",
+      "source_location": "L1",
+      "id": "src_components_about_tsx",
+      "community": 17,
+      "norm_label": "about.tsx"
+    },
+    {
+      "label": "Certifications.tsx",
+      "file_type": "code",
+      "source_file": "src/components/Certifications.tsx",
+      "source_location": "L1",
+      "id": "src_components_certifications_tsx",
+      "community": 18,
+      "norm_label": "certifications.tsx"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "src_app_tsx",
+      "target": "src_app_app",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_main_tsx",
+      "target": "src_app_tsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FramerSplitText.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "src_components_framersplittext_tsx",
+      "target": "components_framersplittext_framersplittext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "src_components_hero_tsx",
+      "target": "components_hero_hackertext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "src_components_hero_tsx",
+      "target": "components_hero_rollingtext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Hero.tsx",
+      "source_location": "L122",
+      "weight": 1.0,
+      "source": "src_components_hero_tsx",
+      "target": "components_hero_handleboot",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Navbar.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_components_navbar_tsx",
+      "target": "components_navbar_scrollto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Experience.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "src_components_experience_tsx",
+      "target": "components_experience_experience",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/MagneticButton.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "src_components_magneticbutton_tsx",
+      "target": "components_magneticbutton_magneticbutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Cursor.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "src_components_cursor_tsx",
+      "target": "components_cursor_cursor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/BootSequence.tsx",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "src_components_bootsequence_tsx",
+      "target": "components_bootsequence_runsequence",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FloatingTerminal.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "src_components_floatingterminal_tsx",
+      "target": "components_floatingterminal_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FloatingTerminal.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "src_components_floatingterminal_tsx",
+      "target": "components_floatingterminal_handlekeydown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Noise.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "src_components_noise_tsx",
+      "target": "components_noise_noise",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ScrollKinetics.tsx",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "src_components_scrollkinetics_tsx",
+      "target": "components_scrollkinetics_ring",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

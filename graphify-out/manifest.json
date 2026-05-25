@@ -1,0 +1,114 @@
+{
+  "/Users/harshagv/Documents/harshagv.github.io/eslint.config.js": {
+    "mtime": 1774363836.8982801,
+    "hash": "b8893da386a89dfd3672dad848f4ec7e"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/vite.config.ts": {
+    "mtime": 1774534382.828682,
+    "hash": "a1e4a1e5f5fa1d3c1ef8dcdf62b244c7"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/App.tsx": {
+    "mtime": 1776448716.0447154,
+    "hash": "e31257df303a2f505151af390b88d12c"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/main.tsx": {
+    "mtime": 1774363836.9013512,
+    "hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/FramerSplitText.tsx": {
+    "mtime": 1776445221.1724849,
+    "hash": "ad6506e2896a16375a13a1ab25aafd96"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Hero.tsx": {
+    "mtime": 1776444916.4249263,
+    "hash": "77b5081ba364ef3c0e932ad105ee9a79"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Navbar.tsx": {
+    "mtime": 1776439708.5383224,
+    "hash": "cd37b8c83847299626865e217c710fd3"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Experience.tsx": {
+    "mtime": 1775405471.9464717,
+    "hash": "991bac073c6debc3c5585566366acbfc"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/SplitText.tsx": {
+    "mtime": 1776439690.9343266,
+    "hash": "71ad0887b1ffab3bee246b5482199f42"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/MagneticButton.tsx": {
+    "mtime": 1776442727.4525218,
+    "hash": "dd93b6c32720962183f96e2a08724d50"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Cursor.tsx": {
+    "mtime": 1774364671.2528005,
+    "hash": "fa462f164b77a0195c51829d98465f96"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/BootSequence.tsx": {
+    "mtime": 1777203369.0434318,
+    "hash": "03587ac9b7ec566b36842ae70a86a35e"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/FloatingTerminal.tsx": {
+    "mtime": 1774364671.2532694,
+    "hash": "2597b33cf7cf15ae33bbbae8d4fae7e4"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Footer.tsx": {
+    "mtime": 1776444706.0138056,
+    "hash": "c52096350ad846b90bd9db598ae0bb75"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Noise.tsx": {
+    "mtime": 1777047557.450597,
+    "hash": "10bc20ed3b56d71aa23b2fe4b6030ec7"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Odometer.tsx": {
+    "mtime": 1776440666.5712545,
+    "hash": "73e154c04246d6c7deedc8291c5e6287"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/ScrollKinetics.tsx": {
+    "mtime": 1775800700.2275593,
+    "hash": "806e4119858153dcabf0a0ce2a71df04"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Scene.tsx": {
+    "mtime": 1774539143.2738123,
+    "hash": "e058b441647c72036c218d38aebdf9cf"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/About.tsx": {
+    "mtime": 1775801405.357684,
+    "hash": "13602dc1221a292ad7d0865ef3e6b450"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/Certifications.tsx": {
+    "mtime": 1777203792.3611252,
+    "hash": "aa222d1c8a04033fb8c1cd934a5fecfc"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/index.html": {
+    "mtime": 1774364671.250728,
+    "hash": "efa6d372ba9bfbf5fcf25e0f70decf04"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/README.md": {
+    "mtime": 1774363836.8981164,
+    "hash": "f6e3faf55d738cf2affe1b44195f27cf"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/GEMINI.md": {
+    "mtime": 1777817764.0105133,
+    "hash": "8ee39dcfe68a23b3797b02648930d699"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/graph.md": {
+    "mtime": 1777817952.8413613,
+    "hash": "12f2238bd9543720878d7e4b105b1005"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/public/icons.svg": {
+    "mtime": 1774363836.8994246,
+    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/assets/hero.png": {
+    "mtime": 1774363836.9000962,
+    "hash": "5cf2b0762834cdddc0dd3ec1397b5011"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/assets/vite.svg": {
+    "mtime": 1774363836.9004693,
+    "hash": "9960a24288958394ac50e57ff638b036"
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/assets/react.svg": {
+    "mtime": 1774363836.90029,
+    "hash": "f0402b67b6ce880f65666bb49e841696"
+  }
+}
