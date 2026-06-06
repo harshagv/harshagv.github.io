@@ -87,7 +87,7 @@ function App() {
 
         {/* WEBGL LAYER (Z: -1) -> 3D WebGL Orbiting Star-field and Astrolabe over the top */}
         <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
-          <Canvas camera={{ position: [0, 0, 8], fov: 45 }} eventSource={document.body} eventPrefix="client">
+          <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 8], fov: 45 }} eventSource={document.body} eventPrefix="client">
             <Scene />
           </Canvas>
         </div>
