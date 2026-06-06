@@ -1,27 +1,64 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Stars, Environment } from '@react-three/drei';
+import { Float, Stars, Environment, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-const CyberAstrolabe: React.FC = () => {
+const MODEL_PATH = '/models/endurance.glb';
+
+const EnduranceSpacecraft: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const knotRef = useRef<THREE.Mesh>(null);
-  const ring1Ref = useRef<THREE.Mesh>(null);
-  const ring2Ref = useRef<THREE.Mesh>(null);
-  const ring3Ref = useRef<THREE.Mesh>(null);
+  const enduranceRef = useRef<THREE.Group>(null);
+  const { scene } = useGLTF(MODEL_PATH);
 
   const smoothedScroll = useRef(0);
 
-  // Keyframes corresponding to scroll sections:
-  // Designed for hyper-dramatic sweeping transitions
-  // Designed for hyper-dramatic sweeping transitions
-  // Designed for hyper-dramatic sweeping transitions
+  // Clone the scene so we don't mutate the cached original
+  const clonedScene = useMemo(() => scene.clone(true), [scene]);
+
+  // Auto-center and auto-scale the model to fit our scene
+  useEffect(() => {
+    if (!clonedScene) return;
+
+    const box = new THREE.Box3().setFromObject(clonedScene);
+    const size = box.getSize(new THREE.Vector3());
+
+    // Do NOT auto-center via bounding box. The original model's origin (0,0,0) 
+    // is the true pivot. Bounding boxes include uneven geometry which shifts the pivot 
+    // and causes the 'big circle' wobble during rotation.
+
+    // Scale up by another 20% from previous size (3.6 units)
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const targetSize = 4.32;
+    const scaleFactor = targetSize / maxDim;
+    clonedScene.scale.setScalar(scaleFactor);
+
+    // Upgrade all materials for warm golden metallic look (matching reference image)
+    clonedScene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
+        if (mesh.material) {
+          const mat = mesh.material as THREE.MeshStandardMaterial;
+          if (mat.metalness !== undefined) {
+            mat.metalness = Math.max(mat.metalness, 0.8);
+            mat.roughness = Math.min(mat.roughness, 0.2);
+            mat.envMapIntensity = 0.4; // Restored environmental reflections
+          }
+          mat.needsUpdate = true;
+        }
+      }
+    });
+  }, [clonedScene]);
+
+  // Keyframes designed to aggressively sweep the spacecraft past the camera
   const keyframes = [
-    { p: 0.00, pos: [3.5, 0, 0], rot: [0, 0, 0], scale: 1.0 },                 
-    { p: 0.25, pos: [-2.0, -0.5, -2], rot: [Math.PI, Math.PI/3, Math.PI/2], scale: 1.6 }, // Noticeable cinematic focus without being overwhelming
-    { p: 0.50, pos: [2.5, 1, -4], rot: [0, Math.PI*1.5, Math.PI], scale: 0.8 }, // Experience / Threat Model
-    { p: 0.75, pos: [-4.0, -2.0, -10], rot: [Math.PI, 0, Math.PI*3], scale: 0.4 }, // Aggressive dive & triple-spin before Certs
-    { p: 1.00, pos: [0, 0, 2], rot: [Math.PI*2, Math.PI*2, Math.PI/2], scale: 1.3 }, // Final framing in Certs             
+    { p: 0.00, pos: [3.5, 0, 0], rot: [0, 0, 0], scale: 1.0 },
+    { p: 0.25, pos: [-2.0, -0.5, -2], rot: [Math.PI / 4, Math.PI / 6, 0], scale: 1.6 },
+    { p: 0.50, pos: [2.5, 1, -4], rot: [-Math.PI / 6, Math.PI / 4, 0], scale: 0.8 },
+    { p: 0.75, pos: [-4.0, -2.0, -10], rot: [Math.PI / 3, -Math.PI / 3, 0], scale: 0.4 },
+    { p: 1.00, pos: [0, 0, 2], rot: [-Math.PI / 4, Math.PI / 6, 0], scale: 1.3 },
   ];
 
   useFrame((state, delta) => {
@@ -36,26 +73,26 @@ const CyberAstrolabe: React.FC = () => {
     // Calculate current keyframe segment
     let startIndex = 0;
     for (let i = 0; i < keyframes.length - 1; i++) {
-        if (scrollProgress >= keyframes[i].p && scrollProgress <= keyframes[i+1].p) {
-            startIndex = i;
-            break;
-        }
+      if (scrollProgress >= keyframes[i].p && scrollProgress <= keyframes[i + 1].p) {
+        startIndex = i;
+        break;
+      }
     }
     const start = keyframes[startIndex];
     const end = keyframes[Math.min(startIndex + 1, keyframes.length - 1)];
-    
+
     // Normalize progress to segment
     const segmentProgress = (scrollProgress - start.p) / (end.p - start.p || 1);
-    
+
     // Apple-like ease-in-out cubic curve mapped over the damped physics
-    const ease = segmentProgress < 0.5 
-      ? 4 * segmentProgress * segmentProgress * segmentProgress 
+    const ease = segmentProgress < 0.5
+      ? 4 * segmentProgress * segmentProgress * segmentProgress
       : 1 - Math.pow(-2 * segmentProgress + 2, 3) / 2;
 
     const targetX = THREE.MathUtils.lerp(start.pos[0], end.pos[0], ease);
     const targetY = THREE.MathUtils.lerp(start.pos[1], end.pos[1], ease);
     const targetZ = THREE.MathUtils.lerp(start.pos[2], end.pos[2], ease);
-    
+
     const targetRotX = THREE.MathUtils.lerp(start.rot[0], end.rot[0], ease);
     const targetRotY = THREE.MathUtils.lerp(start.rot[1], end.rot[1], ease);
     const targetRotZ = THREE.MathUtils.lerp(start.rot[2], end.rot[2], ease);
@@ -69,57 +106,25 @@ const CyberAstrolabe: React.FC = () => {
       groupRef.current.scale.setScalar(targetScale);
     }
 
-    // Continual subtle ambient rotations inside the structure
-    if (knotRef.current) {
-      knotRef.current.rotation.x = time * 0.2;
-      knotRef.current.rotation.y = time * 0.3;
+    // The Endurance physically rotates around its Y axis
+    if (enduranceRef.current) {
+      enduranceRef.current.rotation.y = time * 0.2;
     }
-    
-    if (ring1Ref.current) ring1Ref.current.rotation.x = time * 0.5;
-    if (ring2Ref.current) ring2Ref.current.rotation.y = time * 0.4;
-    if (ring3Ref.current) ring3Ref.current.rotation.z = time * 0.3;
   });
 
   return (
     <group ref={groupRef}>
-      <Float speed={2} rotationIntensity={0} floatIntensity={0.5}>
-        
-        {/* Core Torus Knot */}
-        <mesh ref={knotRef}>
-          <torusKnotGeometry args={[1.2, 0.35, 256, 64]} />
-          {/* High end metal aesthetic */}
-          <meshPhysicalMaterial 
-            color="#222222"
-            metalness={1}
-            roughness={0.15}
-            clearcoat={1}
-            clearcoatRoughness={0.1}
-            emissive="#0CAFFF"
-            emissiveIntensity={0.6}
-            wireframe={false}
-          />
-        </mesh>
-
-        {/* Outer Gyro Rings */}
-        <mesh ref={ring1Ref}>
-          <torusGeometry args={[2.2, 0.02, 16, 100]} />
-          <meshBasicMaterial color="#0CAFFF" transparent opacity={0.6} />
-        </mesh>
-        
-        <mesh ref={ring2Ref} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[2.5, 0.01, 16, 100]} />
-          <meshBasicMaterial color="#00ff66" transparent opacity={0.4} />
-        </mesh>
-
-        <mesh ref={ring3Ref} rotation={[0, Math.PI / 2, 0]}>
-          <torusGeometry args={[2.8, 0.005, 16, 100]} />
-          <meshBasicMaterial color="#ffffff" transparent opacity={0.2} />
-        </mesh>
-        
+      <Float speed={0.5} rotationIntensity={0.05} floatIntensity={0.05}>
+        <group ref={enduranceRef}>
+          <primitive object={clonedScene} />
+        </group>
       </Float>
     </group>
   );
 };
+
+// Preload the model so it starts downloading immediately
+useGLTF.preload(MODEL_PATH);
 
 const CameraController: React.FC = () => {
   useFrame((state) => {
@@ -128,28 +133,46 @@ const CameraController: React.FC = () => {
     const targetY = (state.pointer.y * 0.5);
     state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.05);
     state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.05);
-    
+
     // HARD LOCK Z to 8 so it NEVER crashes into or swallows the text/screen.
-    state.camera.position.z = 8; 
+    state.camera.position.z = 8;
     state.camera.lookAt(0, 0, 0);
   });
   return null;
 };
 
 const Scene: React.FC = () => {
+  const spotLightRef = useRef<THREE.SpotLight>(null);
+
+  useFrame((state) => {
+    if (spotLightRef.current) {
+      // Shift sun color between deep golden orange and brighter yellow/white
+      // HSL: Hue oscillates between 0.05 (orange) and 0.12 (yellow)
+      const hue = 0.085 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.035;
+      spotLightRef.current.color.setHSL(hue, 1, 0.6);
+    }
+  });
+
   return (
     <>
-      {/* Studio Lighting for the metallic finish */}
-      <ambientLight intensity={0.2} />
-      <directionalLight position={[10, 10, 5]} intensity={2} color="#ffffff" />
-      <spotLight position={[-10, 10, -10]} angle={0.3} penumbra={1} intensity={5} color="#00ff66" />
-      <spotLight position={[10, -10, 10]} angle={0.3} penumbra={1} intensity={5} color="#0CAFFF" />
-      
-      {/* Environment map gives the metal extremely realistic reflections */}
-      <Environment preset="city" />
-      
+      {/* Gentle ambient light to lift the absolute pitch black darkness slightly */}
+      <ambientLight intensity={0.15} />
+
+      {/* Single powerful Key Light from the side. Color is animated in useFrame */}
+      <spotLight
+        ref={spotLightRef}
+        position={[-15, 5, 10]}
+        angle={0.4}
+        penumbra={0.5}
+        intensity={80}
+        castShadow
+      />
+
+      {/* Restored Environmental lighting to give the metal realistic specularity */}
+      <Environment preset="night" />
+
       <CameraController />
-      <CyberAstrolabe />
+      <EnduranceSpacecraft />
       <Stars radius={100} depth={50} count={2000} factor={3} saturation={0} fade speed={1} />
     </>
   );
