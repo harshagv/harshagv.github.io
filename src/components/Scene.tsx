@@ -43,8 +43,8 @@ const EnduranceSpacecraft: React.FC = () => {
           const mat = mesh.material as THREE.MeshStandardMaterial;
           if (mat.metalness !== undefined) {
             mat.metalness = Math.max(mat.metalness, 0.8);
-            mat.roughness = Math.min(mat.roughness, 0.2);
-            mat.envMapIntensity = 0.4; // Restored environmental reflections
+            mat.roughness = Math.max(mat.roughness, 0.4); // Satin finish to diffuse sunlight across more of the model
+            mat.envMapIntensity = 0.65; // Boost environment reflections slightly for richer metallic detail
           }
           mat.needsUpdate = true;
         }
@@ -162,9 +162,9 @@ const Scene: React.FC = () => {
       <spotLight
         ref={spotLightRef}
         position={[-15, 5, 10]}
-        angle={0.4}
-        penumbra={0.5}
-        intensity={80}
+        angle={0.65} // Widen the cone angle from 0.4 to 0.65 to illuminate more of the rotating model
+        penumbra={0.7} // Softer edges for a smoother transition from lit to shadow
+        intensity={260} // Boosted significantly to increase sunlight brightness
         castShadow
       />
 
