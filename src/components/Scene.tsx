@@ -141,39 +141,39 @@ const CameraController: React.FC = () => {
   return null;
 };
 
+
+
 const Scene: React.FC = () => {
-  const spotLightRef = useRef<THREE.SpotLight>(null);
+  const dirLightRef = useRef<THREE.DirectionalLight>(null);
 
   useFrame((state) => {
-    if (spotLightRef.current) {
+    if (dirLightRef.current) {
       // Shift sun color between deep golden orange and brighter yellow/white
-      // HSL: Hue oscillates between 0.05 (orange) and 0.12 (yellow)
       const hue = 0.085 + Math.sin(state.clock.getElapsedTime() * 0.5) * 0.035;
-      spotLightRef.current.color.setHSL(hue, 1, 0.6);
+      dirLightRef.current.color.setHSL(hue, 1, 0.6);
     }
   });
 
   return (
     <>
-      {/* Gentle ambient light to lift the absolute pitch black darkness slightly */}
-      <ambientLight intensity={0.15} />
+      {/* Gentle ambient light to lift the deep space contrast and reveal details on the dark side */}
+      <ambientLight intensity={0.4} />
 
-      {/* Single powerful Key Light from the side. Color is animated in useFrame */}
-      <spotLight
-        ref={spotLightRef}
-        position={[-15, 5, 10]}
-        angle={0.65} // Widen the cone angle from 0.4 to 0.65 to illuminate more of the rotating model
-        penumbra={0.7} // Softer edges for a smoother transition from lit to shadow
-        intensity={260} // Boosted significantly to increase sunlight brightness
+      {/* Strong Directional Light positioned to create a glowing rim effect from the right/back */}
+      <directionalLight
+        ref={dirLightRef}
+        position={[15, 2, -10]}
+        intensity={8}
         castShadow
       />
 
-      {/* Restored Environmental lighting to give the metal realistic specularity */}
-      <Environment preset="night" />
+      {/* Restored Environmental lighting to give the metal realistic specularity on all sides */}
+      <Environment preset="night" environmentIntensity={0.5} />
 
       <CameraController />
       <EnduranceSpacecraft />
       <Stars radius={100} depth={50} count={2000} factor={3} saturation={0} fade speed={1} />
+
     </>
   );
 };
