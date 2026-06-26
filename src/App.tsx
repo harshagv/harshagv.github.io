@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import { Loader } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
@@ -87,9 +88,22 @@ function App() {
 
         {/* WEBGL LAYER (Z: -1) -> 3D WebGL Orbiting Star-field and Astrolabe over the top */}
         <div className="fixed inset-0 w-full h-full z-[-1] pointer-events-none">
-          <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 8], fov: 45 }} eventSource={document.body} eventPrefix="client">
-            <Scene />
+          <Canvas 
+            dpr={[1, 2]} 
+            camera={{ position: [0, 0, 8], fov: 45 }} 
+            eventSource={document.body} 
+            eventPrefix="client"
+            role="img"
+            aria-label="Interactive 3D model of the Endurance Spacecraft"
+          >
+            <Suspense fallback={null}>
+              <Scene />
+            </Suspense>
           </Canvas>
+          <Loader 
+            dataInterpolation={(p) => `Loading Spacecraft ${p.toFixed(0)}%`}
+            initialState={(active) => active}
+          />
         </div>
 
         {/* DOM Foreground Content */}

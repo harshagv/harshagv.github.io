@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float, Stars, Environment, useGLTF } from '@react-three/drei';
+import { Float, Stars, Environment, useGLTF, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
 
 const MODEL_PATH = '/models/endurance.glb';
@@ -116,7 +116,17 @@ const EnduranceSpacecraft: React.FC = () => {
     <group ref={groupRef}>
       <Float speed={0.5} rotationIntensity={0.05} floatIntensity={0.05}>
         <group ref={enduranceRef}>
-          <primitive object={clonedScene} />
+          {/* PresentationControls allow subtle mouse dragging/rotation independently from the GSAP scroll animations */}
+          <PresentationControls
+            global={false}
+            cursor={true}
+            snap={true}
+            speed={1.5}
+            polar={[-0.1, 0.1]}
+            azimuth={[-0.5, 0.5]}
+          >
+            <primitive object={clonedScene} />
+          </PresentationControls>
         </group>
       </Float>
     </group>
