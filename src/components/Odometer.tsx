@@ -28,7 +28,7 @@ const Odometer: React.FC<OdometerProps> = ({ value }) => {
         {
           y: `-${targetDigit * 10}%`,
           duration: 1.5 + (index * 0.3), // Stagger rolling between digits
-          ease: "power4.inOut",
+          ease: "power4.out",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 95%",
@@ -41,7 +41,7 @@ const Odometer: React.FC<OdometerProps> = ({ value }) => {
   }, [value]);
 
   return (
-    <div ref={containerRef} className="flex overflow-hidden h-[1.2em] relative leading-[1.2em] font-mono mr-4 font-bold text-[var(--color-accent)] opacity-80 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+    <div ref={containerRef} className="flex overflow-hidden h-[1.2em] relative leading-[1.2em] font-mono mr-4 font-bold text-[var(--color-accent)] opacity-80 group-hover:opacity-100 transition-opacity whitespace-nowrap" style={{ fontVariantNumeric: 'tabular-nums' }}>
       
       {/* Tens Column */}
       <div className="digit-column relative h-full">

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { useReducedMotion } from 'framer-motion';
 import { Float, Stars, Environment, useGLTF, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
 import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
@@ -206,6 +207,21 @@ const EnduranceSpacecraft: React.FC = () => {
             mat.metalness = Math.max(mat.metalness, 0.8);
             mat.roughness = Math.max(mat.roughness, 0.4); // Satin finish to diffuse sunlight across more of the model
             mat.envMapIntensity = 0.65; // Boost environment reflections slightly for richer metallic detail
+
+            // Fresnel rim-light via onBeforeCompile
+            mat.onBeforeCompile = (shader) => {
+              shader.fragmentShader = shader.fragmentShader.replace(
+                '#include <dithering_fragment>',
+                `
+                #include <dithering_fragment>
+                float fresnel = abs(dot(normalize(vNormal), normalize(vViewPosition)));
+                fresnel = 1.0 - fresnel;
+                fresnel = pow(fresnel, 3.0);
+                // Subtle bright rim glow to make the silhouette read even in shadow
+                gl_FragColor.rgb += vec3(0.6, 0.8, 1.0) * fresnel * 0.4;
+                `
+              );
+            };
           }
           mat.needsUpdate = true;
         }
@@ -298,12 +314,19 @@ const EnduranceSpacecraft: React.FC = () => {
 useGLTF.preload(MODEL_PATH);
 
 const CameraController: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   useFrame((state) => {
-    // Elegant ambient parallax based on pointer
-    const targetX = (state.pointer.x * 0.5);
-    const targetY = (state.pointer.y * 0.5);
-    state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.05);
-    state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.05);
+    if (prefersReducedMotion) {
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, 0, 0.05);
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, 0, 0.05);
+    } else {
+      // Elegant ambient parallax based on pointer
+      const targetX = (state.pointer.x * 0.5);
+      const targetY = (state.pointer.y * 0.5);
+      state.camera.position.x = THREE.MathUtils.lerp(state.camera.position.x, targetX, 0.05);
+      state.camera.position.y = THREE.MathUtils.lerp(state.camera.position.y, targetY, 0.05);
+    }
 
     // HARD LOCK Z to 8 so it NEVER crashes into or swallows the text/screen.
     state.camera.position.z = 8;
@@ -319,6 +342,11 @@ const SUN_POSITION: [number, number, number] = [15, 2, -10];
 
 const Scene: React.FC = () => {
   const dirLightRef = useRef<THREE.DirectionalLight>(null);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('scene-ready'));
+    (window as any)._sceneReady = true;
+  }, []);
 
   useFrame((state) => {
     if (dirLightRef.current) {
