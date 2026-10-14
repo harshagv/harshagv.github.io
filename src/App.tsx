@@ -94,14 +94,14 @@ function App() {
             eventSource={document.body} 
             eventPrefix="client"
             role="img"
-            aria-label="Interactive 3D model of the Endurance Spacecraft"
+            aria-label="Interactive 3D Earth Globe"
           >
             <Suspense fallback={null}>
               <Scene />
             </Suspense>
           </Canvas>
           <Loader 
-            dataInterpolation={(p) => `Loading Spacecraft ${p.toFixed(0)}%`}
+            dataInterpolation={(p) => `Loading Globe ${p.toFixed(0)}%`}
             initialState={(active) => active}
           />
         </div>
