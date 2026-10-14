@@ -62,16 +62,28 @@ const About: React.FC = () => {
   }, { scope: containerRef });
 
   useEffect(() => {
-    let currentText = '';
-    const fullText = textToType.join('');
-    let i = 0;
-    const interval = setInterval(() => {
-      currentText += fullText.charAt(i);
-      setDisplayText(currentText);
-      i++;
-      if (i === fullText.length) clearInterval(interval);
-    }, 15);
-    return () => clearInterval(interval);
+    let interval: ReturnType<typeof setInterval>;
+    
+    ScrollTrigger.create({
+      trigger: terminalRef.current,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        let currentText = '';
+        const fullText = textToType.join('');
+        let i = 0;
+        interval = setInterval(() => {
+          currentText += fullText.charAt(i);
+          setDisplayText(currentText);
+          i++;
+          if (i === fullText.length) clearInterval(interval);
+        }, 15);
+      }
+    });
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -108,6 +120,8 @@ const About: React.FC = () => {
               <style dangerouslySetInnerHTML={{
                 __html: `
                   .scrollbar-hide::-webkit-scrollbar { display: none; }
+                  @keyframes blink-step { 50% { opacity: 0; } }
+                  .animate-blink-step { animation: blink-step 1s steps(1) infinite; }
                 `
               }} />
 
@@ -115,7 +129,7 @@ const About: React.FC = () => {
 
               <div className="text-[var(--color-accent)] text-base md:text-[17px] leading-[1.65] whitespace-pre-wrap">
                 {displayText}
-                <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-pulse ml-1 align-middle"></span>
+                <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-blink-step ml-1 align-middle"></span>
               </div>
 
               {/* Static section - Guaranteed to show */}

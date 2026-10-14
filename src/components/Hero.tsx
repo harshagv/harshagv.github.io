@@ -4,64 +4,34 @@ import { gsap } from 'gsap';
 import MagneticButton from './MagneticButton';
 import type { Variants } from 'framer-motion';
 
-const HackerText: React.FC<{ text: string, className?: string }> = ({ text, className }) => {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*";
+import HackerText from './HackerText';
 
-  const scramble = (t: string) =>
-    t.split("").map(() => letters[Math.floor(Math.random() * letters.length)]).join("");
+const IdleTelemetry: React.FC = () => {
+  const [isIdle, setIsIdle] = useState(false);
+  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [booted, setBooted] = useState(false);
-  const [displayText, setDisplayText] = useState('');
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const animateText = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    setDisplayText(scramble(text));
-
-    let iteration = 0;
-    intervalRef.current = setInterval(() => {
-      setDisplayText(() =>
-        text.split("").map((_, index) => {
-          if (index < iteration) return text[index];
-          return letters[Math.floor(Math.random() * letters.length)];
-        }).join("")
-      );
-      if (iteration >= text.length) {
-        clearInterval(intervalRef.current!);
-      }
-      iteration += 1 / 2;
-    }, 40);
+  const resetIdle = () => {
+    setIsIdle(false);
+    if (idleTimer.current) clearTimeout(idleTimer.current);
+    idleTimer.current = setTimeout(() => {
+      setIsIdle(true);
+    }, 8000); // 8s idle
   };
 
   useEffect(() => {
-    let bootTimeout: ReturnType<typeof setTimeout>;
-
-    const handleBootComplete = () => {
-      setBooted(true);
-      bootTimeout = setTimeout(animateText, 300);
-    };
-
-    window.addEventListener('boot-complete', handleBootComplete);
-
-    // ✅ Fallback in case event already fired before mount
-    bootTimeout = setTimeout(() => {
-      setBooted(true);
-      animateText();
-    }, 1500);
-
+    window.addEventListener('mousemove', resetIdle);
+    window.addEventListener('scroll', resetIdle);
+    resetIdle();
     return () => {
-      window.removeEventListener('boot-complete', handleBootComplete);
-      clearTimeout(bootTimeout);
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      window.removeEventListener('mousemove', resetIdle);
+      window.removeEventListener('scroll', resetIdle);
+      if (idleTimer.current) clearTimeout(idleTimer.current);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <span
-      className={`${className} transition-opacity duration-300 ${booted ? 'opacity-100' : 'opacity-0'}`}
-      onMouseEnter={animateText}
-    >
-      {booted ? displayText : ''}
+    <span className={`transition-opacity duration-1000 ${isIdle ? 'opacity-50' : 'opacity-0'} ml-2 font-mono text-[var(--color-accent)] animate-pulse`}>
+      ▁▂▃▅▃▂
     </span>
   );
 };
@@ -74,7 +44,7 @@ const RollingText: React.FC<{ titles: string[] }> = ({ titles }) => {
       () => {
         setIndex((prev) => (prev + 1) % titles.length);
       },
-      3000
+      2400
     );
 
     return () => clearInterval(interval);
@@ -85,9 +55,9 @@ const RollingText: React.FC<{ titles: string[] }> = ({ titles }) => {
       <AnimatePresence mode="popLayout">
         <motion.div
           key={index}
-          initial={{ y: '120%', opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: '-120%', opacity: 0 }}
+          initial={{ y: '120%', opacity: 0, filter: 'blur(8px)' }}
+          animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+          exit={{ y: '-120%', opacity: 0, filter: 'blur(8px)' }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className="whitespace-nowrap"
         >
@@ -150,6 +120,7 @@ const Hero: React.FC = () => {
             <span className="text-[var(--color-accent)] font-mono text-lg md:text-xl tracking-wide flex items-center">
               &gt; SECURE UPLINK: SYDNEY_NODE
               <span className="inline-block w-2.5 h-5 md:h-6 bg-[var(--color-accent)] animate-pulse ml-2 opacity-80" />
+              <IdleTelemetry />
             </span>
           </motion.div>
 
@@ -158,7 +129,7 @@ const Hero: React.FC = () => {
             className="text-5xl md:text-7xl lg:text-8xl tracking-normal text-white leading-[1.1] pointer-events-auto cursor-crosshair uppercase drop-shadow-[0_0_15px_rgba(0,255,102,0.1)]"
             style={{ fontFamily: 'Monoton, sans-serif', fontWeight: 'normal' }}
           >
-            <HackerText text="Harsha G V" />
+            <HackerText text="Harsha G V" mode="decrypt" triggerOnBoot={true} />
           </motion.h1>
 
           <div

@@ -89,7 +89,7 @@ const Certifications: React.FC = () => {
           scale: 1,
           duration: 0.65,
           delay: i * 0.04,        // very tight stagger = wave effect
-          ease: "elastic.out(1, 0.5)",
+          ease: "back.out(1.4)",
           scrollTrigger: {
             trigger: badge,
             start: "top 85%",

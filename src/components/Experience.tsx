@@ -21,9 +21,7 @@ const Experience: React.FC = () => {
   const scrollContentRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 1. Horizontal Scroll Jacking for Battle Stations
     if (scrollWrapperRef.current && scrollContentRef.current) {
-      // Instead of relying on gap-blind xPercent arrays, translate the entire continuous flex track length minus the viewport
       gsap.to(scrollContentRef.current, {
         x: () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 50), // 50px buffer ensures the final card clears the right-edge on mobile
         ease: "none",

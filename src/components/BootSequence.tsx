@@ -14,20 +14,36 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const runSequence = async () => {
       const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-      // Wait 1.2s before even starting the text so the H-appear takes full focus
-      await wait(1200);
+      // Wait for fonts and scene-ready event (with a 3s max timeout fallback)
+      await Promise.race([
+        Promise.all([
+          document.fonts.ready,
+          new Promise(resolve => {
+            const onReady = () => {
+              window.removeEventListener('scene-ready', onReady);
+              resolve(true);
+            };
+            if ((window as any)._sceneReady) {
+              resolve(true);
+            } else {
+              window.addEventListener('scene-ready', onReady);
+            }
+          })
+        ]),
+        wait(3000)
+      ]);
 
       if (isCancelled) return;
       setBootText('> INIT SYSTEM.');
-      await wait(600);
+      await wait(300);
 
       if (isCancelled) return;
       setBootText('> INIT SYSTEM..');
-      await wait(600);
+      await wait(300);
 
       if (isCancelled) return;
       setBootText('> INIT SYSTEM...');
-      await wait(800);
+      await wait(300);
 
       const remainingText = '\n> SYSTEM ONLINE\n> ACCESS GRANTED\n';
       let currentText = '> INIT SYSTEM...';
@@ -37,14 +53,14 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
         if (isCancelled) return;
         currentText += remainingText[i];
         setBootText(currentText);
-        await wait(45); // Standard rapid terminal typing speed (~1.5s total)
+        await wait(25); // Faster typing
       }
 
       if (isCancelled) return;
       setIsTypingComplete(true);
 
-      // Extended buffer to guarantee the spinner completes at least 2 full loops
-      await wait(1500);
+      // Brief buffer to let the CRT scanline complete
+      await wait(800);
 
       if (isCancelled) return;
       window.dispatchEvent(new CustomEvent('boot-complete'));
@@ -61,7 +77,7 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     const timeout = setTimeout(() => {
       setSpinnerStarted(true);
       setSpinnerStep(0);
-    }, 800); // Start tracer loop after the 800ms stagger-appear finishes
+    }, 200); // Start tracer loop early
     return () => clearTimeout(timeout);
   }, []);
 
@@ -69,7 +85,7 @@ const BootSequence: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
     if (!spinnerStarted) return;
     const interval = setInterval(() => {
       setSpinnerStep((prev) => (prev + 1) % 10);
-    }, 260);
+    }, 200);
     return () => clearInterval(interval);
   }, [spinnerStarted]);
 
