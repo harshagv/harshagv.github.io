@@ -150,7 +150,7 @@ const Hero: React.FC = () => {
             variants={item}
             className="mt-6 text-gray-400 max-w-2xl text-lg md:text-xl font-light pointer-events-auto leading-relaxed"
           >
-            Cybersecurity Engineer based in Sydney, architecting resilient defense postures and Zero Trust environments. Specialising in Cloud Security, Threat Detection, Agentic AI Security, and DevSecOps for the APAC region.
+            Sydney-based security engineer building resilient defence postures, Zero Trust environments, and secure-by-default cloud platforms. Specialising in Identity, Detection Engineering, Agentic AI Security, and DevSecOps.
           </motion.p>
 
           <motion.div
