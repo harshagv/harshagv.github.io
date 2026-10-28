@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
+import SessionKey from './SessionKey';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,7 @@ const Navbar: React.FC = () => {
   const scrollTo = (id: string, e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     setIsOpen(false);
+    window.dispatchEvent(new CustomEvent('session-rekey'));
     const lenis = (window as any).lenis;
     const target = id === 'root' ? 0 : `#${id}`;
 
@@ -38,7 +40,8 @@ const Navbar: React.FC = () => {
             <span className="text-[var(--color-accent)]">H</span>arsha.
           </a>
         </MagneticButton>
-        <ul className="hidden md:flex items-center justify-center space-x-4 text-sm font-medium text-gray-400">
+        <div className="hidden md:flex items-center">
+        <ul className="flex items-center justify-center space-x-4 text-sm font-medium text-gray-400">
           <li>
             <MagneticButton intensity={0.3}>
               <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">About</a>
@@ -60,6 +63,10 @@ const Navbar: React.FC = () => {
             </MagneticButton>
           </li>
         </ul>
+          <span className="ml-6 pl-6 border-l border-white/10 flex items-center">
+            <SessionKey />
+          </span>
+        </div>
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white hover:text-[var(--color-accent)] transition-colors relative z-[60]">
           {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>

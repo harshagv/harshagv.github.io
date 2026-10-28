@@ -3,7 +3,6 @@ import { useFrame } from '@react-three/fiber';
 import { useReducedMotion } from 'framer-motion';
 import { Stars, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { Lensflare, LensflareElement } from 'three/examples/jsm/objects/Lensflare.js';
 
 // ─── Earth Texture URLs ──────────────────────────────────────────────────────
 const EARTH_SPEC = 'https://unpkg.com/three-globe@2.35.0/example/img/earth-water.png';
@@ -12,185 +11,6 @@ const EARTH_SPEC = 'https://unpkg.com/three-globe@2.35.0/example/img/earth-water
 const SUN_POSITION: [number, number, number] = [18, 4, -12];
 const SUN_DIRECTION = new THREE.Vector3(...SUN_POSITION).normalize();
 
-// ─── Procedural Lens Flare Textures ──────────────────────────────────────────
-const createFlareTexture = (
-  size: number,
-  innerColor: string,
-  outerColor: string,
-  falloff: number = 0.5
-): THREE.CanvasTexture => {
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d')!;
-  const half = size / 2;
-
-  const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
-  gradient.addColorStop(0, innerColor);
-  gradient.addColorStop(falloff, outerColor);
-  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, size, size);
-
-  return new THREE.CanvasTexture(canvas);
-};
-
-const SunLensFlare: React.FC<{ lightRef: React.RefObject<THREE.DirectionalLight | null> }> = ({ lightRef }) => {
-  const lensflareRef = useRef<Lensflare | null>(null);
-
-  useEffect(() => {
-    if (!lightRef.current) return;
-
-    const textureBig = createFlareTexture(512, 'rgba(255, 230, 180, 1)', 'rgba(255, 160, 60, 0.18)', 0.12);
-    const textureMedium = createFlareTexture(256, 'rgba(255, 200, 100, 0.7)', 'rgba(255, 120, 40, 0)', 0.35);
-    const textureSmall = createFlareTexture(128, 'rgba(200, 180, 255, 0.45)', 'rgba(100, 100, 255, 0)', 0.3);
-
-    const lensflare = new Lensflare();
-    lensflare.addElement(new LensflareElement(textureBig, 420, 0, new THREE.Color(1, 0.92, 0.75)));
-    lensflare.addElement(new LensflareElement(textureMedium, 180, 0.08, new THREE.Color(1, 0.82, 0.55)));
-    lensflare.addElement(new LensflareElement(textureSmall, 70, 0.35, new THREE.Color(0.7, 0.75, 1)));
-    lensflare.addElement(new LensflareElement(textureSmall, 50, 0.55, new THREE.Color(1, 0.7, 0.5)));
-    lensflare.addElement(new LensflareElement(textureSmall, 90, 0.75, new THREE.Color(0.5, 0.8, 1)));
-
-    lightRef.current.add(lensflare);
-    lensflareRef.current = lensflare;
-
-    return () => {
-      if (lightRef.current && lensflareRef.current) {
-        lightRef.current.remove(lensflareRef.current);
-      }
-      lensflareRef.current = null;
-    };
-  }, [lightRef]);
-
-  return null;
-};
-
-// ─── Visible Sun Disk + Core Glow ────────────────────────────────────────────
-const SunDisk: React.FC = () => {
-  const coreRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    if (coreRef.current) {
-      const pulse = 1 + Math.sin(t * 0.4) * 0.04;
-      coreRef.current.scale.setScalar(pulse);
-    }
-    if (glowRef.current) {
-      (glowRef.current.material as THREE.MeshBasicMaterial).opacity = 0.55 + Math.sin(t * 0.3) * 0.08;
-    }
-  });
-
-  return (
-    <group position={SUN_POSITION}>
-      <mesh ref={coreRef}>
-        <sphereGeometry args={[0.35, 32, 32]} />
-        <meshBasicMaterial color="#FFF5E0" toneMapped={false} />
-      </mesh>
-
-      <mesh ref={glowRef} scale={[2.8, 2.8, 2.8]}>
-        <sphereGeometry args={[0.35, 32, 32]} />
-        <meshBasicMaterial
-          color="#FFB060"
-          transparent
-          opacity={0.55}
-          depthWrite={false}
-          blending={THREE.AdditiveBlending}
-          toneMapped={false}
-        />
-      </mesh>
-    </group>
-  );
-};
-
-// ─── Multi-layer Volumetric God Rays ─────────────────────────────────────────
-const GodRays: React.FC = () => {
-  const groupRef = useRef<THREE.Group>(null);
-
-  const materials = useMemo(() => {
-    const makeShaft = (intensity: number, warm: boolean) => {
-      const canvas = document.createElement('canvas');
-      canvas.width = 256;
-      canvas.height = 1024;
-      const ctx = canvas.getContext('2d')!;
-
-      const grad = ctx.createLinearGradient(0, 0, 0, 1024);
-      grad.addColorStop(0, 'rgba(0,0,0,0)');
-      grad.addColorStop(0.15, warm ? `rgba(255,180,80,${intensity * 0.4})` : `rgba(255,210,150,${intensity * 0.3})`);
-      grad.addColorStop(0.5, warm ? `rgba(255,200,100,${intensity})` : `rgba(255,230,180,${intensity * 0.7})`);
-      grad.addColorStop(0.85, warm ? `rgba(255,160,50,${intensity * 0.3})` : `rgba(255,200,120,${intensity * 0.2})`);
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 256, 1024);
-
-      const sideGrad = ctx.createLinearGradient(0, 0, 256, 0);
-      sideGrad.addColorStop(0, 'rgba(0,0,0,0)');
-      sideGrad.addColorStop(0.35, 'rgba(255,255,255,1)');
-      sideGrad.addColorStop(0.65, 'rgba(255,255,255,1)');
-      sideGrad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.globalCompositeOperation = 'destination-in';
-      ctx.fillStyle = sideGrad;
-      ctx.fillRect(0, 0, 256, 1024);
-
-      const tex = new THREE.CanvasTexture(canvas);
-      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
-
-      return new THREE.SpriteMaterial({
-        map: tex,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        depthWrite: false,
-        opacity: 1,
-        toneMapped: false,
-      });
-    };
-
-    return [
-      makeShaft(0.55, true),
-      makeShaft(0.35, false),
-      makeShaft(0.25, true),
-      makeShaft(0.40, true),
-    ];
-  }, []);
-
-  useFrame((state) => {
-    if (!groupRef.current) return;
-    const t = state.clock.getElapsedTime();
-
-    groupRef.current.children.forEach((child, i) => {
-      const sprite = child as THREE.Sprite;
-      const baseOpacity = [0.7, 0.45, 0.35, 0.55][i];
-      sprite.material.opacity = baseOpacity * (0.85 + Math.sin(t * 0.25 + i) * 0.15);
-      sprite.material.rotation = Math.sin(t * 0.08 + i * 0.7) * 0.04;
-    });
-  });
-
-  return (
-    <group ref={groupRef} position={SUN_POSITION}>
-      {materials.map((mat, i) => {
-        const scaleX = [3.5, 2.2, 5.5, 1.8][i];
-        const scaleY = [28, 18, 38, 12][i];
-        const offset = [
-          [0, 0, 0],
-          [1.2, 0.8, -0.5],
-          [-0.8, -1.1, 0.3],
-          [0.4, -0.3, 0.6],
-        ][i];
-
-        return (
-          <sprite
-            key={i}
-            material={mat}
-            scale={[scaleX, scaleY, 1]}
-            position={offset as [number, number, number]}
-          />
-        );
-      })}
-    </group>
-  );
-};
 
 // ─── Binary Globe Shader (anti-aliased 0s and 1s on landmasses) ──────────────
 // FIX: glyphs stay dot-sized (3px), but each pixel's coverage is box-filtered
@@ -693,8 +513,6 @@ const CameraController: React.FC = () => {
 
 // ─── Main Scene ──────────────────────────────────────────────────────────────
 const Scene: React.FC = () => {
-  const dirLightRef = useRef<THREE.DirectionalLight>(null);
-
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('scene-ready'));
     (window as any)._sceneReady = true;
@@ -707,7 +525,6 @@ const Scene: React.FC = () => {
 
       {/* Main cinematic sun – NO shadows */}
       <directionalLight
-        ref={dirLightRef}
         position={SUN_POSITION}
         intensity={12}
         color="#FFE8C0"
@@ -719,10 +536,6 @@ const Scene: React.FC = () => {
         intensity={0.32}
         color="#004422"
       />
-
-      <SunLensFlare lightRef={dirLightRef} />
-      <SunDisk />
-      <GodRays />
 
       <CameraController />
       <DotMatrixGlobe />

@@ -1,40 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import MagneticButton from './MagneticButton';
+import LockOn from './LockOn';
 import type { Variants } from 'framer-motion';
 
 import HackerText from './HackerText';
 
-const IdleTelemetry: React.FC = () => {
-  const [isIdle, setIsIdle] = useState(false);
-  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const resetIdle = () => {
-    setIsIdle(false);
-    if (idleTimer.current) clearTimeout(idleTimer.current);
-    idleTimer.current = setTimeout(() => {
-      setIsIdle(true);
-    }, 8000); // 8s idle
-  };
-
-  useEffect(() => {
-    window.addEventListener('mousemove', resetIdle);
-    window.addEventListener('scroll', resetIdle);
-    resetIdle();
-    return () => {
-      window.removeEventListener('mousemove', resetIdle);
-      window.removeEventListener('scroll', resetIdle);
-      if (idleTimer.current) clearTimeout(idleTimer.current);
-    };
-  }, []);
-
-  return (
-    <span className={`transition-opacity duration-1000 ${isIdle ? 'opacity-50' : 'opacity-0'} ml-2 font-mono text-[var(--color-accent)] animate-pulse`}>
-      ▁▂▃▅▃▂
+// Threat radar: a sweeping cone with a contact that appears briefly as the beam passes.
+// The scope beats like a heartbeat (two quick glows, then rest, ring on the second glow),
+// timed so the second glow lands as the beam hits the contact. Styles in index.css.
+const ThreatRadar: React.FC = () => (
+  <span aria-hidden="true" className="threat-radar ml-3">
+    <span className="threat-radar-scope">
+      <span className="threat-radar-blip" />
     </span>
-  );
-};
+  </span>
+);
 
 const RollingText: React.FC<{ titles: string[] }> = ({ titles }) => {
   const [index, setIndex] = useState(0);
@@ -119,8 +101,8 @@ const Hero: React.FC = () => {
           <motion.div variants={item} className="inline-block pointer-events-auto">
             <span className="text-[var(--color-accent)] font-mono text-lg md:text-xl tracking-wide flex items-center">
               &gt; SECURE UPLINK: SYDNEY_NODE
-              <span className="inline-block w-2.5 h-5 md:h-6 bg-[var(--color-accent)] animate-pulse ml-2 opacity-80" />
-              <IdleTelemetry />
+              <span aria-hidden="true" className="scan-cursor inline-block w-2.5 h-5 md:h-6 ml-2" />
+              <ThreatRadar />
             </span>
           </motion.div>
 
@@ -158,8 +140,9 @@ const Hero: React.FC = () => {
             className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 pointer-events-auto"
           >
             <MagneticButton intensity={0.4}>
+              <LockOn>
               <button
-                className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden"
+                className="px-8 py-4 bg-[var(--color-accent)] text-black font-bold rounded-lg hover:bg-white focus:bg-white transition-all shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:shadow-[0_0_40px_rgba(255,255,255,0.6)] relative group overflow-hidden cursor-pointer"
                 onClick={() => {
                   const lenis = (window as any).lenis;
                   if (lenis) {
@@ -177,15 +160,18 @@ const Hero: React.FC = () => {
                   Explore Battle Stations
                 </span>
               </button>
+              </LockOn>
             </MagneticButton>
 
             <MagneticButton intensity={0.4}>
+              <LockOn>
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent('open-terminal'))}
-                className="px-8 py-4 bg-transparent border border-[var(--color-accent)]/40 text-white font-mono uppercase tracking-widest text-sm font-bold rounded-lg hover:bg-[var(--color-accent)]/10 transition-colors"
+                className="px-8 py-4 bg-transparent border border-[var(--color-accent)]/40 text-white font-mono uppercase tracking-widest text-sm font-bold rounded-lg hover:bg-[var(--color-accent)]/10 hover:border-[var(--color-accent)]/70 transition-colors cursor-pointer"
               >
                 Access Terminal
               </button>
+              </LockOn>
             </MagneticButton>
           </motion.div>
         </motion.div>

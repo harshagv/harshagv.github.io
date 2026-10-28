@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import NodeClock from './NodeClock';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -96,13 +97,14 @@ const About: React.FC = () => {
           >
             {/* Terminal Header */}
             <div className="bg-[#161b22] px-4 py-3 border-b border-[#30363d] flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
                   <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
                   <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
                 </div>
                 <span className="font-mono text-[#8b949e] text-sm">harsha@cloud-fortress:~/whoami</span>
+                <NodeClock />
               </div>
               <span className="font-mono text-[var(--color-accent)] text-xs border border-[var(--color-accent)]/50 rounded-full px-3 py-1 bg-black/30 hidden md:block">
                 read-only · no root shells here 👀

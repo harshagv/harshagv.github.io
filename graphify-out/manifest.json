@@ -1,114 +1,287 @@
 {
   "/Users/harshagv/Documents/harshagv.github.io/eslint.config.js": {
     "mtime": 1774363836.8982801,
-    "hash": "b8893da386a89dfd3672dad848f4ec7e"
+    "ast_hash": "b8893da386a89dfd3672dad848f4ec7e",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/vite.config.ts": {
-    "mtime": 1774534382.828682,
-    "hash": "a1e4a1e5f5fa1d3c1ef8dcdf62b244c7"
+    "mtime": 1779368060.890746,
+    "ast_hash": "a1e4a1e5f5fa1d3c1ef8dcdf62b244c7",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/App.tsx": {
-    "mtime": 1776448716.0447154,
-    "hash": "e31257df303a2f505151af390b88d12c"
+    "mtime": 1789039460.6592927,
+    "ast_hash": "29c1e082c3d50f7a6bec62531f67e265",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/main.tsx": {
     "mtime": 1774363836.9013512,
-    "hash": "787e5a07efeb2bf6209d5937195f2f68"
+    "ast_hash": "787e5a07efeb2bf6209d5937195f2f68",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/FramerSplitText.tsx": {
-    "mtime": 1776445221.1724849,
-    "hash": "ad6506e2896a16375a13a1ab25aafd96"
+    "mtime": 1793215539.106588,
+    "ast_hash": "9f2baa01e3cb882e3c31e33d94e58e3d",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Hero.tsx": {
-    "mtime": 1776444916.4249263,
-    "hash": "77b5081ba364ef3c0e932ad105ee9a79"
+    "mtime": 1793216369.9815347,
+    "ast_hash": "f352fd0519b6130ec9fe429fea408d9d",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Navbar.tsx": {
-    "mtime": 1776439708.5383224,
-    "hash": "cd37b8c83847299626865e217c710fd3"
+    "mtime": 1793216677.6361108,
+    "ast_hash": "1b9a3b125c43a512de6b132b96e0cd7d",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Experience.tsx": {
-    "mtime": 1775405471.9464717,
-    "hash": "991bac073c6debc3c5585566366acbfc"
+    "mtime": 1783262760.3191092,
+    "ast_hash": "73feb7cfbc01f732402a311d4dc35506",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/SplitText.tsx": {
     "mtime": 1776439690.9343266,
-    "hash": "71ad0887b1ffab3bee246b5482199f42"
+    "ast_hash": "71ad0887b1ffab3bee246b5482199f42",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/MagneticButton.tsx": {
     "mtime": 1776442727.4525218,
-    "hash": "dd93b6c32720962183f96e2a08724d50"
+    "ast_hash": "dd93b6c32720962183f96e2a08724d50",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Cursor.tsx": {
     "mtime": 1774364671.2528005,
-    "hash": "fa462f164b77a0195c51829d98465f96"
+    "ast_hash": "fa462f164b77a0195c51829d98465f96",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/BootSequence.tsx": {
-    "mtime": 1777203369.0434318,
-    "hash": "03587ac9b7ec566b36842ae70a86a35e"
+    "mtime": 1783262728.6762328,
+    "ast_hash": "e0a87a358a5e824320263c2a3a3e581e",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/FloatingTerminal.tsx": {
     "mtime": 1774364671.2532694,
-    "hash": "2597b33cf7cf15ae33bbbae8d4fae7e4"
+    "ast_hash": "2597b33cf7cf15ae33bbbae8d4fae7e4",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Footer.tsx": {
-    "mtime": 1776444706.0138056,
-    "hash": "c52096350ad846b90bd9db598ae0bb75"
+    "mtime": 1793217320.6441667,
+    "ast_hash": "51aa4ae9226820c44c48412a93594f50",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Noise.tsx": {
     "mtime": 1777047557.450597,
-    "hash": "10bc20ed3b56d71aa23b2fe4b6030ec7"
+    "ast_hash": "10bc20ed3b56d71aa23b2fe4b6030ec7",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Odometer.tsx": {
-    "mtime": 1776440666.5712545,
-    "hash": "73e154c04246d6c7deedc8291c5e6287"
+    "mtime": 1783262033.975114,
+    "ast_hash": "1868530fd2284b3dc1d396204696a2bd",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/ScrollKinetics.tsx": {
-    "mtime": 1775800700.2275593,
-    "hash": "806e4119858153dcabf0a0ce2a71df04"
+    "mtime": 1793212926.4376304,
+    "ast_hash": "806e4119858153dcabf0a0ce2a71df04",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Scene.tsx": {
-    "mtime": 1774539143.2738123,
-    "hash": "e058b441647c72036c218d38aebdf9cf"
+    "mtime": 1793216184.1401064,
+    "ast_hash": "59026db23283461ab19a98c104827a24",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/About.tsx": {
-    "mtime": 1775801405.357684,
-    "hash": "13602dc1221a292ad7d0865ef3e6b450"
+    "mtime": 1793211967.6773522,
+    "ast_hash": "c7898326f209023841cf4fa722813641",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/components/Certifications.tsx": {
-    "mtime": 1777203792.3611252,
-    "hash": "aa222d1c8a04033fb8c1cd934a5fecfc"
+    "mtime": 1783262049.9212115,
+    "ast_hash": "6eacaee1c63bf98a960147c20448302a",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/index.html": {
-    "mtime": 1774364671.250728,
-    "hash": "efa6d372ba9bfbf5fcf25e0f70decf04"
+    "mtime": 1779368060.8913667,
+    "ast_hash": "efa6d372ba9bfbf5fcf25e0f70decf04",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/README.md": {
     "mtime": 1774363836.8981164,
-    "hash": "f6e3faf55d738cf2affe1b44195f27cf"
+    "ast_hash": "f6e3faf55d738cf2affe1b44195f27cf",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/GEMINI.md": {
     "mtime": 1777817764.0105133,
-    "hash": "8ee39dcfe68a23b3797b02648930d699"
+    "ast_hash": "8ee39dcfe68a23b3797b02648930d699",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/graph.md": {
     "mtime": 1777817952.8413613,
-    "hash": "12f2238bd9543720878d7e4b105b1005"
+    "ast_hash": "12f2238bd9543720878d7e4b105b1005",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/public/icons.svg": {
     "mtime": 1774363836.8994246,
-    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+    "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/assets/hero.png": {
     "mtime": 1774363836.9000962,
-    "hash": "5cf2b0762834cdddc0dd3ec1397b5011"
+    "ast_hash": "5cf2b0762834cdddc0dd3ec1397b5011",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/assets/vite.svg": {
     "mtime": 1774363836.9004693,
-    "hash": "9960a24288958394ac50e57ff638b036"
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": ""
   },
   "/Users/harshagv/Documents/harshagv.github.io/src/assets/react.svg": {
     "mtime": 1774363836.90029,
-    "hash": "f0402b67b6ce880f65666bb49e841696"
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/tsconfig.node.json": {
+    "mtime": 1774363836.9017062,
+    "ast_hash": "eec85c9d7c6b599801557f1afd86672c",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/tsconfig.app.json": {
+    "mtime": 1774363836.9014711,
+    "ast_hash": "1079e34c0d979ff4e9c96e544b296d8f",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/package.json": {
+    "mtime": 1791994725.821136,
+    "ast_hash": "2298d8fbd88d5a5c1949a0d999ebe16b",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/tsconfig.json": {
+    "mtime": 1774363836.9015877,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/.gemini/settings.json": {
+    "mtime": 1777817764.0107036,
+    "ast_hash": "8ce69198b56a0694f81e85bd4f33373b",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/report-schema.json": {
+    "mtime": 1789414134.0,
+    "ast_hash": "45df82d396f66aa5166e8ed7959520b2",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/HackerText.tsx": {
+    "mtime": 1783261912.4067762,
+    "ast_hash": "59742d203e6150bfed3980dfb4fd8ad1",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/.github/workflows/deploy.yml": {
+    "mtime": 1774534382.8281076,
+    "ast_hash": "e4eaa9c6e83a1d8f69441e953e5eb385",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/RESOURCE-EXHAUSTION-AND-AVAILABILITY.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "cd602b30cc2d4619f81d5f06aa6f4cdb",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/DATA-ISOLATION-AND-LIFECYCLE.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "fdd89ac7baab1c5f2f6a8fccf1105dec",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/SUPPLY-CHAIN-AND-RELEASE.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "52fe332b608df9ea8182e8881ef6cc5d",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/AI-AND-LLM.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "2007e7eac4e362d436a30679a5569291",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/RECONNAISSANCE.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "54896c52546adad7d6714e2fa7463468",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/MEMORY-SAFETY-AND-BINARY.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "e34f776918ae8c3e9e8dee772d62ecd7",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/CLOUD-AND-DEPLOYMENT.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "b6113499d8e31ecf35486cc9be3cc8cd",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/SKILL.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "0b5b0d1007f2095360ce811bf02c5d77",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/WEB-PROTOCOL-AND-AUTH.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "2b7484c839443219cffcd2d84b0d486d",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/ATTACK-CLASSES.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "d2fde6de50e5a56b42b0f9bd7b819e45",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/PROTOCOLS-RPC-AND-MESSAGING.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "c2d8be65810e31b3012701a8f594c1e6",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/CLIENT-SIDE.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "8aaa95c9b10a85581de68d6ee71d1a75",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/DESKTOP-MOBILE-AND-LOCAL-IPC.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "6fd7b6739f2757c0acb261114dbc0c57",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/VALIDATION-AND-REPORTING.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "ee86d6a351d98dc0d8e833ddb1011f8c",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/skills/security-audit/HUNTING.md": {
+    "mtime": 1789414134.0,
+    "ast_hash": "95ddce3b9ae662810a4bcfb544cb3be6",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/NodeClock.tsx": {
+    "mtime": 1793211935.8914118,
+    "ast_hash": "12379a8f9dea72db5becbf25a9d5dd59",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/RoundTripProbe.tsx": {
+    "mtime": 1793211938.7726252,
+    "ast_hash": "06cf60acd2e37e3032ee6541515e1d05",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/SessionKey.tsx": {
+    "mtime": 1793216678.7814062,
+    "ast_hash": "47ca23b7c64c2b101a2673f7788ccc7d",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/LockOn.tsx": {
+    "mtime": 1793216684.8318357,
+    "ast_hash": "db608f2ce528ff10d16d5103e3c15d5a",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/components/TcpHandshake.tsx": {
+    "mtime": 1793215535.8247154,
+    "ast_hash": "9c232e7be1352e4e37b3c1443090d835",
+    "semantic_hash": ""
+  },
+  "/Users/harshagv/Documents/harshagv.github.io/src/assets/sydney-harbourscape.png": {
+    "mtime": 1793213308.9051025,
+    "ast_hash": "fa8512aa17a875ab12ad15cf32934652",
+    "semantic_hash": ""
   }
 }
