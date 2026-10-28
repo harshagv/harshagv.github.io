@@ -96,6 +96,38 @@ html.lenis, html.lenis body {
 .footer-harbour { background-size: 330% auto; background-position: 54% 86%; }
 @media (min-width: 768px) { .footer-harbour { background-size: 125.5% auto; background-position: 100% 82%; } }
 
+/* Footer › Dot-matrix photo + Scope reveal
+   The photo is drawn through a 4px dot grid (same texture as the 3D globe), which
+   roughly halves its average brightness. A dim base layer shows everywhere; a brighter
+   copy is revealed inside a soft circle that follows the pointer (rests on the Opera House). */
+@property --mx { syntax: '<length-percentage>'; inherits: true; initial-value: 42%; }
+@property --my { syntax: '<length-percentage>'; inherits: true; initial-value: 62%; }
+@property --sr { syntax: '<length>'; inherits: true; initial-value: 130px; }
+.harbour-band { --mx: 42%; --my: 62%; --sr: 130px;
+  transition: --mx .7s cubic-bezier(.2,.8,.2,1), --my .7s cubic-bezier(.2,.8,.2,1), --sr .4s ease-out; }
+.harbour-band.is-tracking { --sr: 170px; transition: --mx .12s linear, --my .12s linear, --sr .4s ease-out; }
+@media (max-width: 767px) { .harbour-band { --mx: 45%; --my: 60%; --sr: 90px; } }
+.harbour-dots {
+  -webkit-mask: radial-gradient(circle, #000 1.35px, transparent 1.75px) 0 0 / 4px 4px;
+          mask: radial-gradient(circle, #000 1.35px, transparent 1.75px) 0 0 / 4px 4px; }
+.harbour-base { filter: brightness(.7) saturate(.75); }
+.harbour-scope { filter: brightness(1.25) saturate(1);
+  -webkit-mask: radial-gradient(circle var(--sr) at var(--mx) var(--my), #000 0%, rgb(0 0 0 / .55) 45%, transparent 100%);
+          mask: radial-gradient(circle var(--sr) at var(--mx) var(--my), #000 0%, rgb(0 0 0 / .55) 45%, transparent 100%); }
+.harbour-reticle { position: absolute; left: var(--mx); top: var(--my); width: calc(var(--sr) * 2); height: calc(var(--sr) * 2);
+  transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none;
+  border: 1px solid rgb(0 255 102 / .14); box-shadow: inset 0 0 40px rgb(0 255 102 / .05); opacity: .6; transition: opacity .3s; }
+.harbour-band.is-tracking .harbour-reticle { opacity: 1; }
+/* "Eyes adjusting": the whole band brightens as the footer scrolls into view (Chrome/Edge; others stay at rest) */
+@supports (animation-timeline: view()) {
+  .harbour-dots { animation: harbour-dawn linear both; animation-timeline: view(); animation-range: entry 0% cover 45%; }
+  @keyframes harbour-dawn { from { filter: brightness(.35); } to { filter: brightness(1); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .harbour-dots { animation: none; }
+  .harbour-band, .harbour-band.is-tracking { transition: none; }
+}
+
 /* Footer › social icons tinted mint to match the green harbour art */
 .footer-icon { opacity: .75; filter: invert(1) sepia(1) saturate(2.2) hue-rotate(80deg) brightness(.95); transition: opacity .3s, filter .3s; }
 .footer-icon:hover { opacity: 1; filter: invert(1) sepia(1) saturate(2.2) hue-rotate(80deg) brightness(1.1) drop-shadow(0 0 8px #00ff66); }
