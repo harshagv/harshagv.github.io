@@ -18,6 +18,7 @@ import BootSequence from './components/BootSequence';
 import ScrollKinetics from './components/ScrollKinetics';
 import { AnimatePresence } from 'framer-motion';
 import { initGlobeDirector } from './motion/globeDirector';
+import { initScrollPolish } from './motion/scrollPolish';
 import SpecBand from './components/SpecBand';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +68,9 @@ function App() {
   // 3. Globe choreography — each section drives its own leg of the globe's flight path.
   useEffect(() => {
     if (!booted) return;
-    return initGlobeDirector();
+    const stopGlobe = initGlobeDirector();
+    const stopPolish = initScrollPolish();
+    return () => { stopPolish(); stopGlobe(); };
   }, [booted]);
 
   return (

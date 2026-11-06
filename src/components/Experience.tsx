@@ -61,6 +61,23 @@ const Experience: React.FC = () => {
         { clipPath: 'inset(0% 0% round 0px)', ease: 'none', scrollTrigger: opening });
       gsap.fromTo(content, { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { ...opening } });
 
+      // Inertia: cards lean into fast scrolls and ease back upright as the track settles.
+      const lean = { skew: 0 };
+      const setSkew = gsap.quickSetter('.station-card', 'skewX', 'deg');
+      ScrollTrigger.create({
+        trigger: wrapper,
+        start: 'center center',
+        end: () => `+=${content.scrollWidth}`,
+        invalidateOnRefresh: true,
+        onUpdate: (st) => {
+          const v = gsap.utils.clamp(-4, 4, st.getVelocity() / -350);
+          if (Math.abs(v) > Math.abs(lean.skew)) {
+            lean.skew = v;
+            gsap.to(lean, { skew: 0, duration: 0.9, ease: 'power3.out', overwrite: true, onUpdate: () => setSkew(lean.skew) });
+          }
+        },
+      });
+
       // 3. Focus: each card brightens and settles to full size as it reaches the reading zone.
       gsap.utils.toArray<HTMLElement>('.station-card').forEach((card) => {
         gsap.fromTo(card, { opacity: 0.35, scale: 0.92 }, {
@@ -93,7 +110,7 @@ const Experience: React.FC = () => {
       {/* Horizontal Scroll Wrapper */}
       <div ref={scrollWrapperRef} className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
         <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
-          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4">Security Battle Stations</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4 section-heading">Security Battle Stations</h2>
           <div className="flex items-end justify-between gap-6 pl-6">
             <p className="text-gray-400 text-lg md:text-xl">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>
             <p className="font-mono text-sm tracking-[0.2em] text-gray-500 shrink-0" aria-hidden="true">
@@ -101,7 +118,7 @@ const Experience: React.FC = () => {
             </p>
           </div>
           <div className="ml-6 mt-5 h-[2px] bg-white/10 rounded-full overflow-hidden" aria-hidden="true">
-            <div className="stations-rail h-full w-full origin-left bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-cyan)]" style={{ transform: 'scaleX(0)' }} />
+            <div className="stations-rail h-full w-full origin-left bg-[var(--color-accent)] shadow-[0_0_8px_var(--color-accent)]" style={{ transform: 'scaleX(0)' }} />
           </div>
         </div>
 

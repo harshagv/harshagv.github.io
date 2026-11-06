@@ -91,7 +91,7 @@ const Hero: React.FC = () => {
 
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center px-6 pointer-events-none">
-      <div className="max-w-7xl mx-auto w-full z-10 pointer-events-auto mt-20">
+      <div className="hero-content max-w-7xl mx-auto w-full z-10 pointer-events-auto mt-20 will-change-transform">
         <motion.div
           variants={container}
           initial="hidden"

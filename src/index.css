@@ -232,7 +232,7 @@ html.lenis, html.lenis body {
 
 /* ─── Battle Stations: pointer spotlight ─────────────────────────────────── */
 .station-card {
-  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(0 255 102 / .07), transparent 45%);
+  background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--color-accent) 7%, transparent), transparent 45%);
   will-change: transform, opacity;
 }
 
@@ -269,14 +269,35 @@ html.lenis, html.lenis body {
   to   { opacity: 1; translate: 0 0; }
 }
 
-/* ─── Spec band: oversized gradient numerals ─────────────────────────────── */
+/* ─── Spec band: oversized numerals in the accent family ────────────────────
+   Hacker-green with a pale-mint (#c8ffdc) highlight sweeping across on scroll —
+   the same glint the TCP/scan-cursor effects use. */
 .spec-num {
   font-size: clamp(5rem, 13vw, 10.5rem);
   letter-spacing: -0.04em;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 30%, #00ff66 45%, #0CAFFF 58%, #ffffff 72%, #ffffff 100%);
+  background: linear-gradient(90deg,
+    var(--color-accent) 0%, var(--color-accent) 38%,
+    #c8ffdc 50%,
+    var(--color-accent) 62%, var(--color-accent) 100%);
   background-size: 300% 100%;
   background-position: 100% 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 15px rgb(0 255 102 / .25));
 }
+
+/* ─── Navbar: page-progress hairline + active-section marker ─────────────── */
+.nav-progress {
+  position: absolute; left: 28px; right: 28px; bottom: -1px; height: 1px; pointer-events: none;
+  background: var(--color-accent); box-shadow: 0 0 8px var(--color-accent);
+  transform-origin: left; transform: scaleX(var(--page-progress, 0));
+  opacity: .8;
+}
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 50%; bottom: -4px; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--color-accent); box-shadow: 0 0 6px var(--color-accent);
+  transform: translateX(-50%) scale(0); transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+.nav-link.is-active::after { transform: translateX(-50%) scale(1); }

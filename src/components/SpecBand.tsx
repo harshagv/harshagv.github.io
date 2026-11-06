@@ -50,16 +50,19 @@ const SpecBand: React.FC = () => {
 
   return (
     <section ref={rootRef} aria-label="At a glance"
-      className="relative w-full py-28 md:py-40 px-6 pointer-events-none bg-[#020202]/60 backdrop-blur-sm border-y border-[#30363d]/50">
+      className="relative w-full py-28 md:py-40 px-6 pointer-events-none bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
+      <p className="max-w-6xl mx-auto mb-12 md:mb-16 font-mono text-[var(--color-accent)] text-sm md:text-base tracking-wide pointer-events-auto">
+        &gt; NODE_SPECS --summary
+      </p>
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-8 pointer-events-auto">
         {specs.map((s) => (
           <div key={s.label} className="spec-item text-center md:text-left">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-gray-500 mb-3">{s.label}</p>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">{s.label}</p>
             <p className="spec-num font-black leading-none tabular-nums" data-value={s.value}
               aria-label={`${s.value} ${s.label}`}>
               {s.value}
             </p>
-            <p className="mt-4 text-gray-400 text-base">{s.note}</p>
+            <p className="mt-4 text-gray-400 text-base md:text-lg font-light">{s.note}</p>
           </div>
         ))}
       </div>

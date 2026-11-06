@@ -86,7 +86,7 @@ const Certifications: React.FC = () => {
 
             {/* Certificates */}
             <div>
-              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-8">Certifications</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-8 section-heading">Certifications</h2>
               <p className="text-gray-400 text-lg mb-8 pl-6">Validation of my expertise across cloud services, security methodologies, and Kubernetes architectures:</p>
 
               <ol className="pl-6 space-y-4">
@@ -103,7 +103,7 @@ const Certifications: React.FC = () => {
 
             {/* Ecosystem Badges — grouped by domain */}
             <div>
-              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[#0CAFFF] pl-6 mb-8">Ecosystem</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent-cyan)] pl-6 mb-8 section-heading">Ecosystem</h2>
               <div className="pl-6 space-y-7">
                 {badgeGroups.map((group) => (
                   <div key={group.title}>
