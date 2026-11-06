@@ -103,6 +103,7 @@ const ScrollKinetics: React.FC = () => {
     return (
         <section
             ref={sectionRef}
+            id="kinetics"
             className="relative w-full h-[100dvh] flex items-center justify-center"
             style={{ perspective: '900px', perspectiveOrigin: '50% 50%', minHeight: '400px', WebkitPerspective: '900px' }}
         >

@@ -2,87 +2,107 @@ import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import RiskTour from './RiskTour';
+import { stations } from '../data/portfolio';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stations = [
-  { title: "CSPM & Identity", desc: "Designing and enforcing least-privilege IAM, zero-trust patterns and guardrails for regulated workloads.", tags: ["AWS Organizations", "IAM", "SSO"] },
-  { title: "Runtime & Container Security", desc: "Building runtime detection and prevention for K8s and containers—prioritising signals over noise.", tags: ["eBPF", "Falco", "EKS"] },
-  { title: "Threat Detection & Telemetry", desc: "Curating high-fidelity detections and pipelines that turn logs into stories an IR team can act on.", tags: ["Security Hub", "SIEM", "Detections Engg"] },
-  { title: "Secure Automation", desc: "Automating the 'boring but critical' chores so humans can focus on the incidents that truly matter.", tags: ["Lambda", "SSM", "IaC"] },
-  { title: "Exposure Management", desc: "Continuous scanning and remediation of vulnerabilities across the full stack.", tags: ["Nessus", "Qualys", "Inspector"] },
-  { title: "AppSec & Secure Coding", desc: "Integrating security into the SDLC with SAST, DAST, and secure coding practices.", tags: ["SAST/DAST", "OWASP", "SCA"] },
-  { title: "GenAI Threat Defense", desc: "Using GenAI models to identify anomalies in user behavior, endpoint activity, and network traffic.", tags: ["LLM Security", "Anomaly Detection", "Behavior Analysis"] }
-];
+// Pointer-tracked spotlight: writes CSS vars only, no React state.
+const spotlight = (e: React.PointerEvent<HTMLDivElement>) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+};
 
 const Experience: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
   const scrollWrapperRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
 
+  const counterRef = useRef<HTMLSpanElement>(null);
+
   useGSAP(() => {
-    if (scrollWrapperRef.current && scrollContentRef.current) {
-      gsap.to(scrollContentRef.current, {
-        x: () => -(scrollContentRef.current!.scrollWidth - window.innerWidth + 50), // 50px buffer ensures the final card clears the right-edge on mobile
-        ease: "none",
-        scrollTrigger: {
-          trigger: scrollWrapperRef.current,
-          pin: true,
-          scrub: 1,
-          start: "center center",
-          end: () => `+=${scrollContentRef.current!.scrollWidth}`,
-          invalidateOnRefresh: true, // Auto-recalculate Math if mobile orientation flips
-        }
+    const wrapper = scrollWrapperRef.current;
+    const content = scrollContentRef.current;
+    if (!wrapper || !content) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const total = stations.length;
+
+    // 1. Horizontal track (unchanged distance maths) — now also drives the rail + "03 / 07" readout.
+    const track = gsap.to(content, {
+      x: () => -(content.scrollWidth - window.innerWidth + 50), // 50px buffer ensures the final card clears the right-edge on mobile
+      ease: 'none',
+      scrollTrigger: {
+        trigger: wrapper,
+        pin: true,
+        scrub: 1,
+        start: 'center center',
+        end: () => `+=${content.scrollWidth}`,
+        invalidateOnRefresh: true, // Auto-recalculate Math if mobile orientation flips
+        onUpdate: (st) => {
+          if (!counterRef.current) return;
+          const n = String(Math.min(total, Math.round(st.progress * (total - 1)) + 1)).padStart(2, '0');
+          if (counterRef.current.textContent !== n) counterRef.current.textContent = n;
+        },
+      },
+    });
+
+    gsap.fromTo('.stations-rail', { scaleX: 0 }, {
+      scaleX: 1, ease: 'none',
+      scrollTrigger: { trigger: wrapper, start: 'center center', end: () => `+=${content.scrollWidth}`, scrub: 1, invalidateOnRefresh: true },
+    });
+
+    if (!reduced) {
+      // 2. "Screen opening" — the panel starts as an inset, rounded display and grows to full-bleed,
+      //    landing exactly as the pin engages (like Apple's display showcase).
+      const opening = { trigger: wrapper, start: 'top bottom', end: 'center center', scrub: true };
+      gsap.fromTo(wrapper,
+        { clipPath: 'inset(14% 7% round 28px)' },
+        { clipPath: 'inset(0% 0% round 0px)', ease: 'none', scrollTrigger: opening });
+      gsap.fromTo(content, { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { ...opening } });
+
+      // 3. Focus: each card brightens and settles to full size as it reaches the reading zone.
+      gsap.utils.toArray<HTMLElement>('.station-card').forEach((card) => {
+        gsap.fromTo(card, { opacity: 0.35, scale: 0.92 }, {
+          opacity: 1, scale: 1, ease: 'none',
+          scrollTrigger: { trigger: card, containerAnimation: track, start: 'left 90%', end: 'left 50%', scrub: true },
+        });
       });
     }
 
-    // 2. Cinematic 3D Parallax Scrubbing for Risk and Learning blocks
-    gsap.utils.toArray('.reveal-card').forEach((card: any) => {
+    // 4. Cinematic 3D lift for the Learning block (transform/opacity only — no scrubbed blur).
+    gsap.utils.toArray<HTMLElement>('.reveal-card').forEach((card) => {
       gsap.fromTo(card,
         { autoAlpha: 0, y: 150, rotationX: -15, scale: 0.95, transformPerspective: 1000 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          rotationX: 0,
-          scale: 1,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 95%",
-            end: "top 40%",
-            scrub: 1 // Ties directly to the 3D scroll mass
-          }
-        }
-      );
+        { autoAlpha: 1, y: 0, rotationX: 0, scale: 1,
+          scrollTrigger: { trigger: card, start: 'top 95%', end: 'top 40%', scrub: 1 } });
     });
 
-    // 3. Cyber Blur Decrypt scrubbing for list items
-    gsap.utils.toArray('.reveal-text').forEach((text: any) => {
-      gsap.fromTo(text,
-        { autoAlpha: 0, x: -40, filter: "blur(10px)" },
-        {
-          autoAlpha: 1,
-          x: 0,
-          filter: "blur(0px)",
-          scrollTrigger: {
-            trigger: text,
-            start: "top 95%",
-            end: "top 70%",
-            scrub: 1
-          }
-        }
-      );
+    gsap.utils.toArray<HTMLElement>('.reveal-text').forEach((text) => {
+      gsap.fromTo(text, { autoAlpha: 0, x: -40 }, {
+        autoAlpha: 1, x: 0,
+        scrollTrigger: { trigger: text, start: 'top 95%', end: 'top 70%', scrub: 1 },
+      });
     });
 
   }, { scope: containerRef });
 
   return (
-    <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-hidden">
+    <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-x-clip">
 
       {/* Horizontal Scroll Wrapper */}
       <div ref={scrollWrapperRef} className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
         <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
           <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4">Security Battle Stations</h2>
-          <p className="text-gray-400 text-lg md:text-xl pl-6">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>
+          <div className="flex items-end justify-between gap-6 pl-6">
+            <p className="text-gray-400 text-lg md:text-xl">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>
+            <p className="font-mono text-sm tracking-[0.2em] text-gray-500 shrink-0" aria-hidden="true">
+              <span ref={counterRef} className="text-[var(--color-accent)]">01</span> / {String(stations.length).padStart(2, '0')}
+            </p>
+          </div>
+          <div className="ml-6 mt-5 h-[2px] bg-white/10 rounded-full overflow-hidden" aria-hidden="true">
+            <div className="stations-rail h-full w-full origin-left bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-cyan)]" style={{ transform: 'scaleX(0)' }} />
+          </div>
         </div>
 
         <div className="w-full overflow-hidden flex items-center">
@@ -90,6 +110,7 @@ const Experience: React.FC = () => {
             {stations.map((s, i) => (
               <div
                 key={i}
+                onPointerMove={spotlight}
                 className="station-card shrink-0 w-[350px] md:w-[450px] min-h-[300px] bg-[#0d1117]/80 backdrop-blur-xl border border-[#30363d] rounded-2xl p-8 flex flex-col justify-between shadow-2xl hover:border-[var(--color-accent)] transition-colors duration-300"
               >
                 <div>
@@ -110,28 +131,8 @@ const Experience: React.FC = () => {
       </div>
 
       <div className="max-w-6xl mx-auto z-10 pointer-events-auto px-6 mt-32">
-        {/* Threat Model Section */}
-        <div className="reveal-card bg-gradient-to-br from-[#0d1117]/90 to-black/90 border border-[var(--color-accent-cyan)]/20 rounded-2xl p-8 md:p-12 backdrop-blur-md shadow-2xl">
-          <h3 className="text-2xl md:text-4xl font-black text-white mb-8 border-l-4 border-[#0CAFFF] pl-6">How I Think About Risk</h3>
-          <ul className="space-y-6 text-gray-300 text-lg">
-            <li className="reveal-text flex items-start">
-              <span className="text-[#0CAFFF] font-bold mr-4 mt-1">01.</span>
-              <div><strong className="text-white">Identity first:</strong> If an attacker compromises identity, they own your blast radius—so I prioritise hardening authentication, authorisation and path-to-prod.</div>
-            </li>
-            <li className="reveal-text flex items-start">
-              <span className="text-[#0CAFFF] font-bold mr-4 mt-1">02.</span>
-              <div><strong className="text-white">Signal over noise:</strong> More alerts ≠ more security. I design detections that map to attacker behaviours, not just misconfigurations.</div>
-            </li>
-            <li className="reveal-text flex items-start">
-              <span className="text-[#0CAFFF] font-bold mr-4 mt-1">03.</span>
-              <div><strong className="text-white">Secure-by-default:</strong> Developers should have to work <em>harder</em> to make something insecure than secure. Guardrails & golden paths &gt; manual reviews.</div>
-            </li>
-            <li className="reveal-text flex items-start">
-              <span className="text-[#0CAFFF] font-bold mr-4 mt-1">04.</span>
-              <div><strong className="text-white">Evidence-driven decisions:</strong> Whether it's a CSPM alert or a SOC playbook, the question is always: "What data proves this is happening?"</div>
-            </li>
-          </ul>
-        </div>
+        {/* Threat Model — sticky feature tour */}
+        <RiskTour />
 
         {/* Currently Learning Section */}
         <div className="reveal-card mt-12 bg-[#0d1117]/60 border border-[var(--color-accent)]/20 rounded-2xl p-8 backdrop-blur-md shadow-lg">

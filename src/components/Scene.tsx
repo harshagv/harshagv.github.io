@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useReducedMotion } from 'framer-motion';
 import { Stars, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
+import { globe, scrollState, SYD_LAT, SYD_LON } from '../motion/globeDirector';
 
 // ─── Earth Texture URLs ──────────────────────────────────────────────────────
 const EARTH_SPEC = 'https://unpkg.com/three-globe@2.35.0/example/img/earth-water.png';
@@ -331,7 +332,6 @@ const GLYPH_BOOST = 1.5; // brightens the soft-edged dots to match the old look
 const DotMatrixGlobe: React.FC = () => {
   const groupRef = useRef<THREE.Group>(null);
   const rotationGroupRef = useRef<THREE.Group>(null);
-  const smoothedScroll = useRef(0);
 
   const [maskTexture, setMaskTexture] = useState<THREE.Texture | null>(null);
 
@@ -361,49 +361,30 @@ const DotMatrixGlobe: React.FC = () => {
     };
   }, [maskTexture]);
 
-  const keyframes = useMemo(() => [
-    { p: 0.00, pos: [3.0, 0, 0], rot: [0, 0, 0], scale: 1.0 },
-    { p: 0.25, pos: [-2.0, -0.5, -2], rot: [Math.PI / 4, Math.PI / 6, 0], scale: 1.6 },
-    { p: 0.50, pos: [2.5, 1, -4], rot: [-Math.PI / 6, Math.PI / 4, 0], scale: 0.8 },
-    { p: 0.75, pos: [-4.0, -2.0, -10], rot: [Math.PI / 3, -Math.PI / 3, 0], scale: 0.4 },
-    { p: 1.00, pos: [0, 0, 2], rot: [-Math.PI / 4, Math.PI / 6, 0], scale: 1.3 },
-  ], []);
+  // Accumulated auto-spin. It pauses while the globe is locked on Sydney so that
+  // releasing the lock eases back into the spin instead of whipping round.
+  const spin = useRef(0);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
+    const f = globe.focus * globe.lock; // effective lock 0..1
 
-    if (rotationGroupRef.current) rotationGroupRef.current.rotation.y += delta * 0.0575; // +15% rotation speed
-
-    const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
-    const rawScrollProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, rawScrollProgress, 6, delta);
-    const scrollProgress = smoothedScroll.current;
+    if (rotationGroupRef.current) {
+      spin.current += delta * 0.0575 * (1 - f);
+      // Yaw that brings lon 151°E to face the camera, taken at the turn nearest the current spin.
+      const TAU = Math.PI * 2;
+      // The globe sits off-axis, so aim the marker at the camera (z = 8) rather than straight down +z.
+      const face = -SYD_LON + Math.atan2(-globe.x, 8 - globe.z);
+      const target = face + Math.round((spin.current - face) / TAU) * TAU;
+      rotationGroupRef.current.rotation.y = THREE.MathUtils.lerp(spin.current, target, f);
+    }
 
     if (groupRef.current) {
-      let startIndex = 0;
-      for (let i = 0; i < keyframes.length - 1; i++) {
-        if (scrollProgress >= keyframes[i].p && scrollProgress <= keyframes[i + 1].p) {
-          startIndex = i;
-          break;
-        }
-      }
-      const start = keyframes[startIndex];
-      const end = keyframes[Math.min(startIndex + 1, keyframes.length - 1)];
-      const segmentProgress = (scrollProgress - start.p) / (end.p - start.p || 1);
-      const ease = segmentProgress < 0.5
-        ? 4 * segmentProgress * segmentProgress * segmentProgress
-        : 1 - Math.pow(-2 * segmentProgress + 2, 3) / 2;
-
-      groupRef.current.position.x = THREE.MathUtils.lerp(start.pos[0], end.pos[0], ease);
-      groupRef.current.position.y = THREE.MathUtils.lerp(start.pos[1], end.pos[1], ease) + Math.sin(time * 0.3) * 0.08;
-      groupRef.current.position.z = THREE.MathUtils.lerp(start.pos[2], end.pos[2], ease);
-
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(start.rot[0], end.rot[0], ease);
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(start.rot[1], end.rot[1], ease);
-      groupRef.current.rotation.z = THREE.MathUtils.lerp(start.rot[2], end.rot[2], ease);
-
-      const s = THREE.MathUtils.lerp(start.scale, end.scale, ease);
-      groupRef.current.scale.set(s, s, s);
+      const g = groupRef.current;
+      g.position.set(globe.x, globe.y + Math.sin(time * 0.3) * 0.08, globe.z);
+      // Extra pitch by Sydney's latitude while locked, so the marker sits dead centre.
+      g.rotation.set(globe.rx + f * SYD_LAT, globe.ry, 0);
+      g.scale.setScalar(globe.s);
     }
   });
 
@@ -457,9 +438,7 @@ const ParallaxStars: React.FC = () => {
   const smoothedScroll = useRef(0);
 
   useFrame((_state, delta) => {
-    const maxScroll = Math.max(1, document.body.scrollHeight - window.innerHeight);
-    const rawProgress = Math.max(0, Math.min(1, window.scrollY / maxScroll));
-    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, rawProgress, 3, delta);
+    smoothedScroll.current = THREE.MathUtils.damp(smoothedScroll.current, scrollState.progress, 3, delta);
     const scroll = smoothedScroll.current;
 
     if (nearStarsRef.current) {

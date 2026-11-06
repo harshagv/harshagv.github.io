@@ -17,6 +17,8 @@ import FloatingTerminal from './components/FloatingTerminal';
 import BootSequence from './components/BootSequence';
 import ScrollKinetics from './components/ScrollKinetics';
 import { AnimatePresence } from 'framer-motion';
+import { initGlobeDirector } from './motion/globeDirector';
+import SpecBand from './components/SpecBand';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,8 +64,14 @@ function App() {
     }
   }, [booted]);
 
+  // 3. Globe choreography — each section drives its own leg of the globe's flight path.
+  useEffect(() => {
+    if (!booted) return;
+    return initGlobeDirector();
+  }, [booted]);
+
   return (
-    <div className="relative w-full bg-transparent overflow-hidden">
+    <div className="relative w-full bg-transparent overflow-x-clip">
       <AnimatePresence>
         {!booted && <BootSequence onComplete={() => setBooted(true)} />}
       </AnimatePresence>
@@ -113,6 +121,7 @@ function App() {
             <Hero />
             <About />
             <Experience />
+            <SpecBand />
             <ScrollKinetics />
             <Certifications />
           </main>
