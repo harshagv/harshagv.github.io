@@ -61,23 +61,6 @@ const Experience: React.FC = () => {
         { clipPath: 'inset(0% 0% round 0px)', ease: 'none', scrollTrigger: opening });
       gsap.fromTo(content, { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { ...opening } });
 
-      // Inertia: cards lean into fast scrolls and ease back upright as the track settles.
-      const lean = { skew: 0 };
-      const setSkew = gsap.quickSetter('.station-card', 'skewX', 'deg');
-      ScrollTrigger.create({
-        trigger: wrapper,
-        start: 'center center',
-        end: () => `+=${content.scrollWidth}`,
-        invalidateOnRefresh: true,
-        onUpdate: (st) => {
-          const v = gsap.utils.clamp(-4, 4, st.getVelocity() / -350);
-          if (Math.abs(v) > Math.abs(lean.skew)) {
-            lean.skew = v;
-            gsap.to(lean, { skew: 0, duration: 0.9, ease: 'power3.out', overwrite: true, onUpdate: () => setSkew(lean.skew) });
-          }
-        },
-      });
-
       // 3. Focus: each card brightens and settles to full size as it reaches the reading zone.
       gsap.utils.toArray<HTMLElement>('.station-card').forEach((card) => {
         gsap.fromTo(card, { opacity: 0.35, scale: 0.92 }, {
@@ -108,7 +91,7 @@ const Experience: React.FC = () => {
     <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-x-clip">
 
       {/* Horizontal Scroll Wrapper */}
-      <div ref={scrollWrapperRef} className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
+      <div ref={scrollWrapperRef} data-wipe-scope className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
         <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
           <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4 section-heading">Security Battle Stations</h2>
           <div className="flex items-end justify-between gap-6 pl-6">

@@ -361,29 +361,36 @@ const DotMatrixGlobe: React.FC = () => {
     };
   }, [maskTexture]);
 
-  // Accumulated auto-spin. It pauses while the globe is locked on Sydney so that
-  // releasing the lock eases back into the spin instead of whipping round.
+  // Accumulated auto-spin (eastward, like the real Earth). It pauses only during the intro
+  // acquire; at hand-off it resumes from Sydney's position so there is no jump.
   const spin = useRef(0);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
-    const f = globe.focus * globe.lock; // effective lock 0..1
-
     if (rotationGroupRef.current) {
-      spin.current += delta * 0.0575 * (1 - f);
-      // Yaw that brings lon 151°E to face the camera, taken at the turn nearest the current spin.
       const TAU = Math.PI * 2;
-      // The globe sits off-axis, so aim the marker at the camera (z = 8) rather than straight down +z.
+      // Yaw that turns lon 151°E toward the camera (the globe sits off-axis at z = 8), taken at the
+      // turn nearest the current spin.
       const face = -SYD_LON + Math.atan2(-globe.x, 8 - globe.z);
       const target = face + Math.round((spin.current - face) / TAU) * TAU;
-      rotationGroupRef.current.rotation.y = THREE.MathUtils.lerp(spin.current, target, f);
+
+      if (globe.handoff) {
+        // Acquire finished: carry on spinning from exactly the locked yaw. Uses the computed target,
+        // not the last rendered angle, so a dropped frame at the end of the intro can't cause a jump back.
+        spin.current = target;
+        globe.lock = 0;
+        globe.handoff = false;
+      }
+      spin.current += delta * 0.0575 * (1 - globe.lock);
+      rotationGroupRef.current.rotation.y = THREE.MathUtils.lerp(spin.current, target, globe.lock);
     }
 
     if (groupRef.current) {
       const g = groupRef.current;
       g.position.set(globe.x, globe.y + Math.sin(time * 0.3) * 0.08, globe.z);
-      // Extra pitch by Sydney's latitude while locked, so the marker sits dead centre.
-      g.rotation.set(globe.rx + f * SYD_LAT, globe.ry, 0);
+      // In the hero the spin axis is tipped by Sydney's latitude, so Australia passes through the
+      // centre of the disc on every turn. Released as you scroll into About.
+      g.rotation.set(globe.rx + globe.focus * globe.tilt * SYD_LAT, globe.ry, 0);
       g.scale.setScalar(globe.s);
     }
   });

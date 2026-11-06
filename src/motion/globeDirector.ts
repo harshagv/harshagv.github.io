@@ -12,10 +12,14 @@ export const globe = {
   x: 3, y: 0, z: 0,
   rx: 0, ry: 0,
   s: 1,
-  /** 0..1 — how strongly the globe is locked onto the Sydney marker (scroll-driven). */
+  /** 0..1 — hero-only tilt that brings Sydney's latitude to the centre (scroll-driven release). */
   focus: 1,
-  /** 0..1 — intro "acquire target" after boot (time-driven). Effective lock = focus * lock. */
+  /** 0..1 — intro yaw "acquire target" after boot. Handed back to the spin once it completes. */
   lock: 0,
+  /** 0..1 — intro tilt amount (stays at 1; scaled by `focus`). */
+  tilt: 0,
+  /** Set when the acquire finishes; the render loop folds the locked yaw into the spin. */
+  handoff: false,
 };
 
 /** Page scroll progress 0..1, updated by ScrollTrigger (for the parallax starfield). */
@@ -40,7 +44,11 @@ const LEGS: Leg[] = [
 export function initGlobeDirector(): () => void {
   const ctx = gsap.context(() => {
     // Intro: once the boot overlay clears, the globe swings round and locks onto Sydney.
-    gsap.to(globe, { lock: 1, duration: 2.4, ease: 'power3.inOut', delay: 0.4 });
+    // Then it hands back to the normal spin, so Australia carries on rotating past like the real Earth.
+    gsap.to(globe, {
+      lock: 1, tilt: 1, duration: 2.4, ease: 'power3.inOut', delay: 0.4,
+      onComplete: () => { globe.handoff = true; },
+    });
 
     LEGS.forEach(([sel, to]) => {
       if (!document.querySelector(sel)) return;

@@ -47,17 +47,18 @@ export function initScrollPolish(): () => void {
 
     if (reduced) return;
 
-    // 3. Heading wipe
-    const headings = gsap.utils.toArray<HTMLElement>('.section-heading');
-    gsap.set(headings, { clipPath: 'inset(0% 100% 0% 0%)', x: -24 });
-    ScrollTrigger.batch(headings, {
-      start: 'top 88%',
-      onEnter: (batch) => gsap.to(batch, {
-        clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12, overwrite: true,
-      }),
-      onLeaveBack: (batch) => gsap.to(batch, {
-        clipPath: 'inset(0% 100% 0% 0%)', x: -24, duration: 0.4, ease: 'power2.in', overwrite: true,
-      }),
+    // 3. Heading wipe. A heading inside a pinned panel (Battle Stations) is triggered by the
+    //    panel itself, so it finishes before the pin engages instead of mid-way through the track.
+    const hidden = { clipPath: 'inset(0% 100% 0% 0%)', x: -24 };
+    gsap.utils.toArray<HTMLElement>('.section-heading').forEach((h) => {
+      const scope = h.closest<HTMLElement>('[data-wipe-scope]');
+      gsap.set(h, hidden);
+      ScrollTrigger.create({
+        trigger: scope ?? h,
+        start: scope ? 'top 75%' : 'top 88%',
+        onEnter: () => gsap.to(h, { clipPath: 'inset(0% 0% 0% 0%)', x: 0, duration: 1.1, ease: 'expo.out', overwrite: true }),
+        onLeaveBack: () => gsap.to(h, { ...hidden, duration: 0.4, ease: 'power2.in', overwrite: true }),
+      });
     });
 
     // 4. Hero exit — content drifts up at a slower rate, softens and recedes.
