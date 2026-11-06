@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import MagneticButton from './MagneticButton';
 import SessionKey from './SessionKey';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+
+  // Highlight the section in view (announced by motion/scrollPolish.ts).
+  useEffect(() => {
+    const onActive = (e: Event) => setActive((e as CustomEvent<string | null>).detail);
+    window.addEventListener('section-active', onActive);
+    return () => window.removeEventListener('section-active', onActive);
+  }, []);
+
+  const linkClass = (id: string) =>
+    `nav-link px-2 py-1 transition-all cursor-pointer block hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] ${
+      active === id ? 'is-active text-white drop-shadow-[0_0_8px_var(--color-accent)]' : ''}`;
 
   // Find the scrollTo function and update the yOffset logic
   const scrollTo = (id: string, e?: React.MouseEvent) => {
@@ -34,7 +46,9 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-3xl z-50 pointer-events-none">
-      <div className="flex items-center justify-between rounded-full bg-[#0d1117]/80 backdrop-blur-xl border border-white/10 px-8 py-3 pointer-events-auto shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-all duration-300">
+      <div className="flex items-center justify-between rounded-full bg-[#0d1117]/80 backdrop-blur-xl border border-white/10 px-8 py-3 pointer-events-auto shadow-[0_15px_30px_rgba(0,0,0,0.5)] transition-all duration-300 relative">
+        {/* Page-progress hairline — scaled by --page-progress, set from ScrollTrigger (no re-renders) */}
+        <span aria-hidden="true" className="nav-progress" />
         <MagneticButton intensity={0.4}>
           <a href="#root" className="text-xl font-black tracking-tighter text-white mr-8 uppercase cursor-pointer" onClick={(e) => scrollTo('root', e)}>
             <span className="text-[var(--color-accent)]">H</span>arsha.
@@ -44,22 +58,22 @@ const Navbar: React.FC = () => {
         <ul className="flex items-center justify-center space-x-4 text-sm font-medium text-gray-400">
           <li>
             <MagneticButton intensity={0.3}>
-              <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">About</a>
+              <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className={linkClass('whoami')} aria-current={active === 'whoami' ? 'location' : undefined}>About</a>
             </MagneticButton>
           </li>
           <li>
             <MagneticButton intensity={0.3}>
-              <a href="#work" onClick={(e) => scrollTo('work', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Stations</a>
+              <a href="#work" onClick={(e) => scrollTo('work', e)} className={linkClass('work')} aria-current={active === 'work' ? 'location' : undefined}>Stations</a>
             </MagneticButton>
           </li>
           <li>
             <MagneticButton intensity={0.3}>
-              <a href="#certs" onClick={(e) => scrollTo('certs', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Certs</a>
+              <a href="#certs" onClick={(e) => scrollTo('certs', e)} className={linkClass('certs')} aria-current={active === 'certs' ? 'location' : undefined}>Certs</a>
             </MagneticButton>
           </li>
           <li>
             <MagneticButton intensity={0.3}>
-              <a href="#contact" onClick={(e) => scrollTo('contact', e)} className="hover:text-white px-2 py-1 hover:drop-shadow-[0_0_8px_var(--color-accent)] transition-all cursor-pointer block">Contact</a>
+              <a href="#contact" onClick={(e) => scrollTo('contact', e)} className={linkClass('contact')} aria-current={active === 'contact' ? 'location' : undefined}>Contact</a>
             </MagneticButton>
           </li>
         </ul>

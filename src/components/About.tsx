@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -6,86 +6,81 @@ import NodeClock from './NodeClock';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// One entry per paragraph.
 const textToType = [
-  "I am a secure container with 65536mb memory and an AWS-certified processor, engineered for safeguarding cloud environments and enhancing security posture. ✰ 😇 🚀\n\n",
-  "I am continuously learning to become a Security Jedi (bringing balance to Cloud-verse) ☺︎, and have a passion for technology, with a focus on Cloud, Cybersecurity, Blockchain, Agentic AI. I am inspired by the mission to help others understand how technology can transform and improve their lives.\n\n",
+  "I am a secure container with 65536mb memory and an AWS-certified processor, engineered for safeguarding cloud environments and enhancing security posture. ✰ 😇 🚀",
+  "I am continuously learning to become a Security Jedi (bringing balance to Cloud-verse) ☺︎, and have a passion for technology, with a focus on Cloud, Cybersecurity, Blockchain, Agentic AI. I am inspired by the mission to help others understand how technology can transform and improve their lives.",
   "Beyond work, I also love spending time with my friends, cycling, trail hiking, and swimming and always hoping to carve out time for a good book or podcast."
 ];
 
+// Apple-style "read-along" copy: each word starts dim and lights up as the reader scrolls.
+const LitParagraphs: React.FC<{ paragraphs: string[] }> = ({ paragraphs }) => (
+  <>
+    {paragraphs.map((para, pi) => (
+      <p key={pi} className={pi < paragraphs.length - 1 ? 'mb-5' : ''}>
+        {para.trim().split(/(\s+)/).map((w, i) => (/\s/.test(w) ? w : <span key={i} className="lit">{w}</span>))}
+        {pi === paragraphs.length - 1 && (
+          <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-blink-step ml-1 align-middle" />
+        )}
+      </p>
+    ))}
+  </>
+);
+
 const About: React.FC = () => {
-  const [displayText, setDisplayText] = useState('');
   const containerRef = useRef<HTMLElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    let mm = gsap.matchMedia();
+    const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
-      gsap.fromTo(terminalRef.current,
-        { opacity: 0, scale: 0.85, y: 150 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          ease: "power2.out",
+    mm.add({
+      desktop: '(min-width: 768px)',
+      mobile: '(max-width: 767px)',
+      reduced: '(prefers-reduced-motion: reduce)',
+    }, (ctx) => {
+      const { desktop, reduced } = ctx.conditions as Record<string, boolean>;
+      const words = gsap.utils.toArray<HTMLElement>('.lit', copyRef.current);
+
+      if (reduced) {
+        gsap.set(words, { opacity: 1 });
+        gsap.set(terminalRef.current, { opacity: 1, scale: 1, y: 0 });
+        return;
+      }
+
+      if (desktop) {
+        // One pinned timeline: the terminal rises into place, then the copy lights up word by word.
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: containerRef.current,
             start: 'top top',
-            end: '+=100%',
+            end: '+=200%',
             pin: true,
-            scrub: 1.5,
+            scrub: 1,
             anticipatePin: 1,
-            invalidateOnRefresh: true
-          }
-        }
-      );
-    });
-
-    mm.add("(max-width: 767px)", () => {
-      gsap.fromTo(terminalRef.current,
-        { opacity: 0, scale: 0.95, y: 50 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 85%',
-            end: 'top 15%',
-            pin: false,
-          }
-        }
-      );
+            invalidateOnRefresh: true,
+          },
+        });
+        tl.fromTo(terminalRef.current,
+          { opacity: 0, scale: 0.85, y: 150 },
+          { opacity: 1, scale: 1, y: 0, ease: 'power2.out', duration: 0.3 })
+          .fromTo(words, { opacity: 0.14 }, { opacity: 1, ease: 'none', stagger: 0.7 / words.length, duration: 0.05 }, '>-0.05')
+          .to({}, { duration: 0.1 }); // short hold once everything is lit
+      } else {
+        gsap.fromTo(terminalRef.current,
+          { opacity: 0, scale: 0.95, y: 50 },
+          { opacity: 1, scale: 1, y: 0, ease: 'power2.out',
+            scrollTrigger: { trigger: containerRef.current, start: 'top 85%', end: 'top 15%' } });
+        gsap.fromTo(words, { opacity: 0.14 }, {
+          opacity: 1, ease: 'none', stagger: 0.05,
+          scrollTrigger: { trigger: copyRef.current, start: 'top 75%', end: 'bottom 55%', scrub: true },
+        });
+      }
     });
 
     return () => mm.revert();
   }, { scope: containerRef });
-
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    
-    ScrollTrigger.create({
-      trigger: terminalRef.current,
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        let currentText = '';
-        const fullText = textToType.join('');
-        let i = 0;
-        interval = setInterval(() => {
-          currentText += fullText.charAt(i);
-          setDisplayText(currentText);
-          i++;
-          if (i === fullText.length) clearInterval(interval);
-        }, 15);
-      }
-    });
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, []);
 
   return (
     <div id="whoami" className="relative z-20 w-full scroll-mt-24">
@@ -129,9 +124,8 @@ const About: React.FC = () => {
 
               <h3 className="text-[#F4511E] text-2xl font-bold mb-4 font-sans tracking-tight">$ whoami</h3>
 
-              <div className="text-[var(--color-accent)] text-base md:text-[17px] leading-[1.65] whitespace-pre-wrap">
-                {displayText}
-                <span className="inline-block w-2.5 h-5 bg-[var(--color-accent)] animate-blink-step ml-1 align-middle"></span>
+              <div ref={copyRef} className="text-[var(--color-accent)] text-base md:text-[17px] leading-[1.65]">
+                <LitParagraphs paragraphs={textToType} />
               </div>
 
               {/* Static section - Guaranteed to show */}
