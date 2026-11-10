@@ -388,9 +388,11 @@ const DotMatrixGlobe: React.FC = () => {
     if (groupRef.current) {
       const g = groupRef.current;
       g.position.set(globe.x, globe.y + Math.sin(time * 0.3) * 0.08, globe.z);
-      // In the hero the spin axis is tipped by Sydney's latitude, so Australia passes through the
-      // centre of the disc on every turn. Released as you scroll into About.
-      g.rotation.set(globe.rx + globe.focus * globe.tilt * SYD_LAT, globe.ry, 0);
+      // In the hero the spin axis is tipped by Sydney's latitude (plus the camera's look-down angle
+      // when the globe sits low, as on phones), so Australia passes through the middle of the disc
+      // on every turn. Released as you scroll into About.
+      const aimPitch = SYD_LAT + Math.atan2(globe.y, 8 - globe.z);
+      g.rotation.set(globe.rx + globe.focus * globe.tilt * aimPitch, globe.ry, 0);
       g.scale.setScalar(globe.s);
     }
   });

@@ -14,6 +14,10 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('section-active', onActive);
   }, []);
 
+  const mobileLinkClass = (id: string) =>
+    `font-medium text-lg flex items-center gap-3 transition-colors ${
+      active === id ? 'text-white' : 'text-gray-300 hover:text-white'}`;
+
   const linkClass = (id: string) =>
     `nav-link px-2 py-1 transition-all cursor-pointer block hover:text-white hover:drop-shadow-[0_0_8px_var(--color-accent)] ${
       active === id ? 'is-active text-white drop-shadow-[0_0_8px_var(--color-accent)]' : ''}`;
@@ -89,10 +93,10 @@ const Navbar: React.FC = () => {
       {/* Mobile Popdown Menu */}
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full mt-4 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-6 pointer-events-auto flex flex-col gap-6 shadow-2xl">
-          <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className="text-gray-300 hover:text-white font-medium text-lg">About</a>
-          <a href="#work" onClick={(e) => scrollTo('work', e)} className="text-gray-300 hover:text-white font-medium text-lg">Stations</a>
-          <a href="#certs" onClick={(e) => scrollTo('certs', e)} className="text-gray-300 hover:text-white font-medium text-lg">Certs</a>
-          <a href="#contact" onClick={(e) => scrollTo('contact', e)} className="text-gray-300 hover:text-white font-medium text-lg">Contact</a>
+          <a href="#whoami" onClick={(e) => scrollTo('whoami', e)} className={mobileLinkClass('whoami')} aria-current={active === 'whoami' ? 'location' : undefined}>About</a>
+          <a href="#work" onClick={(e) => scrollTo('work', e)} className={mobileLinkClass('work')} aria-current={active === 'work' ? 'location' : undefined}>Stations</a>
+          <a href="#certs" onClick={(e) => scrollTo('certs', e)} className={mobileLinkClass('certs')} aria-current={active === 'certs' ? 'location' : undefined}>Certs</a>
+          <a href="#contact" onClick={(e) => scrollTo('contact', e)} className={mobileLinkClass('contact')} aria-current={active === 'contact' ? 'location' : undefined}>Contact</a>
         </div>
       )}
     </nav>

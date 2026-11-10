@@ -301,3 +301,9 @@ html.lenis, html.lenis body {
   transform: translateX(-50%) scale(0); transition: transform .35s cubic-bezier(.16,1,.3,1);
 }
 .nav-link.is-active::after { transform: translateX(-50%) scale(1); }
+
+/* Mobile menu: active section gets the same accent dot, leading the label */
+nav [aria-current="location"].text-lg::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-accent); box-shadow: 0 0 6px var(--color-accent);
+}
