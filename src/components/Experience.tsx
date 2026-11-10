@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Pointer-tracked spotlight: writes CSS vars only, no React state.
 const spotlight = (e: React.PointerEvent<HTMLDivElement>) => {
+  if (e.pointerType !== 'mouse') return; // touch drags shouldn't leave a stray highlight
   const r = e.currentTarget.getBoundingClientRect();
   e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
   e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
@@ -91,8 +92,8 @@ const Experience: React.FC = () => {
     <section id="work" ref={containerRef} className="py-24 pointer-events-none relative w-full overflow-x-clip">
 
       {/* Horizontal Scroll Wrapper */}
-      <div ref={scrollWrapperRef} data-wipe-scope className="h-screen w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
-        <div className="w-[90%] max-w-6xl mx-auto mb-12 shrink-0">
+      <div ref={scrollWrapperRef} data-wipe-scope className="h-[100svh] w-full flex flex-col justify-center overflow-hidden z-10 pointer-events-auto bg-[#020202]/60 md:bg-[#020202]/30 md:backdrop-blur-sm border-y border-[#30363d]/50">
+        <div className="w-[90%] max-w-6xl mx-auto mb-8 md:mb-12 shrink-0">
           <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight border-l-4 border-[var(--color-accent)] pl-6 mb-4 section-heading">Security Battle Stations</h2>
           <div className="flex items-end justify-between gap-6 pl-6">
             <p className="text-gray-400 text-lg md:text-xl">Scroll to explore where I harden systems <em>before</em> attackers arrive:</p>

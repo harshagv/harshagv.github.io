@@ -22,6 +22,9 @@ import { initScrollPolish } from './motion/scrollPolish';
 import SpecBand from './components/SpecBand';
 
 gsap.registerPlugin(ScrollTrigger);
+// iOS Safari resizes the viewport as its toolbar collapses; refreshing every ScrollTrigger on that
+// makes pinned sections jump mid-scroll. Only real width changes / rotations trigger a refresh.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 function App() {
   const [booted, setBooted] = useState(false);

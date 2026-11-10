@@ -50,11 +50,11 @@ const SpecBand: React.FC = () => {
 
   return (
     <section ref={rootRef} aria-label="At a glance"
-      className="relative w-full py-28 md:py-40 px-6 pointer-events-none bg-[#020202]/30 backdrop-blur-sm border-y border-[#30363d]/50">
+      className="relative w-full py-20 md:py-40 px-6 pointer-events-none bg-[#020202]/60 md:bg-[#020202]/30 md:backdrop-blur-sm border-y border-[#30363d]/50">
       <p className="max-w-6xl mx-auto mb-12 md:mb-16 font-mono text-[var(--color-accent)] text-sm md:text-base tracking-wide pointer-events-auto">
         &gt; NODE_SPECS --summary
       </p>
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-14 md:gap-8 pointer-events-auto">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 pointer-events-auto">
         {specs.map((s) => (
           <div key={s.label} className="spec-item text-center md:text-left">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">{s.label}</p>

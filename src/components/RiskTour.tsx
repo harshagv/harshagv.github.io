@@ -66,9 +66,6 @@ const RiskVisual: React.FC<{ step: number }> = ({ step }) => {
         </radialGradient>
       </defs>
 
-      <text x="28" y="40" fill={MUTED} fontFamily="'Fira Code', monospace" fontSize="11" letterSpacing="2">
-        {`0${step + 1} / 04 · ${principles[step].key}`}
-      </text>
 
       {/* 01 — Identity: blast radius collapses to a locked core */}
       <g style={layer(0)}>
@@ -138,39 +135,53 @@ const RiskTour: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.utils.toArray<HTMLElement>('.risk-step').forEach((el, i) => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 60%',
-        end: 'bottom 60%',
+    const mm = gsap.matchMedia();
+    // Where a step "reads" from: mid-screen beside the panel on desktop; on phones, the middle of
+    // the space left below the sticky panel (which takes the top ~40% of the screen).
+    mm.add({ phone: '(max-width: 767px)', wide: '(min-width: 768px)' }, (ctx) => {
+      const line = (ctx.conditions as Record<string, boolean>).phone ? '64%' : '60%';
+      gsap.utils.toArray<HTMLElement>('.risk-step').forEach((el, i) => {
+        ScrollTrigger.create({
+          trigger: el,
+          start: `top ${line}`,
+          end: `bottom ${line}`,
         // Created before Experience's horizontal pin (child effects run first), so refresh after it.
         refreshPriority: -1,
-        onToggle: (st) => { if (st.isActive) setStep(i); },
+          onToggle: (st) => { if (st.isActive) setStep(i); },
+        });
       });
     });
+    return () => mm.revert();
   }, { scope: rootRef });
 
   return (
     <div ref={rootRef} className="relative">
-      <h3 className="text-2xl md:text-4xl font-black text-white mb-10 border-l-4 border-[var(--color-accent-cyan)] pl-6 section-heading">How I Think About Risk</h3>
+      <h3 className="text-2xl md:text-4xl font-black text-white mb-8 md:mb-10 border-l-4 border-[var(--color-accent-cyan)] pl-6 section-heading">How I Think About Risk</h3>
 
       <div className="grid md:grid-cols-2 gap-8 md:gap-16">
         {/* Sticky visual — pinned by CSS, state switched by ScrollTrigger */}
-        <div className="sticky top-[72px] md:top-[18vh] z-10 h-[34vh] md:h-[64vh] self-start rounded-2xl bg-gradient-to-br from-[#0d1117]/90 to-black/90 backdrop-blur-md p-3 md:p-6 border border-[var(--color-accent-cyan)]/20 shadow-2xl"
+        {/* Phones: solid fill and no backdrop blur — a blurred sticky layer over the WebGL canvas
+            repaints on every scroll frame on iOS. Text scrolling up slides cleanly under it. */}
+        <div className="sticky top-[84px] md:top-[18vh] z-10 h-[30svh] md:h-[64vh] self-start rounded-2xl bg-[#0a0d11] md:bg-transparent md:bg-gradient-to-br md:from-[#0d1117]/90 md:to-black/90 md:backdrop-blur-md p-2 md:p-6 border border-[var(--color-accent-cyan)]/20 shadow-2xl"
           data-step={step}>
+          <p className="absolute top-3 left-4 md:top-5 md:left-6 font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#8b949e]" aria-hidden="true">
+            {`0${step + 1} / 04 · ${principles[step].key}`}
+          </p>
           <RiskVisual step={step} />
+          {/* soft edge so text fades as it passes under the panel (phones only) */}
+          <div className="md:hidden absolute left-0 right-0 -bottom-8 h-8 bg-gradient-to-b from-[#050505] to-transparent pointer-events-none" aria-hidden="true" />
         </div>
 
         <ol className="md:py-[18vh]">
           {principles.map((p, i) => (
             <li key={p.key}
-              className="risk-step min-h-[55vh] md:min-h-[64vh] flex items-center transition-opacity duration-500"
+              className="risk-step min-h-[45svh] md:min-h-[64vh] flex items-center transition-opacity duration-500"
               style={{ opacity: step === i ? 1 : 0.3 }}
               aria-current={step === i ? 'step' : undefined}>
               <div>
                 <span className="font-mono text-[var(--color-accent-cyan)] font-bold text-sm tracking-[0.2em]">0{i + 1}.</span>
-                <h4 className="text-white text-2xl md:text-4xl font-bold mt-2 mb-4 tracking-tight">{p.title}</h4>
-                <p className="text-gray-300 text-lg md:text-xl leading-relaxed">{p.body}</p>
+                <h4 className="text-white text-2xl md:text-4xl font-bold mt-2 mb-3 md:mb-4 tracking-tight">{p.title}</h4>
+                <p className="text-gray-300 text-base md:text-xl leading-relaxed">{p.body}</p>
               </div>
             </li>
           ))}
